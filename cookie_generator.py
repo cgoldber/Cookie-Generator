@@ -181,7 +181,7 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "input"
+        dir = "inspiring-set"
         for file in os.listdir(dir):
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
