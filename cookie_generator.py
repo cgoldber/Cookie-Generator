@@ -48,7 +48,7 @@ class Recipe():
         #makes dictionary mapping ingredient name to ingredient object
         for line in recipe_strs: 
             information = line.split(" oz ")
-            amt = float(information[0])
+            ingr_amt = float(information[0])
             name = information[1]
             self.ingredients[name] = Ingredient(name, ingr_amt)
 
@@ -73,7 +73,7 @@ class Recipe():
         if len(new_possible_ingredients) == 0: #skip if no new ingredients to add
             return
 
-        new_ingredient = random.choice(tuple(new_possible_ingredients))
+        new_name = random.choice(tuple(new_possible_ingredients))
         # choose a random amount between 0 and 100 oz 
         new_amt = np.random.choice(range(0,100))
 
