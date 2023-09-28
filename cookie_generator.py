@@ -95,7 +95,7 @@ class Recipe():
         ingre_name_1 = random.choice(self.ingredients.keys())
         ingredient1_amt = self.ingredients[ingre_name_1].get_amount()
 
-        ingre_name_2 = random.choice(self.ingredients.keys().difference(ingre_1_name))
+        ingre_name_2 = random.choice(self.ingredients.keys().difference(ingre_name_1))
         ingredient2_amt = self.ingredients[ingre_name_2].get_amount()
 
         self.ingredients[ingre_name_1] = ingredient2_amt
