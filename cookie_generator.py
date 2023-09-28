@@ -68,24 +68,21 @@ class Recipe():
         Args:
             all_ingredients (set) : A set containing all unique possible ingredients
         """
-        curr_ingredient_strs = [ingr.get_name() for ingr in self.ingredients]
-        new_possible_ingredients = all_ingredients.difference(curr_ingredient_strs)
+        new_possible_ingredients = all_ingredients.difference(self.ingredients.keys())
 
         if len(new_possible_ingredients) == 0: #skip if no new ingredients to add
             return
 
         new_ingredient = random.choice(tuple(new_possible_ingredients))
-
-        new_name = random.choice(tuple(all_ingredients))
         # choose a random amount between 0 and 100 oz 
         new_amt = np.random.choice(range(0,100))
-        new_ingredient = Ingredient(new_name, new_amt)
-        self.ingredients.append(new_ingredient)
+
+        self.ingredients[new_name] = Ingredient(new_name, new_amt)
 
     def delete_ingredient(self):
         """An ingredient is selected uniformly at random from the recipe and removed from the recipe.
         """
-        selected_ing = random.choice(self.ingredients)
+        selected_ing = random.choice(self.ingredients.keys())
         self.ingredients.remove(selected_ing)
 
     def swap_ingredient(self, all_ingredients):
@@ -95,53 +92,56 @@ class Recipe():
         Args:
             all_ingredients (set) : A set containing all unique possible ingredients
         """
-        ingredient = random.choice(self.ingredients)
-        choices = all_ingredients.difference({ingredient.get_name()})
-        new_name = random.choice(tuple(choices))
-        ingredient.set_name(new_name)
-        return ingredient
+        ingre_name_1 = random.choice(self.ingredients.keys())
+        ingredient1_amt = self.ingredients[ingre_name_1].get_amount()
+
+        ingre_name_2 = random.choice(self.ingredients.keys().difference(ingre_1_name))
+        ingredient2_amt = self.ingredients[ingre_name_2].get_amount()
+
+        self.ingredients[ingre_name_1] = ingredient2_amt
+        self.ingredients[ingre_name_2] = ingredient1_amt
     
-    def combine_duplicate_ingredients(self): 
-        # loop through all ingredients
-        checked_ingredients = [self.ingredients[0].copy()]
-        for ing in self.ingredients: 
-            for checked_ing in checked_ingredients:
-                if ing.get_name() == checked_ing.get_name(): 
-                    checked_ing.set_amount(checked_ing.get_amount() + ing.get_amount())
-                else: 
-                    checked_ingredients.append(ing)
-        self.ingredients = checked_ingredients
+    # def combine_duplicate_ingredients(self): 
+    #     # loop through all ingredients
+    #     checked_ingredients = [self.ingredients[0].copy()]
+    #     for ing in self.ingredients: 
+    #         for checked_ing in checked_ingredients:
+    #             if ing.get_name() == checked_ing.get_name(): 
+    #                 checked_ing.set_amount(checked_ing.get_amount() + ing.get_amount())
+    #             else: 
+    #                 checked_ingredients.append(ing)
+    #     self.ingredients = checked_ingredients
     
     def normalize(self):
         """Normalizes all ingredients so amount adds up to 100 oz.
         """
         current_total = 0
-        for ingredient in self.ingredients: 
+        for ingredient in self.ingredients.values(): 
             current_total += ingredient.get_amount() 
         if current_total == 100: #already normalized
             return    
         sizing_factor = 100 / current_total
-        for ingredient in self.ingredients: 
+        for name, ingredient in self.ingredients.items(): 
             new_amt = ingredient.get_amount() * sizing_factor
             if new_amt < .01: #delete ingredient if normalization makes it below .01 oz
-                self.ingredients.remove(ingredient)
+                self.ingredients.remove(name)
             else:
                 ingredient.set_amount(new_amt)
         
     def get_fitness(self):
         """Returns fitness score
         """
-        return len(self.ingredients)
+        return len(self.ingredients.keys())
     
     def get_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings
         """
-        return [str(ingredient) for ingredient in self.ingredients]
+        return [str(ingredient) for ingredient in self.ingredients.values()]
     
     def get_ingredients(self):
         """Returns the ingredient list
         """
-        return self.ingredients
+        return self.ingredients.values()
     
     def get_name(self):
         """Returns the name of the recipe.
