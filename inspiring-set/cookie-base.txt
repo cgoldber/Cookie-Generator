@@ -4,15 +4,15 @@ Description: Toll House Cookie Base
 Yield: 5 dozen cookies
 ---
 Base Ingredients
-2 1/4 cups all-purpose flour
-1 teaspoon baking soda
-1 teaspoon salt
-1 cup (2 sticks) butter, softened
-3/4 cup granulated sugar
-3/4 cup packed brown sugar
-2 large eggs
+270 g all-purpose flour
+6 g baking soda
+6 g salt
+227 g butter
+150 g granulated sugar
+165 g packed brown sugar
+88 g eggs
 Flavor Ingredients
-1 teaspoon vanilla extract
+5 g vanilla extract
 ---
 Instructions
 Step 1: Preheat oven to 375° F.

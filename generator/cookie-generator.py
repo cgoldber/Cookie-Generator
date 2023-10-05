@@ -15,11 +15,14 @@ class RecipeManager():
         """
         print("Reading Initial Recipe Files")
         dir = "inspiring-set"
-        for file in os.listdir(dir):
-            with open(dir + "/" + file, "r") as f:
-                recipe_str = f.readlines()
-                self.recipes.append(Recipe(self.num_new_recipes, recipe_str))
-            self.num_new_recipes += 1
+        # for file in os.listdir(dir):
+        #     with open(dir + "/" + file, "r") as f:
+        #         recipe_str = f.readlines()
+        #         self.recipes.append(Recipe(self.num_new_recipes, recipe_str))
+        #     self.num_new_recipes += 1
+        # for reading a happy recipe - will change after generation
+        with open("inspiring-set/emotions/happy-base.txt") as f:
+            self.recipes.append[Recipe(f.readlines(),"happy")]
 
     def get_unique_ingredients(self):
         """ Iterates through all of the recipe objects and gets all of the unique ingredients.
