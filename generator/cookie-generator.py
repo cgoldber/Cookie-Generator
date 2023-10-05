@@ -21,14 +21,15 @@ class RecipeManager():
         #         self.recipes.append(Recipe(self.num_new_recipes, recipe_str))
         #     self.num_new_recipes += 1
         # for reading a happy recipe - will change after generation
-        with open("inspiring-set/emotions/happy-base.txt") as f:
-            self.recipes.append[Recipe(f.readlines(),"happy")]
+        with open("inspiring-set/cookie-base.txt") as f:
+            recipe = Recipe(f.readlines(),"happy")
+            self.recipes.append(recipe)
 
     def get_unique_ingredients(self):
         """ Iterates through all of the recipe objects and gets all of the unique ingredients.
         """
         for recipe in self.recipes:
-            ingredients = recipe.get_ingredients()
+            ingredients = recipe.get_flavor_ingredients()
             for ingredient in ingredients:
                 self.all_ingredients.add(ingredient.get_name())
         print(f"There are {len(self.all_ingredients)} possible ingredients in the inspiring set")

@@ -12,7 +12,7 @@ class Recipe:
         self.name = self.name_generator(emotion)
 
     def name_generator(self, emotion: str):
-        self.name = str(emotion) + " Cookies"
+        return str(emotion).capitalize() + " Cookies"
     
     def make_ingredient_objects(self, recipe_strs: list):
         """Reads recipe_strs and populates self.ingredients with ingredient objects.
@@ -87,7 +87,7 @@ class Recipe:
         ingre_name_1 = random.choice(tuple(self.flavor_ingredients.keys()))
         ingredient1_amt = self.flavor_ingredients[ingre_name_1].get_amount()
 
-        ingre_name_2 = random.choice(self.flavor_ingredients.keys().difference(ingre_name_1))
+        ingre_name_2 = random.choice(tuple(self.flavor_ingredients.keys().difference(ingre_name_1)))
         ingredient2_amt = self.flavor_ingredients[ingre_name_2].get_amount()
 
         self.flavor_ingredients[ingre_name_1] = ingredient2_amt
@@ -123,7 +123,8 @@ class Recipe:
     def get_fitness(self):
         """Returns fitness score
         """
-        return len(self.ingredients.keys())
+        return 10
+        # return len(self.ingredients.keys())
     
     def get_base_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings
@@ -177,16 +178,17 @@ class Recipe:
     def __str__(self) -> str:
         return self.get_name()
 
-def main(): 
-    with open("inspiring-set/cookie-base.txt") as f:
-        recipe_str = f.readlines()
-        recipe = Recipe(recipe_str,"happy")
-        print(recipe.get_base_ingredient_strings())
-        print(recipe.get_flavor_ingredient_strings())
-        all_ingr = {"chocolate chips", "marshmallows", "sprinkles", "cinnamon", "basil"}
-        recipe.mutate(all_ingr)
-        print(recipe.get_base_ingredient_strings())
-        print(recipe.get_flavor_ingredient_strings())
+# def main(): 
+#     with open("inspiring-set/cookie-base.txt") as f:
+#         recipe_str = f.readlines()
+#         recipe = Recipe(recipe_str,"happy")
+#         print(recipe.get_base_ingredient_strings())
+#         print(recipe.get_flavor_ingredient_strings())
+#         all_ingr = {"chocolate chips", "marshmallows", "sprinkles", "cinnamon", "basil"}
+#         recipe.mutate(all_ingr)
+#         print(recipe.get_base_ingredient_strings())
+#         print(recipe.get_flavor_ingredient_strings())
+#         print(recipe.get_name())
     
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
