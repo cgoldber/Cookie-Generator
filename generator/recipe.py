@@ -19,7 +19,7 @@ class Recipe:
            Args:
                 recipe_strs (list) : list of the strings corresponding to ingredient/amt in the recipe
         """
-        #makes dictionary mapping ingredient name to ingredient object
+        # makes dictionary mapping ingredient name to ingredient object
         for line in recipe_strs: 
             information = line.split(" oz ")
             ingr_amt = float(information[0])
@@ -32,6 +32,16 @@ class Recipe:
         Its quantity is set to a new value somehow (up to you).
         """
         ingredient = np.random.choice(self.ingredients.values())
+        # remove or add up to 100% of original amount 
+        new_amt = (random.uniform(-.9,.9) + 1) * ingredient.get_amount()
+        ingredient.set_amount(new_amt)
+
+    def change_base_ratio(self):
+        """A base ingredient is selected uniformly at random from the recipe.  
+        Its quantity is set to a random new value, changing the texture of the cookie.
+        """
+        # TODO should this incorporate emotions? i.e. happy -> chewy cookies 
+        ingredient = np.random.choice(self.base_ingredients.values())
         # remove or add up to 100% of original amount 
         new_amt = (random.uniform(-.9,.9) + 1) * ingredient.get_amount()
         ingredient.set_amount(new_amt)
@@ -52,12 +62,37 @@ class Recipe:
         new_amt = np.random.choice(range(0,100))
 
         self.ingredients[new_name] = Ingredient(new_name, new_amt)
+    
+    def add_flavor_ingredient(self, all_ingredients):
+        """A flavor ingredient is selected uniformly at random from the inspiring set and added to the recipe. 
+        The amount of the new ingredient is determined randomly as a random number between 0 and 100 oz.
+        Args:
+            all_ingredients (set) : A set containing all unique possible ingredients
+        """
+        # TODO should use emotion and existing ingredients to generate which flavor to add
+        new_possible_ingredients = all_ingredients.difference(self.ingredients.keys())
+
+        if len(new_possible_ingredients) == 0: #skip if no new ingredients to add
+            return
+
+        new_name = random.choice(tuple(new_possible_ingredients))
+        # choose a random amount between 0 and 100 oz 
+        new_amt = np.random.choice(range(0,100))
+
+        self.flavor_ingredients[new_name] = Ingredient(new_name, new_amt)
 
     def delete_ingredient(self):
         """An ingredient is selected uniformly at random from the recipe and removed from the recipe.
         """
         selected_ing = random.choice(self.ingredients.keys())
         self.ingredients.remove(selected_ing)
+
+    def delete_ingredient(self):
+        """A flavor ingredient is selected uniformly at random from the recipe and removed from the recipe.
+        """
+        selected_ing = random.choice(self.flavor_ingredients.keys())
+        self.flavor_ingredients.remove(selected_ing)
+
 
     def swap_ingredient(self, all_ingredients):
         """An ingredient is selected uniformly at random from the recipe. Its name attribute 
