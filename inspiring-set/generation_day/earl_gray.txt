@@ -1,12 +1,13 @@
 -base
-8 oz unsalted butter
-8.8 oz all-purpose flour
-0.25 oz baking soda
-0.25 oz fine sea salt
-7.75 oz light brown sugar
-1 oz granulated sugar
-2 oz large egg 
+5.29 oz granulated sugar
+7 oz unsalted butter
+3.53 oz light brown sugar
+0.18 oz kosher salt
+2 oz large egg
 0.07 oz vanilla extract
+8.82 oz all-purpose flour
+0.02 oz baking powder
+0.02 oz baking soda
 -flavors
-12 oz semisweet chocolate
-0.02 oz ground cinnamon
+0.35 oz finely ground Earl Grey tea leaves
+0.02 oz finely grated orange zest
