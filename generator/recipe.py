@@ -3,7 +3,7 @@ import random
 from ingredient import Ingredient
 
 class Recipe:
-    def __init__(self, recipe_strs, emotion):
+    def __init__(self, recipe_strs, emotion="default"):
         self.emotion = emotion
         self.base_ingredients = {}
         self.flavor_ingredients = {}
@@ -14,32 +14,57 @@ class Recipe:
     def name_generator(self, emotion: str):
         return str(emotion).capitalize() + " Cookies"
     
-    def make_ingredient_objects(self, recipe_strs: list):
+    def make_ingredient_objects(self, recipe_strs):
         """Reads recipe_strs and populates self.ingredients with ingredient objects.
            Args:
                 recipe_strs (list) : list of the strings corresponding to ingredient/amt in the recipe
         """
-        # makes dictionary mapping ingredient name to ingredient object
-        base_ing = False
-        flavor_ing = False
-        for line in recipe_strs:
-            if ("Base" in line): 
-                base_ing = True
-            elif ("Flavor" in line):
-                base_ing = False
-                flavor_ing = True
-            information = line.strip().split(" g ")
-            # check that line describes ingredients
-            if (len(information) > 1):
-                ingr_amt = float(information[0])
-                name = information[1]
-                new_ing = Ingredient(name, ingr_amt)
-                self.volume += ingr_amt
-                if (base_ing):
-                    self.base_ingredients[name] = new_ing
-                elif (flavor_ing):
-                    self.flavor_ingredients[name] = new_ing
-        print("volume of recipe is " + str(self.volume))
+        #makes dictionary mapping ingredients to the corresponding amounts
+ 
+        base_ingredient_item = True
+        for line in recipe_strs: 
+            print(line)
+            if line.startswith("-"):
+                if "flavors" in line:
+                    base_ingredient_item = False
+                continue
+
+            information = line.split(" oz ")
+            amt = float(information[0])
+            name = information[1]
+
+            if base_ingredient_item:
+                self.base_ingredients[name] = Ingredient(name, amt)
+            else:
+                self.flavor_ingredients[name] = Ingredient(name, amt)
+
+    ###Progress After Generator Day
+    # def make_ingredient_objects(self, recipe_strs: list):
+    #     """Reads recipe_strs and populates self.ingredients with ingredient objects.
+    #        Args:
+    #             recipe_strs (list) : list of the strings corresponding to ingredient/amt in the recipe
+    #     """
+    #     # makes dictionary mapping ingredient name to ingredient object
+    #     base_ing = False
+    #     flavor_ing = False
+    #     for line in recipe_strs:
+    #         if ("Base" in line): 
+    #             base_ing = True
+    #         elif ("Flavor" in line):
+    #             base_ing = False
+    #             flavor_ing = True
+    #         information = line.strip().split(" g ")
+    #         # check that line describes ingredients
+    #         if (len(information) > 1):
+    #             ingr_amt = float(information[0])
+    #             name = information[1]
+    #             new_ing = Ingredient(name, ingr_amt)
+    #             self.volume += ingr_amt
+    #             if (base_ing):
+    #                 self.base_ingredients[name] = new_ing
+    #             elif (flavor_ing):
+    #                 self.flavor_ingredients[name] = new_ing
+    #     print("volume of recipe is " + str(self.volume))
 
     def change_base_ratio(self):
         """A base ingredient is selected uniformly at random from the recipe.  
@@ -50,6 +75,7 @@ class Recipe:
         # remove or add up to 100% of original amount 
         new_amt = (random.uniform(-.5,.5) + 1) * ingredient.get_amount()
         ingredient.set_amount(new_amt)
+        print("changing base ratio of", ingredient.get_name())
 
     def add_flavor_ingredient(self, all_ingredients):
         """A flavor ingredient is selected uniformly at random from the inspiring set and added to the recipe. 
@@ -68,30 +94,35 @@ class Recipe:
         new_amt = np.random.choice(range(0,100))
 
         self.flavor_ingredients[new_name] = Ingredient(new_name, new_amt)
+        print("adding ", new_name)
 
     def delete_ingredient(self):
         """A flavor ingredient is selected uniformly at random from the recipe and removed from the recipe.
         """
-        selected_ing = random.choice(tuple(self.flavor_ingredients.keys()))
-        del self.flavor_ingredients[selected_ing]
-        print("deleting " + str(selected_ing))
+        if len(self.flavor_ingredients.keys()) > 1:
+            selected_ing = random.choice(tuple(self.flavor_ingredients.keys()))
+            del self.flavor_ingredients[selected_ing]
+            print("deleting " + str(selected_ing))
+        else:
+            print("Cannot delete: need to have at least one flavoring")
 
 
-    def swap_ingredient(self, all_ingredients):
+    def swap_ingredient(self):
         """An ingredient is selected uniformly at random from the recipe. Its name attribute 
         is changed to that of another ingredient that is chosen at random from the ones 
         stored in the inspiring set.
-        Args:
-            all_ingredients (set) : A set containing all unique possible ingredients
         """
         ingre_name_1 = random.choice(tuple(self.flavor_ingredients.keys()))
         ingredient1_amt = self.flavor_ingredients[ingre_name_1].get_amount()
 
-        ingre_name_2 = random.choice(tuple(self.flavor_ingredients.keys().difference(ingre_name_1)))
+        diff = set(self.flavor_ingredients.keys()).difference(ingre_name_1)
+        ingre_name_2 = random.choice(tuple(diff))
         ingredient2_amt = self.flavor_ingredients[ingre_name_2].get_amount()
 
-        self.flavor_ingredients[ingre_name_1] = ingredient2_amt
-        self.flavor_ingredients[ingre_name_2] = ingredient1_amt
+        print(f"swapping {ingre_name_1} (originally {ingredient1_amt}) and {ingre_name_2} (originally {ingredient2_amt})")
+
+        self.flavor_ingredients[ingre_name_1] = Ingredient(ingre_name_1, ingredient2_amt)
+        self.flavor_ingredients[ingre_name_2] = Ingredient(ingre_name_2, ingredient1_amt)
     
     # def combine_duplicate_ingredients(self): 
     #     # loop through all ingredients
@@ -171,9 +202,14 @@ class Recipe:
             elif mutation == 2: 
                 self.delete_ingredient()
             elif mutation == 3: 
-                self.swap_ingredient(all_ingredients)
+                self.swap_ingredient()
             # normalize ingredient amounts after mutation 
             # self.normalize()
+        print("mutated")
+        print("base:")
+        print(self.get_base_ingredient_strings())
+        print("flavors:")
+        print(self.get_flavor_ingredient_strings())
 
     def __str__(self) -> str:
         return self.get_name()

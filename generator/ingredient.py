@@ -27,4 +27,4 @@ class Ingredient:
     def __str__(self):
         """ Returns a string representation of the ingredient.
         """
-        return str(round(self.amount, 2)) + " g " + self.name
+        return str(round(self.amount, 2)) + " oz " + self.name

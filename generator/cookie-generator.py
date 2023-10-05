@@ -14,14 +14,14 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "inspiring-set/base g"
+        dir = "inspiring-set/generation_day"
         for file in os.listdir(dir):
+            print("file:", file)
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
-                self.recipes.append(Recipe(self.num_new_recipes, recipe_str))
+                self.recipes.append(Recipe(recipe_str))
             self.num_new_recipes += 1
     
-
     def get_unique_ingredients(self):
         """ Iterates through all of the recipe objects and gets all of the unique ingredients.
         """
@@ -43,15 +43,21 @@ class RecipeManager():
         pivot = np.random.randint(0, shortest_recipe_len)
 
         #split the recipes based on the pivot and make a new recipe
-        recipe1_strs = recipe1.get_ingredient_strings()
-        recipe2_strs = recipe2.get_ingredient_strings()
-        cross = recipe1_strs[:pivot] + recipe2_strs[pivot:]
+        recipe1_flavors = recipe1.get_flavor_ingredient_strings()
+        recipe2_flavors = recipe2.get_flavor_ingredient_strings()
+        cross = recipe1_flavors[:pivot] + recipe2_flavors[pivot:]
 
-        newRecipe = Recipe(self.num_new_recipes, cross)
-        self.num_new_recipes += 1
+        #gonna have to change this probably
+        recipe_str = ["-base\n"] + recipe1.get_base_ingredient_strings() + ["-flavors\n"] + cross
+        newRecipe = Recipe(recipe_str)
+
+        print("before mut:", newRecipe.get_flavor_ingredient_strings())
 
         #call recipe to be potentially mutated
         newRecipe.mutate(self.all_ingredients)
+
+        print("after mut:", newRecipe.get_flavor_ingredient_strings())
+        
         return newRecipe
     
     def fittest_half(self, recipes):
@@ -93,15 +99,18 @@ class RecipeManager():
             self.genetic_algo()  
     
     def write_fittest_recipes(self):
-        """ Writes the 5 fittest recipes to files in the fittest recipes folder.
+        """ Writes the top 3 fittest recipes to files in the fittest recipes folder.
         """
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
-        top_5 = sorted_recipes[-5:]
-        for i in range(5):
-            recipe = top_5[i]
-            with open("fittest recipes/rank_" + str(5 - i), "w") as f:
+        top_3 = sorted_recipes[-3:]
+        for i in range(3):
+            recipe = top_3[i]
+            with open("generator/fittest recipes/rank_" + str(3 - i), "w") as f:
                 f.write(f"{recipe.get_name()} ({recipe.get_fitness()} ingredients)\n")
-                f.writelines(recipe.get_ingredient_strings())
+                f.write("-base\n")
+                f.writelines(recipe.get_base_ingredient_strings())
+                f.write("-flavors\n")
+                f.writelines(recipe.get_flavor_ingredient_strings())
 
 
 def main():
