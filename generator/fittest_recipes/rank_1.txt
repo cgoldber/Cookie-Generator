@@ -1,12 +1,21 @@
-Default Cookies (10 ingredients)
+Default Cookies (18 ingredients)
 -base
-8.0 oz unsalted butter
-8.8 oz all-purpose flour
-0.25 oz baking soda
-0.25 oz fine sea salt
-7.75 oz light brown sugar
+7.0 oz unsalted butter
+8.46 oz confectioners’ sugar
+2.12 oz unsulphured molasses
+0.35 oz vanilla extract
+0.04 oz kosher salt 
+0.01 oz baking soda
+2.0 oz large egg
+8.82 oz all-purpose flour
 1.0 oz granulated sugar
-2.0 oz large egg 
-0.07 oz vanilla extract
 -flavors
-12.0 oz semisweet chocolate
+1.76 oz finely grated fresh ginger
+0.35 oz ground ginger
+0.14 oz ground cinnamon
+0.07 oz freshly ground black pepper
+0.02 oz freshly grated nutmeg
+62.0 oz semisweet chocolate
+17.0 oz finely ground Earl Grey tea leaves
+91.0 oz finely grated orange zest
+31 oz cream cheese

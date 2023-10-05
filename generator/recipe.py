@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from ingredient import Ingredient
+from ingredients.ingredient import Ingredient
 
 class Recipe:
     def __init__(self, recipe_strs, emotion="default"):
@@ -154,8 +154,7 @@ class Recipe:
     def get_fitness(self):
         """Returns fitness score
         """
-        return 10
-        # return len(self.ingredients.keys())
+        return len(self.base_ingredients.keys()) + len(self.flavor_ingredients.keys())
     
     def get_base_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings
@@ -213,18 +212,3 @@ class Recipe:
 
     def __str__(self) -> str:
         return self.get_name()
-
-# def main(): 
-#     with open("inspiring-set/cookie-base.txt") as f:
-#         recipe_str = f.readlines()
-#         recipe = Recipe(recipe_str,"happy")
-#         print(recipe.get_base_ingredient_strings())
-#         print(recipe.get_flavor_ingredient_strings())
-#         all_ingr = {"chocolate chips", "marshmallows", "sprinkles", "cinnamon", "basil"}
-#         recipe.mutate(all_ingr)
-#         print(recipe.get_base_ingredient_strings())
-#         print(recipe.get_flavor_ingredient_strings())
-#         print(recipe.get_name())
-    
-# if __name__ == "__main__":
-#     main()
