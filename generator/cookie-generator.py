@@ -14,16 +14,13 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "inspiring-set"
-        # for file in os.listdir(dir):
-        #     with open(dir + "/" + file, "r") as f:
-        #         recipe_str = f.readlines()
-        #         self.recipes.append(Recipe(self.num_new_recipes, recipe_str))
-        #     self.num_new_recipes += 1
-        # for reading a happy recipe - will change after generation
-        with open("inspiring-set/cookie-base.txt") as f:
-            recipe = Recipe(f.readlines(),"happy")
-            self.recipes.append(recipe)
+        dir = "inspiring-set/base g"
+        for file in os.listdir(dir):
+            with open(dir + "/" + file, "r") as f:
+                recipe_str = f.readlines()
+                self.recipes.append(Recipe(self.num_new_recipes, recipe_str))
+            self.num_new_recipes += 1
+    
 
     def get_unique_ingredients(self):
         """ Iterates through all of the recipe objects and gets all of the unique ingredients.
