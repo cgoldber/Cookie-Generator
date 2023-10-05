@@ -10,8 +10,8 @@ large datasets as part of your design process.
 
 import numpy as np
 
-WORD_EMBED_VALS = np.load('ingred_word_emb.npy', allow_pickle=True).item()
-INGRED_CATEGORIES = np.load('ingred_categories.npy', allow_pickle=True).item()
+WORD_EMBED_VALS = np.load('flavor-pairing/ingred_word_emb.npy', allow_pickle=True).item()
+INGRED_CATEGORIES = np.load('flavor-pairing/ingred_categories.npy', allow_pickle=True).item()
 INGREDIENT_LIST = sorted(WORD_EMBED_VALS.keys())
 
 def similarity(n1, n2):
@@ -58,7 +58,7 @@ pairings: * * *")
     request_pairing("orange", 0.1, "herb")
     request_pairing("chocolate", 0.1, "spice")
     request_pairing("green tea", 0.6, "fruit")
-    request_pairing("coffee", 0.45)
+    request_pairing("apple", 0.4)
 
 
 if __name__ == "__main__":
