@@ -26,7 +26,7 @@ class BaseIngredients:
     def sort_ingredients(self, ing_list):
         """ Sort a list of ingredients into a dictionary by category 
             Args: 
-            ing_list (list) : list of string names of ingredients
+            ing_list (list) : list of ingredients
         """
         sugar_volume = 0
         flour_volume = 0
