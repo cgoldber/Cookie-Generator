@@ -179,4 +179,3 @@ class BaseIngredients:
             self.adjust_eggs()
         else: 
             self.adjust_base_ratios()
-        print(str(mutation))
