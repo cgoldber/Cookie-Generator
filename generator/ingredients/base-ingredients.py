@@ -13,7 +13,6 @@ INGREDIENT_TYPES = {
 class BaseIngredients: 
     def __init__(self, ing_list): 
         self.wet = {}
-        self.eggs = {}
         self.flour = {}
         self.dry = {}
         self.sugars = {}
