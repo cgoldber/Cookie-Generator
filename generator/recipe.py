@@ -1,13 +1,16 @@
 import numpy as np
 import random
-from ingredient import Ingredient
-from flavors import flavor_pairing
+from ingredients.ingredient import Ingredient
+from generator.recipe_instructions import RecipeInstructions
+from ingredients.base_ingredients import BaseIngredients
+from ingredients.flavor_ingredients import FlavorIngredients
 
 class Recipe:
     def __init__(self, recipe_strs, emotion="default"):
         self.emotion = emotion
         self.base_ingredients = {}
         self.flavor_ingredients = {}
+        self.instructions = RecipeInstructions()
         self.volume = 0
         self.make_ingredient_objects(recipe_strs)
         self.name = self.name_generator(emotion)
@@ -224,18 +227,3 @@ class Recipe:
 
     def __str__(self) -> str:
         return self.get_name()
-
-# def main(): 
-#     with open("inspiring-set/cookie-base.txt") as f:
-#         recipe_str = f.readlines()
-#         recipe = Recipe(recipe_str,"happy")
-#         print(recipe.get_base_ingredient_strings())
-#         print(recipe.get_flavor_ingredient_strings())
-#         all_ingr = {"chocolate chips", "marshmallows", "sprinkles", "cinnamon", "basil"}
-#         recipe.mutate(all_ingr)
-#         print(recipe.get_base_ingredient_strings())
-#         print(recipe.get_flavor_ingredient_strings())
-#         print(recipe.get_name())
-    
-# if __name__ == "__main__":
-#     main()

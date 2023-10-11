@@ -14,7 +14,7 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "inspiring-set/generation_day"
+        dir = "inspiring_set/generation_day"
         for file in os.listdir(dir):
             print("file:", file)
             with open(dir + "/" + file, "r") as f:
@@ -105,7 +105,7 @@ class RecipeManager():
         top_3 = sorted_recipes[-3:]
         for i in range(3):
             recipe = top_3[i]
-            with open("generator/fittest recipes/rank_" + str(3 - i), "w") as f:
+            with open("generator/fittest_recipes/rank_" + str(3 - i), "w") as f:
                 f.write(f"{recipe.get_name()} ({recipe.get_fitness()} ingredients)\n")
                 f.write("-base\n")
                 f.writelines(recipe.get_base_ingredient_strings())
