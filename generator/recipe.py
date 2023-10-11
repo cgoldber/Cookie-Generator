@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from ingredient import Ingredient
+from flavors import flavor_pairing
 
 class Recipe:
     def __init__(self, recipe_strs, emotion="default"):
@@ -152,10 +153,20 @@ class Recipe:
     #             ingredient.set_amount(new_amt)
         
     def get_fitness(self):
-        """Returns fitness score
+        """Returns fitness score (CURRENT PROB IS THAT INGREDIENTS MAY NOT BE IN FLAVOR PAIRING LIST)
         """
-        return 10
-        # return len(self.ingredients.keys())
+        total_ingredients = flavor_pairing.get_all_ingredients()
+        all_ingredient_names = list(self.flavor_ingredients.keys()) + list(self.base_ingredients.keys())
+        similarities = []
+        for ingredient1 in all_ingredient_names:
+            for ingredient2 in all_ingredient_names:
+                ingredient1, ingredient2 = ingredient1.strip(), ingredient2.strip()
+                if ingredient1 in total_ingredients and ingredient2 in total_ingredients:
+                    similarity = flavor_pairing.similarity(ingredient1, ingredient2)
+                    similarities.append(similarity)
+        avg_similarity = sum(similarities) / len(similarities)
+        print("avg similarity is ", avg_similarity)
+        return avg_similarity
     
     def get_base_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings
