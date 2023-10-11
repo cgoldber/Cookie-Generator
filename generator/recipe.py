@@ -1,12 +1,16 @@
 import numpy as np
 import random
 from ingredients.ingredient import Ingredient
+from generator.recipe_instructions import RecipeInstructions
+from ingredients.base_ingredients import BaseIngredients
+from ingredients.flavor_ingredients import FlavorIngredients
 
 class Recipe:
     def __init__(self, recipe_strs, emotion="default"):
         self.emotion = emotion
         self.base_ingredients = {}
         self.flavor_ingredients = {}
+        self.instructions = RecipeInstructions()
         self.volume = 0
         self.make_ingredient_objects(recipe_strs)
         self.name = self.name_generator(emotion)
