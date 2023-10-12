@@ -2,7 +2,7 @@ import numpy as np
 import random
 import flavors.flavor_pairing as flavor_pairing
 from ingredients.ingredient import Ingredient
-from generator.recipe_instructions import RecipeInstructions
+from recipe_instructions import RecipeInstructions
 from ingredients.base_ingredients import BaseIngredients
 from ingredients.flavor_ingredients import FlavorIngredients
 
@@ -42,34 +42,6 @@ class Recipe:
                 self.base_ingredients[name] = Ingredient(name, amt)
             else:
                 self.flavor_ingredients[name] = Ingredient(name, amt)
-
-    ###Progress After Generator Day
-    # def make_ingredient_objects(self, recipe_strs: list):
-    #     """Reads recipe_strs and populates self.ingredients with ingredient objects.
-    #        Args:
-    #             recipe_strs (list) : list of the strings corresponding to ingredient/amt in the recipe
-    #     """
-    #     # makes dictionary mapping ingredient name to ingredient object
-    #     base_ing = False
-    #     flavor_ing = False
-    #     for line in recipe_strs:
-    #         if ("Base" in line): 
-    #             base_ing = True
-    #         elif ("Flavor" in line):
-    #             base_ing = False
-    #             flavor_ing = True
-    #         information = line.strip().split(" g ")
-    #         # check that line describes ingredients
-    #         if (len(information) > 1):
-    #             ingr_amt = float(information[0])
-    #             name = information[1]
-    #             new_ing = Ingredient(name, ingr_amt)
-    #             self.volume += ingr_amt
-    #             if (base_ing):
-    #                 self.base_ingredients[name] = new_ing
-    #             elif (flavor_ing):
-    #                 self.flavor_ingredients[name] = new_ing
-    #     print("volume of recipe is " + str(self.volume))
 
     def change_base_ratio(self):
         """A base ingredient is selected uniformly at random from the recipe.  
@@ -139,22 +111,6 @@ class Recipe:
     #             else: 
     #                 checked_ingredients.append(ing)
     #     self.ingredients = checked_ingredients
-    
-    # def normalize(self):
-    #     """Normalizes all ingredients so amount adds up to 100 oz.
-    #     """
-    #     current_total = 0
-    #     for ingredient in self.ingredients.values(): 
-    #         current_total += ingredient.get_amount() 
-    #     if current_total == 100: #already normalized
-    #         return    
-    #     sizing_factor = 100 / current_total
-    #     for name, ingredient in self.ingredients.items(): 
-    #         new_amt = ingredient.get_amount() * sizing_factor
-    #         if new_amt < .01: #delete ingredient if normalization makes it below .01 oz
-    #             self.ingredients.remove(name)
-    #         else:
-    #             ingredient.set_amount(new_amt)
 
     def flavor_pairing_score(self):
         """ Returns the average similarity score between flavors in the recipe.
@@ -184,9 +140,9 @@ class Recipe:
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
         recipes in the inspiring set, and how much the recipe coincides with the chosen emotion.
         """
-        return self.flavor_pairing_score() * flavor_pairing_coef + 
-        self.dissimilarity_score() * dissimilarity_coef
-        + self.emotion_score() * emotion_coef
+        return self.flavor_pairing_score() * flavor_pairing_coef + \
+        self.dissimilarity_score() * dissimilarity_coef + \
+        self.emotion_score() * emotion_coef
     
     def get_base_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings

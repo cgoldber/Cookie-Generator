@@ -67,6 +67,20 @@ class RecipeManager():
         """
         sorted_recipes = sorted(recipes, key = lambda x : x.get_fitness())
         return sorted_recipes[int(len(recipes)/2):]
+    
+    def get_emotion(self):
+        emotion_key = -1
+        while curr_val < 0:
+            emotion_key = int(input("How are you feeling? \n \
+            Input Associate Number 1-6 \n \
+            (1) : Happy \n\
+            (2) : Sad \n\
+            (3) : Angry \n\
+            (4) : Excited \n\
+            (5) : Tired \n\
+            (6) : Stressed"))
+        return emotion_key
+
 
     def genetic_algo(self):
         """ Iterate len(self.recipes) times. Choose recipe1 and recipe2 based on fitness probabilites
@@ -114,6 +128,7 @@ class RecipeManager():
 
 
 def main():
+    emotion = get_emotion()
     generations = int(input("How many generations would you like to run this algorithm for? "))
     manager = RecipeManager()
     manager.parse_files()
