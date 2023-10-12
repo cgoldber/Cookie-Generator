@@ -139,22 +139,6 @@ class Recipe:
     #             else: 
     #                 checked_ingredients.append(ing)
     #     self.ingredients = checked_ingredients
-    
-    # def normalize(self):
-    #     """Normalizes all ingredients so amount adds up to 100 oz.
-    #     """
-    #     current_total = 0
-    #     for ingredient in self.ingredients.values(): 
-    #         current_total += ingredient.get_amount() 
-    #     if current_total == 100: #already normalized
-    #         return    
-    #     sizing_factor = 100 / current_total
-    #     for name, ingredient in self.ingredients.items(): 
-    #         new_amt = ingredient.get_amount() * sizing_factor
-    #         if new_amt < .01: #delete ingredient if normalization makes it below .01 oz
-    #             self.ingredients.remove(name)
-    #         else:
-    #             ingredient.set_amount(new_amt)
 
     def flavor_pairing_score(self):
         """ Returns the average similarity score between flavors in the recipe.
