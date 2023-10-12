@@ -154,21 +154,38 @@ class Recipe:
     #             self.ingredients.remove(name)
     #         else:
     #             ingredient.set_amount(new_amt)
-        
-    def get_fitness(self):
-        """Returns fitness score (CURRENT PROB IS THAT INGREDIENTS MAY NOT BE IN FLAVOR PAIRING LIST)
+
+    def flavor_pairing_score(self):
+        """ Returns the average similarity score between flavors in the recipe.
         """
         all_ingredient_names = list(self.flavor_ingredients.keys())
-        similarities = []
+        flavor_scores = []
         for ingredient1 in all_ingredient_names:
             for ingredient2 in all_ingredient_names:
                 ingredient1, ingredient2 = ingredient1.strip(), ingredient2.strip()
                 if ingredient1 in total_ingredients and ingredient2 in total_ingredients:
-                    similarity = flavor_pairing.similarity(ingredient1, ingredient2)
-                    similarities.append(similarity)
-        avg_similarity = sum(similarities) / len(similarities)
-        print("avg similarity is ", avg_similarity)
-        return avg_similarity
+                    flavor_score = flavor_pairing.similarity(ingredient1, ingredient2)
+                    flavor_scores.append(flavor_score)
+        avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
+        return avg_flavor_score
+    
+    def dissimilarity_score(self):
+        """ Returns a value indicating how disimilar the recipe is from those in the inspiring set.
+        """
+        return 0
+    
+    def emotion_score(self):
+        """ Returns a value indicating how much the recipe coincides with the chosen emotion.
+        """
+        return 0
+        
+    def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=1, emotion_coef=1):
+        """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
+        recipes in the inspiring set, and how much the recipe coincides with the chosen emotion.
+        """
+        return self.flavor_pairing_score() * flavor_pairing_coef + 
+        self.dissimilarity_score() * dissimilarity_coef
+        + self.emotion_score() * emotion_coef
     
     def get_base_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings
