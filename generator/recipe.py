@@ -1,10 +1,10 @@
 import numpy as np
 import random
-import flavors.flavor_pairing as flavor_pairing
-from ingredients.ingredient import Ingredient
+import flavor_pairing
+from ingredient import Ingredient
 from recipe_instructions import RecipeInstructions
-from ingredients.base_ingredients import BaseIngredients
-from ingredients.flavor_ingredients import FlavorIngredients
+from base_ingredients import BaseIngredients
+from flavor_ingredients import FlavorIngredients
 
 class Recipe:
     def __init__(self, recipe_strs, emotion="default"):
