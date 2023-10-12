@@ -17,7 +17,7 @@ class RecipeInstructions:
         self.time = np.random.randint(8,13) 
 
     def adjust_size(self):
-        """ Randomly sets temperature to a multiple of 25 degrees F between 325 and 425 inclusive
+        """ Randomly sets size to a multiple of 5 between 40 and 60 grams per cookie
         """
         self.size = np.random.randint(8, 13) * 5
 

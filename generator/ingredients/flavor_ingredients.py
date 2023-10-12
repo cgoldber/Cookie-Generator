@@ -7,6 +7,7 @@ INGREDIENT_TYPES = {
                "lavender", "vanilla", "vanilla extract", "almond extract", "butterscotch extract"],
     "mix-ins": ["chocolate chips", "chocolate chunks", "raisins", "sprinkles", "almonds", "walnuts", "pecans",
                 "pretzels", "m&ms", "coconut"],
+    "toppings": ["flaky sea salt", "caramel drizzle"]
 }
 
 class FlavorIngredients: 
