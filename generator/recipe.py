@@ -43,34 +43,6 @@ class Recipe:
             else:
                 self.flavor_ingredients[name] = Ingredient(name, amt)
 
-    ###Progress After Generator Day
-    # def make_ingredient_objects(self, recipe_strs: list):
-    #     """Reads recipe_strs and populates self.ingredients with ingredient objects.
-    #        Args:
-    #             recipe_strs (list) : list of the strings corresponding to ingredient/amt in the recipe
-    #     """
-    #     # makes dictionary mapping ingredient name to ingredient object
-    #     base_ing = False
-    #     flavor_ing = False
-    #     for line in recipe_strs:
-    #         if ("Base" in line): 
-    #             base_ing = True
-    #         elif ("Flavor" in line):
-    #             base_ing = False
-    #             flavor_ing = True
-    #         information = line.strip().split(" g ")
-    #         # check that line describes ingredients
-    #         if (len(information) > 1):
-    #             ingr_amt = float(information[0])
-    #             name = information[1]
-    #             new_ing = Ingredient(name, ingr_amt)
-    #             self.volume += ingr_amt
-    #             if (base_ing):
-    #                 self.base_ingredients[name] = new_ing
-    #             elif (flavor_ing):
-    #                 self.flavor_ingredients[name] = new_ing
-    #     print("volume of recipe is " + str(self.volume))
-
     def change_base_ratio(self):
         """A base ingredient is selected uniformly at random from the recipe.  
         Its quantity is set to a random new value, changing the texture of the cookie.
