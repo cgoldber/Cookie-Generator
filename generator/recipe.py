@@ -2,7 +2,7 @@ import numpy as np
 import random
 import flavors.flavor_pairing as flavor_pairing
 from ingredients.ingredient import Ingredient
-from generator.recipe_instructions import RecipeInstructions
+from recipe_instructions import RecipeInstructions
 from ingredients.base_ingredients import BaseIngredients
 from ingredients.flavor_ingredients import FlavorIngredients
 
@@ -140,9 +140,9 @@ class Recipe:
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
         recipes in the inspiring set, and how much the recipe coincides with the chosen emotion.
         """
-        return self.flavor_pairing_score() * flavor_pairing_coef + 
-        self.dissimilarity_score() * dissimilarity_coef
-        + self.emotion_score() * emotion_coef
+        return self.flavor_pairing_score() * flavor_pairing_coef + \
+        self.dissimilarity_score() * dissimilarity_coef + \
+        self.emotion_score() * emotion_coef
     
     def get_base_ingredient_strings(self):
         """Returns the ingredients of the recipes as a list of strings
