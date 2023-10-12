@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import flavors.flavor_pairing as flavor_pairing
 from ingredients.ingredient import Ingredient
 from generator.recipe_instructions import RecipeInstructions
 from ingredients.base_ingredients import BaseIngredients
