@@ -158,8 +158,7 @@ class Recipe:
     def get_fitness(self):
         """Returns fitness score (CURRENT PROB IS THAT INGREDIENTS MAY NOT BE IN FLAVOR PAIRING LIST)
         """
-        total_ingredients = flavor_pairing.get_all_ingredients()
-        all_ingredient_names = list(self.flavor_ingredients.keys()) + list(self.base_ingredients.keys())
+        all_ingredient_names = list(self.flavor_ingredients.keys())
         similarities = []
         for ingredient1 in all_ingredient_names:
             for ingredient2 in all_ingredient_names:
