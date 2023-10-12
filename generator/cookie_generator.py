@@ -14,7 +14,7 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "inspiring_set/generation_day"
+        dir = "inspiring_set"
         for file in os.listdir(dir):
             print("file:", file)
             with open(dir + "/" + file, "r") as f:
@@ -69,14 +69,20 @@ class RecipeManager():
         return sorted_recipes[int(len(recipes)/2):]
     
     def emotion_prompt(self):
-
+        emotion_key = input("How are you feeling? \n (1) : Happy \n (2) : Sad \n (3) : Angry \n" + \
+            " (4) : Excited \n (5) : Tired \n (6) : Stressed \n Input Number 1-6: ")
+        return emotion_key
     
     def get_emotion(self):
-        emotion_key = -1
-        while emotion_key > 0 and emotion_key <= 6:
-            emotion_key = int(input("How are you feeling? \n (1) : Happy \n (2) : Sad \n (3) : Angry \n" + \
-            " (4) : Excited \n (5) : Tired \n (6) : Stressed \n Input Number 1-6: "))
-        return emotion_key
+        emotion_dic ={"1" : "Happy", "2" : "Sad", "3": "Angry",
+                     "4" : "Excited", "5" : "Tired", "6" : "Stressed"}
+        emotion_key = self.emotion_prompt()
+        while emotion_key not in emotion_dic.keys():
+            print("\nUnknown Emotion Key: Try Again!\n")
+            emotion_key = self.emotion_prompt()
+        emotion = emotion_dic[emotion_key]
+        print(f"\nYou are feeling {emotion.lower()}!\n")
+        return emotion
 
 
     def genetic_algo(self):
