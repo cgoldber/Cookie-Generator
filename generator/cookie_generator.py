@@ -68,12 +68,14 @@ class RecipeManager():
         sorted_recipes = sorted(recipes, key = lambda x : x.get_fitness())
         return sorted_recipes[int(len(recipes)/2):]
     
+    def emotion_prompt(self):
+
+    
     def get_emotion(self):
         emotion_key = -1
-        while emotion_key < 0:
-            emotion_key = int(input("How are you feeling? \n \
-            Input Associate Number 1-6 \n (1) : Happy \n\ (2) : Sad \n\
-            (3) : Angry \n (4) : Excited \n (5) : Tired \n (6) : Stressed \n"))
+        while emotion_key > 0 and emotion_key <= 6:
+            emotion_key = int(input("How are you feeling? \n (1) : Happy \n (2) : Sad \n (3) : Angry \n" + \
+            " (4) : Excited \n (5) : Tired \n (6) : Stressed \n Input Number 1-6: "))
         return emotion_key
 
 
