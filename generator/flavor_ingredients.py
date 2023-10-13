@@ -2,18 +2,34 @@ import numpy as np
 from ingredient import Ingredient
 
 INGREDIENT_TYPES = {
-    "spices": ["allspice", "cinnamon", "cloves", "cardamom", "ginger", "ground ginger", "nutmeg", "cayenne", 
-               "cayenne pepper", "black pepper", "cocoa powder","basil", "mint", "rosemary", "fennel", "thyme", 
-               "lavender", "vanilla", "vanilla extract", "almond extract", "butterscotch extract"],
-    "mix-ins": ["chocolate chips", "chocolate chunks", "raisins", "sprinkles", "almonds", "walnuts", "pecans",
-                "pretzels", "m&ms", "coconut"],
-    "toppings": ["flaky sea salt", "caramel drizzle"]
+    "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger",  "nutmeg", "cayenne", 
+               "cayenne pepper", "black pepper", "cocoa", "basil", "mint", "rosemary", "fennel", "thyme", 
+               "coriander","turmeric","anise","chamomile","chive","mustard","peppermint","spearmint","thyme",
+               "black tea","green tea","tea","sage","parsley"
+                "garlic","flaxseed","dill","cocoa","beetroot","coffee","cumin","oregano",],
+    "mix-ins": [
+            "apple", "apricot", "artichoke", "banana",  "beetroot",
+             "black raspberry", "blackberry", "blueberry", "brazil nut", "camembert cheese", "capers",
+            "cashew nut", "cherry", "chestnut", "chocolate", "citrus", "citrus zest", "coconut",
+            "comte cheese", "corn", "cottage cheese", "cranberry", "cream cheese", "cucumber", "currant", "dates",
+            "elderberry", "fig", "garlic", "goat cheese", "grape", "grapefruit", "grapefruit zest", "gruyere cheese", "guava",
+            "hazelnut", "kiwifruit", "lemon", "lemon balm", "lemon zest", "licorice", "lime", "lime zest", "macadamia nut",
+            "mandarin orange", "mandarin orange zest", "mango", "melon", "nut", "oats", "olive", "onion", "orange", 
+            "papaya", "parmesan cheese", "passionfruit", "peach", "peanut", "peanut butter", "pear", "pecan",
+            "persimmon", "pineapple", "pistachio", "plum", "pomegranate", "poppy seed",  "pumpkin", "raisin",
+            "raspberry", "rhubarb", "rose",  "starfruit", "strawberry",
+            "sunflower", "tamarind", "tangerine", "walnut", "wasabi",    "zucchini"],
+    "oils": ["lavender","soy sauce","vanilla","almond"],
+    "toppings": ["flaky sea salt", "caramel drizzle","honey","citrus zest"]
 }
 
 class FlavorIngredients: 
     def __init__(self, ing_list): 
         self.spices = {}
         self.mix_ins = {}
+        self.oils = {}
+        self.toppings = {}
+
         self.sort_ingredients(ing_list)
     
     def sort_ingredients(self, ing_list):
@@ -29,6 +45,10 @@ class FlavorIngredients:
                 self.spices[name] = ing
             elif name in INGREDIENT_TYPES["mix-ins"]: 
                 self.mix_ins[name] = ing
+            elif name in INGREDIENT_TYPES["toppings"]: 
+                self.toppings[name] = ing
+            elif name in INGREDIENT_TYPES["oils"]: 
+                self.oils[name] = ing
 
 
     def add_ingredient(self):
