@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import pandas as pd
 import flavor_pairing
 from ingredient import Ingredient
 from recipe_instructions import RecipeInstructions
@@ -60,7 +61,6 @@ class Recipe:
         Args:
             all_ingredients (set) : A set containing all unique possible ingredients
         """
-        # TODO should use emotion and existing ingredients to generate which flavor to add
         new_possible_ingredients = all_ingredients.difference(self.flavor_ingredients.keys())
 
         if len(new_possible_ingredients) == 0: #skip if no new ingredients to add
@@ -134,7 +134,9 @@ class Recipe:
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with the chosen emotion.
         """
-        return 0
+        emotion_alignment_df = pd.read_excel("Ingredient_Matrix.xlsx", header=0, index=0)
+        alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion] for ingr in self.flavor_ingredients.keys())    
+        return alignment_sum / len(self.flavor_ingredients.keys())
         
     def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=1, emotion_coef=1):
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
