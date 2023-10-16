@@ -51,6 +51,8 @@ class Recipe:
                     unit = "tbsp"
                 amt = float(information[0])
                 name = information[1].strip()
+                if "butter" in name and unit == "tbsp":
+                    amt *= 14.2
                 ing_list.append(Ingredient(name, amt, unit))
         return ing_list
 
