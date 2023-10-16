@@ -1,27 +1,36 @@
 import numpy as np
-from ingredient import Ingredient
+from generator.ingredient import Ingredient
+
 
 INGREDIENT_TYPES = {
-    "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger",  "nutmeg", "cayenne", 
-               "cayenne pepper", "black pepper", "cocoa", "basil", "mint", "rosemary", "fennel", "thyme", 
-               "coriander","turmeric","anise","chamomile","chive","mustard","peppermint","spearmint","thyme",
-               "black tea","green tea","tea","sage","parsley"
-                "garlic","flaxseed","dill","cocoa","beetroot","coffee","cumin","oregano",],
-    "mix-ins": [
-            "apple", "apricot", "artichoke", "banana",  "beetroot",
-             "black raspberry", "blackberry", "blueberry", "brazil nut", "camembert cheese", "capers",
-            "cashew nut", "cherry", "chestnut", "chocolate", "citrus", "citrus zest", "coconut",
-            "comte cheese", "corn", "cottage cheese", "cranberry", "cream cheese", "cucumber", "currant", "dates",
-            "elderberry", "fig", "garlic", "goat cheese", "grape", "grapefruit", "grapefruit zest", "gruyere cheese", "guava",
-            "hazelnut", "kiwifruit", "lemon", "lemon balm", "lemon zest", "licorice", "lime", "lime zest", "macadamia nut",
-            "mandarin orange", "mandarin orange zest", "mango", "melon", "nut", "oats", "olive", "onion", "orange", 
-            "papaya", "parmesan cheese", "passionfruit", "peach", "peanut", "peanut butter", "pear", "pecan",
-            "persimmon", "pineapple", "pistachio", "plum", "pomegranate", "poppy seed",  "pumpkin", "raisin",
-            "raspberry", "rhubarb", "rose",  "starfruit", "strawberry",
-            "sunflower", "tamarind", "tangerine", "walnut", "wasabi",    "zucchini"],
-    "oils": ["lavender","soy sauce","vanilla","almond"],
-    "toppings": ["flaky sea salt", "caramel drizzle","honey","citrus zest"]
+    "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger",  "nutmeg", 
+               "cayenne", "cayenne pepper", "black pepper", "cocoa", "basil", 
+               "mint", "rosemary", "fennel", "thyme", "coriander","turmeric",
+               "anise","chamomile","chive","mustard","peppermint","spearmint",
+               "thyme", "black tea","green tea","tea","sage","parsley", 
+               "garlic", "flaxseed","dill","cocoa","beetroot","coffee","cumin",
+               "oregano",],
+    "mix-ins": ["apple", "apricot", "artichoke", "banana",  "beetroot", 
+                "black raspberry", "blackberry", "blueberry", "brazil nut", 
+                "camembert cheese", "capers", "cashew nut", "cherry", 
+                "chestnut", "chocolate", "citrus", "citrus zest", "coconut",
+                "comte cheese", "corn", "cottage cheese", "cranberry", 
+                "cream cheese", "cucumber", "currant", "dates", "elderberry", 
+                "fig", "garlic", "goat cheese", "grape", "grapefruit", 
+                "grapefruit zest", "gruyere cheese", "guava", "hazelnut", 
+                "kiwifruit", "lemon", "lemon balm", "lemon zest", "licorice", 
+                "lime", "lime zest", "macadamia nut", "mandarin orange", 
+                "mandarin orange zest", "mango", "melon", "nut", "oats", 
+                "olive", "onion", "orange", "papaya", "parmesan cheese", 
+                "passionfruit", "peach", "peanut", "peanut butter", "pear", 
+                "pecan", "persimmon", "pineapple", "pistachio", "plum", 
+                "pomegranate", "poppy seed",  "pumpkin", "raisin", "raspberry", 
+                "rhubarb", "rose",  "starfruit", "strawberry", "sunflower", 
+                "tamarind", "tangerine", "walnut", "wasabi", "zucchini"],
+    "oils": ["lavender", "soy sauce", "vanilla", "almond"],
+    "toppings": ["flaky sea salt", "caramel drizzle", "honey", "citrus zest"]
 }
+
 
 class FlavorIngredients: 
     def __init__(self, ing_list): 
@@ -64,7 +73,6 @@ class FlavorIngredients:
             new_ing = Ingredient(new_mix_in, 50)
             self.mix_ins[new_mix_in] = new_ing
 
-
     def delete_ingredient(self):
         """ With equal probability, delete a spice or mix-in
         """
@@ -75,7 +83,6 @@ class FlavorIngredients:
         else: 
             mix_in = np.random.choice(tuple(self.mix_ins.keys()))
             del self.mix_ins[mix_in]
-
 
     def swap_ingredient(self):
         """ With equal probability, swap a spice or mix-in with a new spice or mix-in
@@ -96,7 +103,6 @@ class FlavorIngredients:
             new_ing = Ingredient(new_mix_in, 50)
             self.mix_ins[new_mix_in] = new_ing
 
-
     def mutate(self):
         """ Calls an above mutation with equal probability.
         """
@@ -107,3 +113,22 @@ class FlavorIngredients:
             self.delete_ingredient()
         elif mutation == 2: 
             self.swap_ingredient()
+
+    def __str__(self):
+        ing_list = []
+        for ing in self.spices.values():
+            ing_list.append(str(ing))
+        for ing in self.mix_ins.values():
+            ing_list.append(str(ing))
+        for ing in self.oils.values():
+            ing_list.append(str(ing))
+        for ing in self.toppings.values():
+            ing_list.append(str(ing))
+        return "\n".join(ing_list)
+    
+    def __repr__(self) -> str:
+        spices_list = "Spices:\n" + "\n".join([str(ing) for ing in self.spices.values()])
+        mix_ins_list = "Mix-Ins:\n" + "\n".join([str(ing) for ing in self.mix_ins.values()])
+        oils_list = "Oils:\n" + "\n".join([str(ing) for ing in self.oils.values()])
+        toppings_list = "Toppings:\n" + "\n".join([str(ing) for ing in self.toppings.values()])
+        return spices_list + mix_ins_list + oils_list + toppings_list
