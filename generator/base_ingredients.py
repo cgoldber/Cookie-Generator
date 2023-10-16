@@ -71,7 +71,6 @@ class BaseIngredients:
             # adjust flour ratio
             base_type = "flour"
         new_ratio = (random.uniform(-.5,.5) + 1) * self.base_ratio[base_type]
-        ratio_change = (new_ratio - self.base_ratio[base_type]) / 2
         multiplier = new_ratio / self.base_ratio[base_type]
         for key in self.base_ratio.keys(): 
             if key == base_type: 
@@ -198,9 +197,9 @@ class BaseIngredients:
         return "\n".join(ing_list)
     
     def __repr__(self) -> str:
-        flour_list = "Flours: " + ", ".join([str(ing) for ing in self.flour.values()])
-        sugar_list = "Sugars: " + ", ".join([str(ing) for ing in self.sugars.values()])
-        fats_list = "Fats: " + ", ".join([str(ing) for ing in self.fats.values()])
-        dry_list = "Dry Ingredients: " + ", ".join([str(ing) for ing in self.dry.values()])
+        flour_list = "Flours: " + ", ".join([str(ing) for ing in self.flour.values()]) + ", "
+        sugar_list = "Sugars: " + ", ".join([str(ing) for ing in self.sugars.values()]) + ", "
+        fats_list = "Fats: " + ", ".join([str(ing) for ing in self.fats.values()]) + ", "
+        dry_list = "Dry Ingredients: " + ", ".join([str(ing) for ing in self.dry.values()]) + ", "
         wet_list = "Wet Ingredients: " + ", ".join([str(ing) for ing in self.wet.values()])
         return flour_list + sugar_list + fats_list + dry_list + wet_list

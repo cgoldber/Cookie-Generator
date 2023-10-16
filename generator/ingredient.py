@@ -1,8 +1,8 @@
 class Ingredient:
-    def __init__(self, name, amount):
+    def __init__(self, name, amount, unit="g"):
         self.name = name
         self.amount = amount
-        self.tastes = {} # dictionary mapping salty, sweet, bitter, umami, sour to metrics 
+        self.unit = unit
     
     def set_amount(self, amount):
         """ Sets the amount of the ingredient in oz.
@@ -27,4 +27,12 @@ class Ingredient:
     def __str__(self):
         """ Returns a string representation of the ingredient.
         """
-        return str(round(self.amount, 2)) + " oz " + self.name
+        if "egg" in self.name:
+            return str(round(self.amount) / 50) + " " + self.name
+        elif "butter" in self.name:
+            return str(round(self.amount / 14.2)) + " tbsp " + self.name
+        unit = " " + self.unit + " "
+        return str(round(self.amount, 2)) + unit + self.name
+    
+    def __repr__(self):
+        return str(self)

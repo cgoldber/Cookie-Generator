@@ -34,7 +34,7 @@ class RecipeInstructions:
         if mutation == 0: 
             self.adjust_temp() 
         elif mutation == 1: 
-            self.adjust_time()
+            self.adjust_bake_time()
         elif mutation == 2: 
             self.adjust_rest_time()
         elif mutation == 3:
