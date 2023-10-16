@@ -23,33 +23,30 @@ class RecipeManager():
             self.num_new_recipes += 1
     
     def crossover(self, recipe1, recipe2):
-        """Chooses a random pivot index to concatenate the recipes. Creates a new recipe object. Then
-        calls the mutate function on the new recipe and stores what's returned.
+        """Chooses the base ingredients from one recipe with equal probability.
+        Chooses a random pivot index to concatenate the flavor ingredients. 
+        Creates a new recipe object. Then calls the mutate function on the new 
+        recipe and stores what's returned.
             Args:
                 recipe1 (Recipe) : first recipe to be crossed
                 recipe2 (Recipe) : second recipe to be crossed
         """
-        #randomly select pivot
-        shortest_recipe_len = min((recipe1.get_fitness()), (recipe2.get_fitness()))
-        pivot = np.random.randint(0, shortest_recipe_len)
+        # choose base ingredients of one recipe with equal probability 
+        new_base = np.random.choice([recipe1, recipe2]).get_base_ing_strings()
 
-        #split the recipes based on the pivot and make a new recipe
-        recipe1_flavors = recipe1.get_flavor_ingredient_strings()
-        recipe2_flavors = recipe2.get_flavor_ingredient_strings()
-        cross = recipe1_flavors[:pivot] + recipe2_flavors[pivot:]
+        # randomly select pivot to split flavor ingredients
+        recipe1_flavor_strs = recipe1.get_flavor_ing_strings()
+        recipe2_flavor_strs = recipe2.get_flavor_ing_strings()
+        pivot = np.random.randint(0, min(len(recipe1_flavor_strs), 
+                                         len(recipe1_flavor_strs)))
+        new_flavors = recipe1_flavor_strs[:pivot] + recipe2_flavor_strs[pivot:]
 
-        #gonna have to change this probably
-        recipe_str = ["-base\n"] + recipe1.get_base_ingredient_strings() + ["-flavors\n"] + cross
-        newRecipe = Recipe(recipe_str)
+        new_recipe = Recipe(new_base + new_flavors)
+        self.num_new_recipes += 1
 
-        print("before mut:", newRecipe.get_flavor_ingredient_strings())
-
-        #call recipe to be potentially mutated
-        newRecipe.mutate(self.all_ingredients)
-
-        print("after mut:", newRecipe.get_flavor_ingredient_strings())
-        
-        return newRecipe
+        # call recipe to be potentially mutated
+        new_recipe.mutate()
+        return new_recipe
     
     def fittest_half(self, recipes):
         """ Returns the fittest 50% of a given population.
