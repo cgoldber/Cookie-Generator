@@ -2,6 +2,7 @@ import numpy as np
 import random
 import pandas as pd
 import flavor_pairing
+from random import randint
 from ingredient import Ingredient
 from recipe_instructions import RecipeInstructions
 from base_ingredients import BaseIngredients
@@ -18,7 +19,21 @@ class Recipe:
         self.name = self.name_generator(emotion)
 
     def name_generator(self, emotion: str):
-        return str(emotion).capitalize() + " Cookies"
+        Happy_syn = ["Happy", "Delgihted", "Content", "Pleased", "Ecstatic", "Joyful", "Glad", "Jubliant", "Elated", "Merry", "Blissful", "Euphoric"]
+        Sad_syn = ["Unhappy", "Melancholy", "Depressed", "Sorrowful", "Mournful", "Downcast", "Blue", "Woeful", "Gloomy", "Despondent", "Dejected", "Dismal"]
+        Angry_syn = ["Furious", "Irritated", "Wrathful", "Enraged", "Indigant", "Irate", "Incensed", "Infuriated", "Agitated", "Outraged", "Fuming", "Vexed"]
+        Excited_syn = ["Enthusiastic", "Eager", "Thrilled", "Animated", "Jubliant", "Ecstatic", "Elated", "Overjoyed", "Exhilarated", "Pumped", "Fired-up", "Anticipatory", "Exultant"]
+        Tired_syn = ["Exhausted", "Fatigued", "Weary", "Drained", "Worn-out", "Weary", "Burnt-out", "Depleted", "Lethargic", "Run-down", "Beat", "Jet-lagged"]
+        Stressed_syn = ["Anxious", "Worried", "Tense", "Overwhelmed", "Strained", "Upset", "On-edge", "Frazzeled", "Frantic", "Perturbed", "Exasperated", "Unsettled"]
+        Emotional_repetoire = {"Happy": Happy_syn, "Sad":Sad_syn, "Angry": Angry_syn, "Excited" : Excited_syn, "Tired" : Tired_syn, "Stressed": Stressed_syn }
+        
+        for key in Emotional_repetoire:
+            if emotion == key:
+                words = Emotional_repetoire[emotion]
+                words_syn = words[randint(0,11)]
+                
+        return words_syn + str(emotion).capitalize() + "Cookies"        
+        #return str(emotion).capitalize() + " Cookies"
     
     def make_ingredient_objects(self, recipe_strs):
         """Reads recipe_strs and populates self.ingredients with ingredient objects.
