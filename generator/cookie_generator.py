@@ -2,12 +2,12 @@ import numpy as np
 import os
 from recipe import Recipe
 
+
 class RecipeManager():
     """Run generation and evaluation"""
     def __init__(self):
         self.recipes = []
         self.num_new_recipes = 0
-        self.all_ingredients = set() # inspiring set of unique ingredients 
     
     def parse_files(self):
         """ Read file of recipes and populates recipe list with recipe object,
@@ -22,15 +22,6 @@ class RecipeManager():
                 self.recipes.append(Recipe(recipe_str))
             self.num_new_recipes += 1
     
-    def get_unique_ingredients(self):
-        """ Iterates through all of the recipe objects and gets all of the unique ingredients.
-        """
-        for recipe in self.recipes:
-            ingredients = recipe.get_flavor_ingredients()
-            for ingredient in ingredients:
-                self.all_ingredients.add(ingredient.get_name())
-        print(f"There are {len(self.all_ingredients)} possible ingredients in the inspiring set")
-
     def crossover(self, recipe1, recipe2):
         """Chooses a random pivot index to concatenate the recipes. Creates a new recipe object. Then
         calls the mutate function on the new recipe and stores what's returned.
@@ -84,7 +75,6 @@ class RecipeManager():
         print(f"\nYou are feeling {emotion.lower()}!\n")
         return emotion
 
-
     def genetic_algo(self):
         """ Iterate len(self.recipes) times. Choose recipe1 and recipe2 based on fitness probabilites
         and cross them over (making new recipe object). Then it's going to call the mutate function on
@@ -135,7 +125,6 @@ def main():
     emotion = manager.get_emotion()
     generations = int(input("How many generations would you like to run this algorithm for? "))
     manager.parse_files()
-    manager.get_unique_ingredients()
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipes() #writes top 5 fittest recipes (after algo) to a file
     print("All done :)")
