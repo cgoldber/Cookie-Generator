@@ -127,8 +127,8 @@ class FlavorIngredients:
         return "\n".join(ing_list)
     
     def __repr__(self) -> str:
-        spices_list = "Spices:\n" + "\n".join([str(ing) for ing in self.spices.values()])
-        mix_ins_list = "Mix-Ins:\n" + "\n".join([str(ing) for ing in self.mix_ins.values()])
-        oils_list = "Oils:\n" + "\n".join([str(ing) for ing in self.oils.values()])
-        toppings_list = "Toppings:\n" + "\n".join([str(ing) for ing in self.toppings.values()])
+        spices_list = "Spices: " + ", ".join([str(ing) for ing in self.spices.values()])
+        mix_ins_list = "Mix-Ins: " + ", ".join([str(ing) for ing in self.mix_ins.values()])
+        oils_list = "Oils: " + ", ".join([str(ing) for ing in self.oils.values()])
+        toppings_list = "Toppings: " + ", ".join([str(ing) for ing in self.toppings.values()])
         return spices_list + mix_ins_list + oils_list + toppings_list

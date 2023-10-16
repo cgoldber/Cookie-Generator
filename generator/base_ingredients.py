@@ -1,6 +1,7 @@
 import numpy as np
 import random
-from ingredient import Ingredient
+from generator.ingredient import Ingredient
+
 
 INGREDIENT_TYPES = {
     "wet": ["egg", "eggs", "milk", "buttermilk"],
@@ -9,6 +10,7 @@ INGREDIENT_TYPES = {
     "sugars": ["white sugar", "brown sugar", "honey", "molasses"],
     "fats": ["butter", "vegetable oil", "olive oil", "coconut oil"]
 }
+
 
 class BaseIngredients: 
     def __init__(self, ing_list): 
@@ -44,11 +46,12 @@ class BaseIngredients:
                 self.dry[name] = ing
             elif name in INGREDIENT_TYPES["wet"]: 
                 self.wet[name] = ing
-            elif name in INGREDIENT_TYPES["fats"]: 
+            elif "butter" in name or name in INGREDIENT_TYPES["fats"]: 
                 self.fats[name] = ing
                 self.base_volumes["fat"] += ing.get_amount()
                 fats_volume += ing.get_amount()
             self.volume += ing.get_amount()
+        if sugar_volume != 0:
             self.base_ratio["sugar"] = (sugar_volume / sugar_volume) * 2 
             self.base_ratio["flour"] = (flour_volume / sugar_volume) * 2
             self.base_ratio["fat"] = (fats_volume / sugar_volume) * 2
@@ -83,7 +86,8 @@ class BaseIngredients:
             self.base_ratio[key] = 2* self.base_volumes[key] / self.base_volumes["sugar"]
  
     def adjust_sugar_ratios(self):
-        """ Adjust types and ratios of sugars (white, brown, honey, molasses) by a random percentage
+        """ Adjust types and ratios of sugars (white, brown, honey, molasses) 
+        by a random percentage
         """
         if len(self.sugars) <= 1: 
             return 
@@ -103,7 +107,8 @@ class BaseIngredients:
             sugar_2.set_amount(sugar_2_amt + new_amt)
 
     def adjust_fat_ratios(self):
-        """ Adjust types and ratios of fats (butter, vegetable oil, olive oil, margarine) 
+        """ Adjust types and ratios of fats (butter, vegetable oil, olive oil, 
+        margarine) 
         """
         if len(self.fats) <= 1: 
             return 
@@ -122,7 +127,6 @@ class BaseIngredients:
             fat_1.set_amount(fat_1_amt - new_amt)
             fat_2.set_amount(fat_2_amt + new_amt)
 
-
     def adjust_eggs(self): 
         """ Adjust ratios and composition of eggs (whole, white, yolks)
         """
@@ -134,14 +138,13 @@ class BaseIngredients:
         elif "eggs" in self.wet.keys():
             self.wet["eggs"] = 25 * num_eggs
 
-
     def change_base_type_volume(self, base_type, change):
-        """ Normalizes volume of a base type (sugar, flour, fat) by evenly distributing the
-        change across all elements of the dictionary, updating total volume for that base type 
-        at the same time
+        """ Normalizes volume of a base type (sugar, flour, fat) by evenly 
+        distributing the change across all elements of the dictionary, updating 
+        total volume for that base type at the same time
             Args:
             base_type (string) : either "sugar", "flour", or "fat"
-            change (int) : number that the total base type volume will change by
+            change (int) : number that total base type volume will change by
         """
         new_volume = 0
         if base_type == "sugar": 
@@ -165,8 +168,8 @@ class BaseIngredients:
         self.base_volumes[base_type] = new_volume
 
     def mutate(self):
-        """ Calls an above mutation, defaulting to adjusting base ratios if other mutations
-        cannot be called
+        """ Calls an above mutation, defaulting to adjusting base ratios if 
+        other mutations cannot be called
         """
         mutation = np.random.randint(0,4)
         if mutation == 0: 
@@ -179,3 +182,25 @@ class BaseIngredients:
             self.adjust_eggs()
         else: 
             self.adjust_base_ratios()
+
+    def __str__(self):
+        ing_list = []
+        for ing in self.flour.values():
+            ing_list.append(str(ing))
+        for ing in self.sugars.values():
+            ing_list.append(str(ing))
+        for ing in self.fats.values():
+            ing_list.append(str(ing))
+        for ing in self.dry.values():
+            ing_list.append(str(ing))
+        for ing in self.wet.values():
+            ing_list.append(str(ing))
+        return "\n".join(ing_list)
+    
+    def __repr__(self) -> str:
+        flour_list = "Flours: " + ", ".join([str(ing) for ing in self.flour.values()])
+        sugar_list = "Sugars: " + ", ".join([str(ing) for ing in self.sugars.values()])
+        fats_list = "Fats: " + ", ".join([str(ing) for ing in self.fats.values()])
+        dry_list = "Dry Ingredients: " + ", ".join([str(ing) for ing in self.dry.values()])
+        wet_list = "Wet Ingredients: " + ", ".join([str(ing) for ing in self.wet.values()])
+        return flour_list + sugar_list + fats_list + dry_list + wet_list
