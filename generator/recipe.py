@@ -84,8 +84,9 @@ class Recipe:
         """ Returns a value indicating how much the recipe coincides with the chosen emotion.
         """
         emotion_alignment_df = pd.read_excel("Ingredient_Matrix.xlsx", header=0, index_col=0)
-        alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion] for ingr in self.flavor_ingredients.keys())    
-        return alignment_sum / len(self.flavor_ingredients.keys())
+        ing_list = self.flavor_ingredients.get_flavor_ing_names()
+        alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion.lower()] for ingr in ing_list)    
+        return alignment_sum / len(ing_list)
         
     def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=1, emotion_coef=1):
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
