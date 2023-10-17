@@ -74,6 +74,7 @@ class Recipe:
                     flavor_score = flavor_pairing.similarity(ingredient1, ingredient2)
                     flavor_scores.append(flavor_score)
         avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
+        print("flavor_pairing_score", avg_flavor_score)
         return avg_flavor_score
     
     def get_inpsiring_dic(self, file):
@@ -111,8 +112,11 @@ class Recipe:
                     insp_vector.append(ingredient_dic[ingr])
                 else:
                     insp_vector.append(0)
-            dot_prod = np.dot(np.array(curr_vector, dtype=float), np.array(insp_vector, dtype=float))
-            dissimilarities.append(1/(dot_prod + 1e-20))
+            #dot_prod = np.dot(np.array(curr_vector, dtype=float), np.array(insp_vector, dtype=float))
+            euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) - np.array(insp_vector, dtype=float))
+            dissimilarities.append(euc_dist)
+        dissimilarities = dissimilarities / max(dissimilarities)
+        print("dissimilarity_score:", np.mean(dissimilarities))
         return np.mean(dissimilarities)
     
     def emotion_score(self):
@@ -121,7 +125,8 @@ class Recipe:
         emotion_alignment_df = pd.read_excel("../Ingredient_Matrix.xlsx")
         emotion_alignment_df.set_index('Ingredient', inplace=True)
         ing_list = self.flavor_ingredients.get_flavor_ing_names()
-        alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion.lower()] for ingr in ing_list)    
+        alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion.lower()] for ingr in ing_list)  
+        print("emotion score:", alignment_sum / (len(ing_list) + 1e-20))  
         return alignment_sum / (len(ing_list) + 1e-20)
         
     def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=1, emotion_coef=1):
