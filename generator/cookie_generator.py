@@ -9,17 +9,17 @@ class RecipeManager():
         self.recipes = []
         self.num_new_recipes = 0
     
-    def parse_files(self):
+    def parse_files(self, emotion):
         """ Read file of recipes and populates recipe list with recipe object,
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "../inspiring_set"
+        dir = "inspiring_set"
         for file in os.listdir(dir):
             print("file:", file)
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
-                self.recipes.append(Recipe(recipe_str))
+                self.recipes.append(Recipe(recipe_str, emotion))
             self.num_new_recipes += 1
     
     def crossover(self, recipe1, recipe2):
@@ -121,7 +121,7 @@ def main():
     manager = RecipeManager()
     emotion = manager.get_emotion()
     generations = int(input("How many generations would you like to run this algorithm for? "))
-    manager.parse_files()
+    manager.parse_files(emotion)
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipes() #writes top 5 fittest recipes (after algo) to a file
     print("All done :)")

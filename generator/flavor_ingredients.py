@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from generator.ingredient import Ingredient
+from ingredient import Ingredient
 
 
 INGREDIENT_TYPES = {

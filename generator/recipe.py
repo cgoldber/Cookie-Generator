@@ -2,12 +2,12 @@ import numpy as np
 import pandas as pd
 import flavor_pairing
 from random import randint
-import generator.flavor_pairing as flavor_pairing
-from generator.ingredient import Ingredient
-from generator.recipe_instructions import RecipeInstructions
-from generator.base_ingredients import BaseIngredients
-from generator.flavor_ingredients import FlavorIngredients
-from generator.flavor_ingredients import INGREDIENT_TYPES
+import flavor_pairing
+from ingredient import Ingredient
+from recipe_instructions import RecipeInstructions
+from base_ingredients import BaseIngredients
+from flavor_ingredients import FlavorIngredients
+from flavor_ingredients import INGREDIENT_TYPES
 
 
 class Recipe:
@@ -83,7 +83,7 @@ class Recipe:
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with the chosen emotion.
         """
-        emotion_alignment_df = pd.read_excel("Ingredient_Matrix.xlsx", header=0, index=0)
+        emotion_alignment_df = pd.read_excel("Ingredient_Matrix.xlsx", header=0, index_col=0)
         alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion] for ingr in self.flavor_ingredients.keys())    
         return alignment_sum / len(self.flavor_ingredients.keys())
         
