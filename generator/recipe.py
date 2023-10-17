@@ -20,7 +20,7 @@ class Recipe:
         self.name = self.name_generator(emotion)
 
     def name_generator(self, emotion: str):
-        Happy_syn = ["Happy", "Delgihted", "Content", "Pleased", "Ecstatic", "Joyful", "Glad", "Jubliant", "Elated", "Merry", "Blissful", "Euphoric"]
+        Happy_syn = ["Happy", "Delighted", "Content", "Pleased", "Ecstatic", "Joyful", "Glad", "Jubliant", "Elated", "Merry", "Blissful", "Euphoric"]
         Sad_syn = ["Unhappy", "Melancholy", "Depressed", "Sorrowful", "Mournful", "Downcast", "Blue", "Woeful", "Gloomy", "Despondent", "Dejected", "Dismal"]
         Angry_syn = ["Furious", "Irritated", "Wrathful", "Enraged", "Indigant", "Irate", "Incensed", "Infuriated", "Agitated", "Outraged", "Fuming", "Vexed"]
         Excited_syn = ["Enthusiastic", "Eager", "Thrilled", "Animated", "Jubliant", "Ecstatic", "Elated", "Overjoyed", "Exhilarated", "Pumped", "Fired-up", "Anticipatory", "Exultant"]
@@ -55,6 +55,8 @@ class Recipe:
                 if "butter" in name and unit == "tbsp":
                     amt *= 14.2
                 ing_list.append(Ingredient(name, amt, unit))
+            if "---" in line:
+                break
         return ing_list
 
     def flavor_pairing_score(self):
@@ -159,29 +161,33 @@ class Recipe:
         instructions += "Step 2: Mix together dry ingredients, combining flour, "
         instructions += self.base_ingredients.get_dry() + ", "
         instructions += self.flavor_ingredients.get_spice()
-        instructions += "in a large bowl. In another bowl, cream together "
+        instructions += " in a large bowl. In another bowl, cream together "
         instructions += self.base_ingredients.get_sugar() + " and  " 
         instructions += self.base_ingredients.get_fat() + ", then add "
-        instructions += self.flavor_ingredients.get_oil() + " and "
-        instructions += self.base_ingredients.get_wet() + ". Add eggs one at a "
-        instructions += "time, mixing thoroughly after each addition.\n"
-        instructions += "Step 3: Gradually add the dry ingredients to the wet "
-        instructions += "ingredients, mixing well. Once mixed, add the "
-        instructions += self.flavor_ingredients.get_mix_in() + ".\nStep 4: "
+        instructions += self.flavor_ingredients.get_oil()
+        if self.base_ingredients.get_wet() != "": 
+            instructions += " and " + self.base_ingredients.get_wet()
+        instructions += ".\nStep 3: Gradually add the dry ingredients to the wet "
+        instructions += "ingredients, mixing well"
+        if self.flavor_ingredients.get_mix_in() != "": 
+            instructions += ". Once mixed, add the "
+            instructions += self.flavor_ingredients.get_mix_in()
+        instructions += ".\nStep 4: "
         if (self.instructions.get_rest_time() > 0):
             instructions += "Let the mixture rest for "
             instructions += str(self.instructions.get_rest_time()) + " hours in "
             instructions += "the refrigerator. "
         instructions += "On a baking sheet lined with parchment paper, add "
-        instructions += str(self.instructions.size()) + " grams of dough, rolled "
-        instructions += "into a sphere. Bake for " + str(self.instructions.bake_time())
+        instructions += str(self.instructions.get_size()) + " grams of dough, rolled "
+        instructions += "into a sphere. Bake for " + str(self.instructions.get_bake_time())
         instructions += " minutes, turning the sheet around halfway through the "
-        instructions += "baking time. Step 6: Let the cookies cool"
+        instructions += "baking time. \nStep 6: Let the cookies cool"
+        print(self.flavor_ingredients.get_topping())
         if self.flavor_ingredients.get_topping() != "":
-            instructions += "."
+            instructions += ".\n"
         else:
             instructions +=  ", then top with " + self.flavor_ingredients.get_topping()
-            instructions += " if desired. "
+            instructions += " if desired. \n"
         return instructions
 
     def mutate(self):
@@ -203,7 +209,8 @@ class Recipe:
     def __str__(self):
         recipe_str = "-" + self.name  + ":\n-Base Ingredients\n" 
         recipe_str += str(self.base_ingredients) + "\n-Flavor Ingredients\n" 
-        recipe_str += str(self.flavor_ingredients) + self.format_instructions()
+        recipe_str += str(self.flavor_ingredients) + "\n---\nInstructions\n"
+        recipe_str += self.format_instructions()
         return recipe_str
     
     def __repr__(self):

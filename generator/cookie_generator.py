@@ -110,13 +110,7 @@ class RecipeManager():
         for i in range(3):
             recipe = top_3[i]
             with open("fittest_recipes/rank_" + str(3 - i), "w") as f:
-                f.write(f"{recipe.get_name()}\n")
-                f.write("-base\n")
-                base_strs = [s + "\n" for s in recipe.get_base_ing_strings()]
-                f.writelines(base_strs)
-                f.write("-flavors\n")
-                flav_strs = [s + "\n" for s in recipe.get_flavor_ing_strings()]
-                f.writelines(flav_strs)
+                f.writelines(str(recipe))
 
 
 def main():

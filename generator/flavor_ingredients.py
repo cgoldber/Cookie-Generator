@@ -138,16 +138,16 @@ class FlavorIngredients:
         return -1
     
     def get_mix_in(self):
-        return self.mix_ins.keys()
+        return ", ".join(self.mix_ins.keys())
     
     def get_oil(self):
-        return self.oils.keys()
+        return ", ".join(self.oils.keys())
     
     def get_topping(self):
-        return self.toppings.keys()
+        return ", ".join(self.toppings.keys())
     
     def get_spice(self):
-        return self.spices.keys()
+        return ", ".join(self.spices.keys())
 
     def __str__(self):
         ing_list = []

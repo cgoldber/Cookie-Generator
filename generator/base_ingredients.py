@@ -167,16 +167,16 @@ class BaseIngredients:
         self.base_volumes[base_type] = new_volume
         
     def get_dry(self):
-        return self.dry.keys()
+        return ", ".join(self.dry.keys())
     
     def get_sugar(self):
-        return self.sugars.keys()
+        return ", ".join(self.sugars.keys())
     
     def get_fat(self):
-        return self.fats.keys()
+        return ", ".join(self.fats.keys())
     
     def get_wet(self):
-        return self.wet.keys()
+        return ", ".join(self.wet.keys())
     
     def mutate(self):
         """ Calls an above mutation, defaulting to adjusting base ratios if 
