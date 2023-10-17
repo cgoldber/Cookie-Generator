@@ -7,28 +7,28 @@ INGREDIENT_TYPES = {
     "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger",  "nutmeg", 
                "black pepper", "cocoa", "basil", 
                "mint", "rosemary", "fennel", "thyme", "coriander","turmeric",
-               "anise","chamomile","chive","peppermint","spearmint",
+               "anise","chamomile","chive","spearmint",
                "thyme", "black tea","green tea","sage","parsley", 
-               "garlic", "flaxseed","dill","cocoa","beetroot","coffee","cumin",
+               "garlic", "flaxseed","dill","cocoa","coffee","cumin",
                "oregano",],
-    "mix-ins": ["apple", "apricot", "artichoke", "banana",  "beetroot", 
+    "mix-ins": ["apple", "apricot", "banana",  "beetroot", 
                 "black raspberry", "blackberry", "blueberry", "brazil nut", 
-                "camembert cheese", "capers", "cashew nut", "cherry", 
+                "camembert cheese", "cashew nut", "cherry", 
                 "chestnut", "chocolate", "citrus", "citrus zest", "coconut",
-                "comte cheese", "corn", "cottage cheese", "cranberry", 
-                "cream cheese", "cucumber", "currant", "dates", "elderberry", 
-                "fig", "garlic", "goat cheese", "grape", "grapefruit", 
+                "corn", "cottage cheese", "cranberry", 
+                "cream cheese", "currant", "dates", "elderberry", 
+                "fig", "goat cheese", "grape", "grapefruit", 
                 "grapefruit zest", "gruyere cheese", "guava", "hazelnut", 
                 "kiwifruit", "lemon", "lemon balm", "lemon zest", "licorice", 
                 "lime", "lime zest", "macadamia nut", "mandarin orange", 
                 "mandarin orange zest", "mango", "melon", "nut", "oats", 
-                "olive", "onion", "orange", "papaya", "parmesan cheese", 
+                "orange", "papaya", "parmesan cheese", 
                 "passionfruit", "peach", "peanut", "peanut butter", "pear", 
                 "pecan", "persimmon", "pineapple", "pistachio", "plum", 
                 "pomegranate", "poppy seed",  "pumpkin", "raisin", "raspberry", 
                 "rhubarb", "rose",  "starfruit", "strawberry", "sunflower", 
                 "tamarind", "tangerine", "walnut", "wasabi", "zucchini"],
-    "oils": ["lavender", "soy sauce", "vanilla", "almond"],
+    "oils": ["lavender", "soy sauce", "vanilla","peppermint"],
     "toppings": ["flaky sea salt", "caramel drizzle", "honey", "citrus zest"]
 }
 
@@ -64,17 +64,29 @@ class FlavorIngredients:
     def add_ingredient(self):
         """ With equal probability, add a new spice or a new mix-in
         """
-        prob = np.random.randint(0,1)
+        prob = np.random.randint(0,3)
         if prob == 0:
             new_spice = np.random.choice(tuple(INGREDIENT_TYPES["spices"]))
             amt = random.randint(1,4) * 0.5
             new_ing = Ingredient(new_spice, amt, "tsp")
             self.spices[new_spice] = new_ing
-        else: 
+        elif prob == 1: 
             new_mix_in = np.random.choice(tuple(INGREDIENT_TYPES["mix-ins"]))
             amt = random.randint(1,4) * 50
             new_ing = Ingredient(new_mix_in, amt)
             self.mix_ins[new_mix_in] = new_ing
+        elif prob == 2:
+            new_oil = np.random.choice(tuple(INGREDIENT_TYPES["oils"]))
+            amt = random.randint(1,4) * 0.5
+            new_ing = Ingredient(new_oil, amt, "tsp")
+            self.oils[new_oil] = new_ing
+        else: 
+            new_topping = np.random.choice(tuple(INGREDIENT_TYPES["toppings"]))
+            amt = random.randint(1,4) * 25
+            new_ing = Ingredient(new_oil, amt)
+            self.toppings[new_topping] = new_ing
+
+
 
     def delete_ingredient(self):
         """ With equal probability, delete a spice or mix-in
@@ -96,7 +108,7 @@ class FlavorIngredients:
             del self.spices[spice]
             new_spice = np.random.choice(tuple(INGREDIENT_TYPES["spices"]))
             # preset volume to 0.5 oz 
-            new_ing = Ingredient(new_spice, .5)
+            new_ing = Ingredient(new_spice, .5, "tsp")
             self.spices[new_spice] = new_ing
         elif len(self.mix_ins.keys()) > 0: 
             mix_in = np.random.choice(tuple(self.mix_ins.keys()))

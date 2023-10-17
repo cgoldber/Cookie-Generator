@@ -11,12 +11,12 @@ from flavor_ingredients import INGREDIENT_TYPES
 
 
 class Recipe:
-    def __init__(self, recipe_strs, emotion="default"):
+    def __init__(self, recipe_strs, emotion="default", instructions=RecipeInstructions()):
         self.emotion = emotion
         ing_list = self.make_ingredient_list(recipe_strs)
         self.base_ingredients = BaseIngredients(ing_list)
         self.flavor_ingredients = FlavorIngredients(ing_list)
-        self.instructions = RecipeInstructions()
+        self.instructions = instructions
         self.name = self.name_generator(emotion)
 
     def name_generator(self, emotion: str):
@@ -153,6 +153,11 @@ class Recipe:
         """Returns the flavor ingredient list
         """
         return self.flavor_ingredients.values()
+    
+    def get_instructions(self):
+        """Returns RecipeInstruction object. 
+        """
+        return self.instructions
 
     def get_name(self):
         """Returns the name of the recipe.
@@ -203,15 +208,15 @@ class Recipe:
         flavor ingredients, or recipe instruction with set probability (20%,
         60%, and 20% respectively).
         """
-        mutate = np.random.choice([True, False], p=[0.2,0.8])
+        mutate = np.random.choice([True, False], p=[0.3,0.7])
         if mutate: 
-            mutation = np.random.choice(["base", "flavor", "instructions"],p=[0.2,0.7,0.1])
-            if mutation == "base": 
-                self.base_ingredients.mutate()
-            elif mutation == "flavor": 
-                self.flavor_ingredients.mutate()
-            elif mutation == "instructions": 
-                self.instructions.mutate()
+            self.flavor_ingredients.mutate()        
+        mutate = np.random.choice([True, False], p=[0.3,0.7])
+        if mutate: 
+            self.base_ingredients.mutate()
+        mutate = np.random.choice([True, False], p=[0.3,0.7])
+        if mutate: 
+            self.instructions.mutate()
 
     def __str__(self):
         recipe_str = "-" + self.name  + ":\n-Base Ingredients\n" 

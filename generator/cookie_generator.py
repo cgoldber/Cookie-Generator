@@ -40,11 +40,15 @@ class RecipeManager():
                                          len(recipe1_flavor_strs)))
         new_flavors = recipe1_flavor_strs[:pivot] + recipe2_flavor_strs[pivot:]
 
+        # choose instructions of one recipe with equal probability 
+        new_instructions = np.random.choice([recipe1, recipe2]).get_instructions()
+
         if "b" in new_base:
             print(new_base)
         elif "b" in new_flavors:
             print(new_flavors)
-        new_recipe = Recipe(new_base + new_flavors, emotion=emotion)
+        new_recipe = Recipe(new_base + new_flavors, emotion=emotion, 
+                            instructions=new_instructions)
         self.num_new_recipes += 1
 
         # call recipe to be potentially mutated

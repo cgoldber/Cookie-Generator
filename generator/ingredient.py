@@ -30,6 +30,8 @@ class Ingredient:
         if ("butter" in self.name and "peanut" not in self.name):
             return str(round(self.amount / 14.2)) + " tbsp " + self.name
         unit = " " + self.unit + " "
+        if self.unit == "g":
+            return str(round(self.amount)) + unit + self.name
         return str(round(self.amount, 2)) + unit + self.name
     
     def __repr__(self):
