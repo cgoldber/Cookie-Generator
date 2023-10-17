@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import pandas as pd
 import flavor_pairing
 from random import randint
@@ -74,10 +75,49 @@ class Recipe:
         avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
         return avg_flavor_score
     
+    def get_Ingredients_and_Amounts(self, file):
+       
+        with open(dir + "/" + file, "r") as f:
+                lines = f.readlines()
+        ingredients = []
+       
+        for line in lines:
+            if  "Ingredients" not in line:
+                parts = line.split(" g ")
+                ingredients.append((parts[0],parts[1]))
+        return ingredients
+       
     def dissimilarity_score(self):
         """ Returns a value indicating how disimilar the recipe is from those in the inspiring set.
         """
-        return 0
+        dot_products = []
+        dir = "../inspiring_set"
+        for inspiringRecipe in os.listdir(dir): #this is wrong need help here
+            inspiringIngredient = self.get_Ingredients_and_Amounts(inspiringRecipe)
+            recipeAmounts = []
+            inspiringAmounts = []
+            inspiringList = []
+           
+            for ingredient in inspiringIngredient:
+                if ingredient[0] not in self.get_flavor_ingredient_strings() or ingredient[0] not in self.get_base_ingredient_strings(): # if only in inspiring set
+                     inspiringAmounts.append(ingredient[1])
+                     recipeAmounts.append(0.0) 
+                     inspiringList.append(ingredient[0])
+            for  flavor in self.get_flavor_ingredient_strings(): # this part add all of the flavors from the original recipe to both vectors
+                recipeAmounts.append(self.flavor_ingredients[flavor].get_amount())
+                if flavor in inspiringList:
+                    inspiringAmounts.append(inspiringRecipe.flavor_ingredients[flavor].get_amount())
+                else:
+                    inspiringAmounts.append(0.0)
+            for  base in self.get_base_ingredient_strings():  # this part adds all of the bases from the original recipe to both vectors
+                recipeAmounts(self.base_ingredients[base].get_amount())
+                if base in inspiringList:
+                    inspiringAmounts.append(inspiringRecipe.base_ingredients[base].get_amount())
+                else:
+                    inspiringAmounts.append(0.0)         
+            dot_product = np.dot(recipeAmounts,inspiringAmounts)
+            dot_products.append(dot_product)
+        return mean(dot_products)
     
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with the chosen emotion.
