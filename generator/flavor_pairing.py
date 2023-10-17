@@ -10,8 +10,8 @@ large datasets as part of your design process.
 
 import numpy as np
 
-WORD_EMBED_VALS = np.load('generator/flavors/ingred_word_emb.npy', allow_pickle=True).item()
-INGRED_CATEGORIES = np.load('generator/flavors/ingred_categories.npy', allow_pickle=True).item()
+WORD_EMBED_VALS = np.load('flavors/ingred_word_emb.npy', allow_pickle=True).item()
+INGRED_CATEGORIES = np.load('flavors/ingred_categories.npy', allow_pickle=True).item()
 INGREDIENT_LIST = sorted(WORD_EMBED_VALS.keys())
 
 def similarity(n1, n2):
