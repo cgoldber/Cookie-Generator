@@ -40,7 +40,6 @@ class Recipe:
         ing_list = []
         for line in recipe_strs: 
             if not line.startswith("-") and line != "":
-                information = "blub"
                 if " g " in line: 
                     information = line.split(" g ")
                     unit = "g"
@@ -132,16 +131,17 @@ class Recipe:
         else:
             return alignment_sum / (len(ing_list))
         
-    def get_fitness(self, flavor_pairing_coef=.1, dissimilarity_coef=.4, emotion_coef=20, do_print=False):
+    def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=10, emotion_coef=50, do_print=False):
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
         recipes in the inspiring set, and how much the recipe coincides with the chosen emotion.
         """
         flavor_comp = self.flavor_pairing_score() * flavor_pairing_coef
         dissimilarity_comp = self.dissimilarity_score() * dissimilarity_coef 
         emotion_comp = self.emotion_score() * emotion_coef
+        len_comp = len(self.get_flavor_ing_strings())
         if do_print:
-            print(f"flavor: {round(flavor_comp, 2)}, dissimilarity: {round(dissimilarity_comp, 2)}, emotion: {round(emotion_comp, 2)}")
-        return flavor_comp + dissimilarity_comp + emotion_comp + len(self.get_flavor_ing_strings())
+            print(f"flavor: {round(flavor_comp, 2)}, dissimilarity: {round(dissimilarity_comp, 2)}, emotion: {round(emotion_comp, 2)}, length: {round(len_comp, 2)}")
+        return flavor_comp + dissimilarity_comp + emotion_comp + len_comp
         
     def get_base_ing_strings(self): 
         return str(self.base_ingredients).split("\n")
