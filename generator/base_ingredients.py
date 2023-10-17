@@ -46,7 +46,7 @@ class BaseIngredients:
                 self.dry[name] = ing
             elif name in INGREDIENT_TYPES["wet"]: 
                 self.wet[name] = ing
-            elif "butter" in name or name in INGREDIENT_TYPES["fats"]: 
+            elif ("butter" in name and "peanut" not in name) or name in INGREDIENT_TYPES["fats"]: 
                 self.fats[name] = ing
                 self.base_volumes["fat"] += ing.get_amount()
                 fats_volume += ing.get_amount()
@@ -165,7 +165,19 @@ class BaseIngredients:
                 ing.set_amount(ing_volume)
                 new_volume += ing_volume
         self.base_volumes[base_type] = new_volume
-
+        
+    def get_dry(self):
+        return self.dry.keys()
+    
+    def get_sugar(self):
+        return self.sugars.keys()
+    
+    def get_fat(self):
+        return self.fats.keys()
+    
+    def get_wet(self):
+        return self.wet.keys()
+    
     def mutate(self):
         """ Calls an above mutation, defaulting to adjusting base ratios if 
         other mutations cannot be called
