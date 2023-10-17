@@ -76,7 +76,6 @@ class Recipe:
                     flavor_score = flavor_pairing.similarity(ingredient1, ingredient2)
                     flavor_scores.append(flavor_score)
         avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
-        print("flavor_pairing:", avg_flavor_score)
         return avg_flavor_score
     
     def get_inpsiring_dic(self, file):
@@ -118,7 +117,6 @@ class Recipe:
             euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) - np.array(insp_vector, dtype=float))
             dissimilarities.append(euc_dist)
         dissimilarities = dissimilarities / max(dissimilarities)
-        print("dissimilarity:", np.mean(dissimilarities))
         return np.mean(dissimilarities)
     
     def emotion_score(self):
@@ -130,19 +128,20 @@ class Recipe:
         alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion.lower()] for ingr in ing_list)
 
         if len(ing_list) == 0:
-            print("emotion:", 0)
             return 0
         else:
-            print("emotion:", alignment_sum / (len(ing_list)))
             return alignment_sum / (len(ing_list))
         
-    def get_fitness(self, flavor_pairing_coef=.4, dissimilarity_coef=.4, emotion_coef=1):
+    def get_fitness(self, flavor_pairing_coef=.1, dissimilarity_coef=.4, emotion_coef=20, do_print=False):
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
         recipes in the inspiring set, and how much the recipe coincides with the chosen emotion.
         """
-        return self.flavor_pairing_score() * flavor_pairing_coef + \
-        self.dissimilarity_score() * dissimilarity_coef + \
-        self.emotion_score() * emotion_coef
+        flavor_comp = self.flavor_pairing_score() * flavor_pairing_coef
+        dissimilarity_comp = self.dissimilarity_score() * dissimilarity_coef 
+        emotion_comp = self.emotion_score() * emotion_coef
+        if do_print:
+            print(f"flavor: {round(flavor_comp, 2)}, dissimilarity: {round(dissimilarity_comp, 2)}, emotion: {round(emotion_comp, 2)}")
+        return flavor_comp + dissimilarity_comp + emotion_comp + len(self.get_flavor_ing_strings())
         
     def get_base_ing_strings(self): 
         return str(self.base_ingredients).split("\n")

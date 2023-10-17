@@ -16,7 +16,6 @@ class RecipeManager():
         print("Reading Initial Recipe Files")
         dir = "../inspiring_set"
         for file in os.listdir(dir):
-            print("file:", file)
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
                 self.recipes.append(Recipe(recipe_str, emotion))
@@ -41,6 +40,10 @@ class RecipeManager():
                                          len(recipe1_flavor_strs)))
         new_flavors = recipe1_flavor_strs[:pivot] + recipe2_flavor_strs[pivot:]
 
+        if "b" in new_base:
+            print(new_base)
+        elif "b" in new_flavors:
+            print(new_flavors)
         new_recipe = Recipe(new_base + new_flavors, emotion=emotion)
         self.num_new_recipes += 1
 
@@ -109,6 +112,7 @@ class RecipeManager():
         top_3 = sorted_recipes[-3:]
         for i in range(3):
             recipe = top_3[i]
+            recipe.get_fitness(do_print=True)
             with open("fittest_recipes/rank_" + str(3 - i), "w") as f:
                 f.writelines(str(recipe))
 
