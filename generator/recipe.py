@@ -94,12 +94,7 @@ class Recipe:
         return self.flavor_pairing_score() * flavor_pairing_coef + \
         self.dissimilarity_score() * dissimilarity_coef + \
         self.emotion_score() * emotion_coef
-    
-    def get_base_ingredient_strings(self):
-        """Returns the ingredients of the recipes as a list of strings
-        """
-        return [str(ingredient) for ingredient in self.base_ingredients.values()]
-    
+        
     def get_base_ing_strings(self): 
         return str(self.base_ingredients).split("\n")
     
