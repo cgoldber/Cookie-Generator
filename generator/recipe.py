@@ -33,7 +33,7 @@ class Recipe:
                 words = Emotional_repetoire[emotion]
                 words_syn = words[randint(0,11)]
                 
-        return words_syn + str(emotion).capitalize() + "Cookies"        
+        return words_syn + " " + str(emotion).capitalize() + " Cookies"        
         #return str(emotion).capitalize() + " Cookies"
     
     def make_ingredient_list(self, recipe_strs):
