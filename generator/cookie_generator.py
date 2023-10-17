@@ -115,6 +115,15 @@ class RecipeManager():
             recipe.get_fitness(do_print=True)
             with open("fittest_recipes/rank_" + str(3 - i), "w") as f:
                 f.writelines(str(recipe))
+    
+    def write_fittest_recipe(self):
+        """ Writes the top fittest recipe to files in the fittest recipes folder.
+        """
+        sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
+        recipe = sorted_recipes[-1]
+        recipe.get_fitness(do_print=True)
+        with open("fittest_recipes/rank_" + str(1), "w") as f:
+            f.writelines(str(recipe))
 
 
 def main():
@@ -123,7 +132,7 @@ def main():
     generations = int(input("How many generations would you like to run this algorithm for? "))
     manager.parse_files(emotion)
     manager.run_genetic_algo(generations, emotion)
-    manager.write_fittest_recipes() #writes top 5 fittest recipes (after algo) to a file
+    manager.write_fittest_recipe() #writes top 5 fittest recipes (after algo) to a file
     print("All done :)")
 
 
