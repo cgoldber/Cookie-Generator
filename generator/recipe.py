@@ -76,14 +76,13 @@ class Recipe:
         return avg_flavor_score
     
     def get_Ingredients_and_Amounts(self, file):
-       
-        with open(dir + "/" + file, "r") as f:
+        with open(file, "r") as f:
                 lines = f.readlines()
         ingredients = []
        
         for line in lines:
-            if  "Ingredients" not in line:
-                parts = line.split(" g ")
+            if "Ingredients" not in line:
+                parts = [line.split(' ')[0], ' '.join(line.split(' ')[2:])]
                 ingredients.append((parts[0],parts[1]))
         return ingredients
        
@@ -93,17 +92,17 @@ class Recipe:
         dot_products = []
         dir = "../inspiring_set"
         for inspiringRecipe in os.listdir(dir): #this is wrong need help here
-            inspiringIngredient = self.get_Ingredients_and_Amounts(inspiringRecipe)
+            inspiringIngredient = self.get_Ingredients_and_Amounts(dir + "/" + inspiringRecipe)
             recipeAmounts = []
             inspiringAmounts = []
             inspiringList = []
            
             for ingredient in inspiringIngredient:
-                if ingredient[0] not in self.get_flavor_ingredient_strings() or ingredient[0] not in self.get_base_ingredient_strings(): # if only in inspiring set
-                     inspiringAmounts.append(ingredient[1])
+                if ingredient[1] not in self.get_flavor_ing_strings() or ingredient[1] not in self.get_base_ingredient_strings(): # if only in inspiring set
+                     inspiringAmounts.append(ingredient[0])
                      recipeAmounts.append(0.0) 
                      inspiringList.append(ingredient[0])
-            for  flavor in self.get_flavor_ingredient_strings(): # this part add all of the flavors from the original recipe to both vectors
+            for flavor in self.get_flavor_ing_strings(): # this part add all of the flavors from the original recipe to both vectors
                 recipeAmounts.append(self.flavor_ingredients[flavor].get_amount())
                 if flavor in inspiringList:
                     inspiringAmounts.append(inspiringRecipe.flavor_ingredients[flavor].get_amount())
@@ -117,7 +116,9 @@ class Recipe:
                     inspiringAmounts.append(0.0)         
             dot_product = np.dot(recipeAmounts,inspiringAmounts)
             dot_products.append(dot_product)
-        return mean(dot_products)
+        return 1 / np.mean(dot_products)
+
+    
     
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with the chosen emotion.
