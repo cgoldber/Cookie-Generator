@@ -149,6 +149,40 @@ class Recipe:
         """Returns the name of the recipe.
         """
         return self.name
+    
+    def format_instructions(self):
+        """ Returns formatted, step-by-step instructions for the recipe with
+        elements from the base ingredient, flavor ingredient, and instruction 
+        attributes of the Recipe object. 
+        """
+        instructions = "Step 1: Preheat the oven to " + str(self.instructions.get_temp()) + " degrees F.\n"
+        instructions += "Step 2: Mix together dry ingredients, combining flour, "
+        instructions += self.base_ingredients.get_dry() + ", "
+        instructions += self.flavor_ingredients.get_spice()
+        instructions += "in a large bowl. In another bowl, cream together "
+        instructions += self.base_ingredients.get_sugar() + " and  " 
+        instructions += self.base_ingredients.get_fat() + ", then add "
+        instructions += self.flavor_ingredients.get_oil() + " and "
+        instructions += self.base_ingredients.get_wet() + ". Add eggs one at a "
+        instructions += "time, mixing thoroughly after each addition.\n"
+        instructions += "Step 3: Gradually add the dry ingredients to the wet "
+        instructions += "ingredients, mixing well. Once mixed, add the "
+        instructions += self.flavor_ingredients.get_mix_in() + ".\nStep 4: "
+        if (self.instructions.get_rest_time() > 0):
+            instructions += "Let the mixture rest for "
+            instructions += str(self.instructions.get_rest_time()) + " hours in "
+            instructions += "the refrigerator. "
+        instructions += "On a baking sheet lined with parchment paper, add "
+        instructions += str(self.instructions.size()) + " grams of dough, rolled "
+        instructions += "into a sphere. Bake for " + str(self.instructions.bake_time())
+        instructions += " minutes, turning the sheet around halfway through the "
+        instructions += "baking time. Step 6: Let the cookies cool"
+        if self.flavor_ingredients.get_topping() != "":
+            instructions += "."
+        else:
+            instructions +=  ", then top with " + self.flavor_ingredients.get_topping()
+            instructions += " if desired. "
+        return instructions
 
     def mutate(self):
         """Based on some set probability (20%), returns original recipe 80% of 
@@ -167,7 +201,9 @@ class Recipe:
                 self.instructions.mutate()
 
     def __str__(self):
-        recipe_str = "# " + self.name  + ":\n" + str(self.base_ingredients) + "\n" + str(self.flavor_ingredients)
+        recipe_str = "-" + self.name  + ":\n-Base Ingredients\n" 
+        recipe_str += str(self.base_ingredients) + "\n-Flavor Ingredients\n" 
+        recipe_str += str(self.flavor_ingredients) + self.format_instructions()
         return recipe_str
     
     def __repr__(self):

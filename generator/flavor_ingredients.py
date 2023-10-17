@@ -136,6 +136,18 @@ class FlavorIngredients:
             if ingr_name in flav_type.keys():
                 return flav_type[ingr_name].get_amount()
         return -1
+    
+    def get_mix_in(self):
+        return self.mix_ins.keys()
+    
+    def get_oil(self):
+        return self.oils.keys()
+    
+    def get_topping(self):
+        return self.toppings.keys()
+    
+    def get_spice(self):
+        return self.spices.keys()
 
     def __str__(self):
         ing_list = []
