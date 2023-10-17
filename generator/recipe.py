@@ -40,6 +40,7 @@ class Recipe:
         ing_list = []
         for line in recipe_strs: 
             if not line.startswith("-") and line != "":
+                information = "blub"
                 if " g " in line: 
                     information = line.split(" g ")
                     unit = "g"
@@ -94,8 +95,8 @@ class Recipe:
         #get curr recipe vector
         curr_vector = []
         for ingr in ingredients:
-            if ingr in self.get_flavor_ing_strings():
-                curr_vector.append(self.flavor_ingredients[ingr].get_amount())
+            if ingr in self.flavor_ingredients.get_flavor_ing_names():
+                curr_vector.append(self.flavor_ingredients.get_amount_byname(ingr))
             else:
                 curr_vector.append(0)
 
@@ -121,7 +122,7 @@ class Recipe:
         emotion_alignment_df.set_index('Ingredient', inplace=True)
         ing_list = self.flavor_ingredients.get_flavor_ing_names()
         alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion.lower()] for ingr in ing_list)    
-        return alignment_sum / len(ing_list)
+        return alignment_sum / (len(ing_list) + 1e-20)
         
     def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=1, emotion_coef=1):
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from

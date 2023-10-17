@@ -130,6 +130,13 @@ class FlavorIngredients:
             ing_list.append(ing.get_name())
         return ing_list
 
+    def get_amount_byname(self, ingr_name):
+        all_types = [self.spices, self.mix_ins, self.oils, self.toppings]
+        for flav_type in all_types:
+            if ingr_name in flav_type.keys():
+                return flav_type[ingr_name].get_amount()
+        return -1
+
     def __str__(self):
         ing_list = []
         for ing in self.spices.values():
