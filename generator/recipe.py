@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import flavor_pairing
 from random import randint
-import flavor_pairing
 from ingredient import Ingredient
 from recipe_instructions import RecipeInstructions
 from base_ingredients import BaseIngredients
