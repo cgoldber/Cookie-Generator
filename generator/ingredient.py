@@ -27,7 +27,7 @@ class Ingredient:
     def __str__(self):
         """ Returns a string representation of the ingredient.
         """
-        if "butter" in self.name:
+        if ("butter" in self.name and "peanut" not in self.name):
             return str(round(self.amount / 14.2)) + " tbsp " + self.name
         unit = " " + self.unit + " "
         return str(round(self.amount, 2)) + unit + self.name
