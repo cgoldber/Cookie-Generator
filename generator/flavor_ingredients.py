@@ -7,29 +7,29 @@ INGREDIENT_TYPES = {
     "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger",  "nutmeg", 
                "black pepper", "cocoa", "basil", 
                "mint", "rosemary", "fennel", "thyme", "coriander","turmeric",
-               "anise","chamomile","chive","spearmint",
-               "thyme", "black tea","green tea","sage","parsley", 
+               "anise","chamomile","chive","spearmint","lemon", "lemon balm", 
+               "lemon zest", "grapefruit", "lime", "lime zest",
+                "grapefruit zest", "mandarin orange", "citrus zest",
+                "mandarin orange zest",
+               "thyme", "black tea","green tea","sage","parsley", "poppy seed", 
                "garlic", "flaxseed","dill","cocoa","coffee","cumin",
-               "oregano",],
+               "oregano","wasabi"],
     "mix-ins": ["apple", "apricot", "banana",  "beetroot", 
                 "black raspberry", "blackberry", "blueberry", "brazil nut", 
                 "camembert cheese", "cashew nut", "cherry", 
-                "chestnut", "chocolate", "citrus", "citrus zest", "coconut",
-                "corn", "cottage cheese", "cranberry", 
+                "chestnut", "chocolate", "citrus",  "coconut",
+                "corn", "cranberry", 
                 "cream cheese", "currant", "dates", "elderberry", 
-                "fig", "goat cheese", "grape", "grapefruit", 
-                "grapefruit zest", "gruyere cheese", "guava", "hazelnut", 
-                "kiwifruit", "lemon", "lemon balm", "lemon zest", "licorice", 
-                "lime", "lime zest", "macadamia nut", "mandarin orange", 
-                "mandarin orange zest", "mango", "melon", "nut", "oats", 
+                "fig", "goat cheese", "grape", "gruyere cheese", "guava", "hazelnut", 
+                "kiwifruit",  "licorice", 
+                 "macadamia nut", "mango", "melon", "nut", "oats", 
                 "orange", "papaya", "parmesan cheese", 
                 "passionfruit", "peach", "peanut", "peanut butter", "pear", 
                 "pecan", "persimmon", "pineapple", "pistachio", "plum", 
-                "pomegranate", "poppy seed",  "pumpkin", "raisin", "raspberry", 
-                "rhubarb", "rose",  "starfruit", "strawberry", "sunflower", 
-                "tamarind", "tangerine", "walnut", "wasabi", "zucchini"],
+                "pomegranate", "pumpkin", "raisin", "raspberry", 
+                "rhubarb", "starfruit", "strawberry", "sunflower", 
+                "tamarind", "tangerine", "walnut", "zucchini"],
     "oils": ["lavender", "soy sauce", "vanilla","peppermint"],
-    "toppings": ["flaky sea salt", "caramel drizzle", "honey", "citrus zest"]
 }
 
 
@@ -38,7 +38,6 @@ class FlavorIngredients:
         self.spices = {}
         self.mix_ins = {}
         self.oils = {}
-        self.toppings = {}
 
         self.sort_ingredients(ing_list)
     
@@ -55,8 +54,6 @@ class FlavorIngredients:
                 self.spices[name] = ing
             elif name in INGREDIENT_TYPES["mix-ins"]: 
                 self.mix_ins[name] = ing
-            elif name in INGREDIENT_TYPES["toppings"]: 
-                self.toppings[name] = ing
             elif name in INGREDIENT_TYPES["oils"]: 
                 self.oils[name] = ing
 
@@ -75,18 +72,12 @@ class FlavorIngredients:
             amt = random.randint(1,4) * 50
             new_ing = Ingredient(new_mix_in, amt)
             self.mix_ins[new_mix_in] = new_ing
+            self.normalize_mix_in_amt()
         elif prob == 2:
             new_oil = np.random.choice(tuple(INGREDIENT_TYPES["oils"]))
             amt = random.randint(1,4) * 0.5
             new_ing = Ingredient(new_oil, amt, "tsp")
             self.oils[new_oil] = new_ing
-        else: 
-            new_topping = np.random.choice(tuple(INGREDIENT_TYPES["toppings"]))
-            amt = random.randint(1,4) * 25
-            new_ing = Ingredient(new_oil, amt)
-            self.toppings[new_topping] = new_ing
-
-
 
     def delete_ingredient(self):
         """ With equal probability, delete a spice or mix-in
@@ -118,6 +109,17 @@ class FlavorIngredients:
             new_ing = Ingredient(new_mix_in, 50)
             self.mix_ins[new_mix_in] = new_ing
 
+    def normalize_mix_in_amt(self):
+        volume = 0
+        for mix_in in self.mix_ins.values():
+            volume += mix_in.get_amount()
+        if volume <= 250:
+            return
+        multiplier = 250 / volume
+        for mix_in in self.mix_ins.values():
+            amt = mix_in.get_amount() * multiplier
+            mix_in.set_amount(amt)
+
     def mutate(self):
         """ Calls an above mutation with equal probability.
         """
@@ -130,7 +132,7 @@ class FlavorIngredients:
             self.swap_ingredient()
 
     def get_flavor_ing_names(self):
-        """ Returns a list of non-topping flavors to be evaluated with a flavor
+        """ Returns a list of flavors to be evaluated with a flavor
         pairing score in the Recipe class.
         """
         ing_list = []
@@ -143,7 +145,7 @@ class FlavorIngredients:
         return ing_list
 
     def get_amount_byname(self, ingr_name):
-        all_types = [self.spices, self.mix_ins, self.oils, self.toppings]
+        all_types = [self.spices, self.mix_ins, self.oils]
         for flav_type in all_types:
             if ingr_name in flav_type.keys():
                 return flav_type[ingr_name].get_amount()
@@ -154,10 +156,7 @@ class FlavorIngredients:
     
     def get_oil(self):
         return ", ".join(self.oils.keys())
-    
-    def get_topping(self):
-        return ", ".join(self.toppings.keys())
-    
+        
     def get_spice(self):
         return ", ".join(self.spices.keys())
 
@@ -169,13 +168,10 @@ class FlavorIngredients:
             ing_list.append(str(ing))
         for ing in self.oils.values():
             ing_list.append(str(ing))
-        for ing in self.toppings.values():
-            ing_list.append(str(ing))
         return "\n".join(ing_list)
     
     def __repr__(self) -> str:
         spices_list = "Spices: " + ", ".join([str(ing) for ing in self.spices.values()]) + ", "
         mix_ins_list = "Mix-Ins: " + ", ".join([str(ing) for ing in self.mix_ins.values()]) + ", "
         oils_list = "Oils: " + ", ".join([str(ing) for ing in self.oils.values()]) + ", "
-        toppings_list = "Toppings: " + ", ".join([str(ing) for ing in self.toppings.values()]) + ", "
-        return spices_list + mix_ins_list + oils_list + toppings_list
+        return spices_list + mix_ins_list + oils_list 

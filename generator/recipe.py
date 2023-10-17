@@ -131,7 +131,7 @@ class Recipe:
         else:
             return alignment_sum / (len(ing_list))
         
-    def get_fitness(self, flavor_pairing_coef=1, dissimilarity_coef=5, emotion_coef=300, do_print=False):
+    def get_fitness(self, flavor_pairing_coef=6, dissimilarity_coef=5, emotion_coef=100, do_print=False):
         """Returns fitness score considering how well the flavors are paired, how dissimilar the recipe is from
         recipes in the inspiring set, and how much the recipe coincides with the chosen emotion.
         """
@@ -193,13 +193,7 @@ class Recipe:
         instructions += str(self.instructions.get_size()) + " grams of dough, rolled "
         instructions += "into a sphere. Bake for " + str(self.instructions.get_bake_time())
         instructions += " minutes, turning the sheet around halfway through the "
-        instructions += "baking time. \nStep 6: Let the cookies cool"
-        print(self.flavor_ingredients.get_topping())
-        if self.flavor_ingredients.get_topping() != "":
-            instructions += ".\n"
-        else:
-            instructions +=  ", then top with " + self.flavor_ingredients.get_topping()
-            instructions += " if desired. \n"
+        instructions += "baking time. \nStep 6: Let the cookies cool."
         return instructions
 
     def mutate(self):
@@ -208,9 +202,10 @@ class Recipe:
         flavor ingredients, or recipe instruction with set probability (20%,
         60%, and 20% respectively).
         """
-        mutate = np.random.choice([True, False], p=[0.3,0.7])
-        if mutate: 
-            self.flavor_ingredients.mutate()        
+        # mutate = np.random.choice([True, False], p=[0.8,0.2])
+        # if mutate: 
+        #     self.flavor_ingredients.mutate()       
+        self.flavor_ingredients.mutate()         
         mutate = np.random.choice([True, False], p=[0.3,0.7])
         if mutate: 
             self.base_ingredients.mutate()
