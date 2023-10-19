@@ -1,6 +1,7 @@
 import numpy as np
 import os
 from recipe import Recipe
+from Spotify import Spotify
 
 
 class RecipeManager():
@@ -14,7 +15,7 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "../inspiring_set"
+        dir = "inspiring_set"
         for file in os.listdir(dir):
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
@@ -126,17 +127,25 @@ class RecipeManager():
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         recipe = sorted_recipes[-1]
         recipe.get_fitness(do_print=True)
-        with open("fittest_recipes/rank_" + str(1), "w") as f:
+        with open("generator/fitterst_recipes:rank_" + str(1), "w") as f:
             f.writelines(str(recipe))
 
 
 def main():
+    spot = Spotify() 
+    
     manager = RecipeManager()
     emotion = manager.get_emotion()
+    
+    name_Person = input("Enter your name:  ")
+    song = spot.get_song(emotion)
+    
     generations = int(input("How many generations would you like to run this algorithm for? "))
     manager.parse_files(emotion)
     manager.run_genetic_algo(generations, emotion)
     manager.write_fittest_recipe() #writes top 5 fittest recipes (after algo) to a file
+    
+    playlist = spot.make_playlist(song, emotion, name_Person)
     print("All done :)")
 
 

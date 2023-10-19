@@ -89,7 +89,7 @@ class Recipe:
         return ingredient_dic
 
     def dissimilarity_score(self):
-        emotion_alignment_df = pd.read_excel("../Ingredient_Matrix.xlsx")
+        emotion_alignment_df = pd.read_excel("Ingredient_Matrix.xlsx")
         emotion_alignment_df.set_index('Ingredient', inplace=True)
         ingredients = emotion_alignment_df.index.to_list()
 
@@ -103,7 +103,7 @@ class Recipe:
 
         #get vector for each in inspiring set and save scores
         dissimilarities = []
-        dir = "../inspiring_set"
+        dir = "inspiring_set"
         for inspiringRecipe in os.listdir(dir):
             insp_vector = []
             ingredient_dic = self.get_inpsiring_dic(dir + "/" + inspiringRecipe)
@@ -121,7 +121,7 @@ class Recipe:
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with the chosen emotion.
         """
-        emotion_alignment_df = pd.read_excel("../Ingredient_Matrix.xlsx")
+        emotion_alignment_df = pd.read_excel("Ingredient_Matrix.xlsx")
         emotion_alignment_df.set_index('Ingredient', inplace=True)
         ing_list = self.flavor_ingredients.get_flavor_ing_names()
         alignment_sum = sum(emotion_alignment_df.loc[ingr, self.emotion.lower()] for ingr in ing_list)
