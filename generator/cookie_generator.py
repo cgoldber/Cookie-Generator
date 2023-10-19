@@ -15,7 +15,7 @@ class RecipeManager():
         passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
-        dir = "inspiring_set"
+        dir = "../inspiring_set"
         for file in os.listdir(dir):
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
@@ -127,7 +127,7 @@ class RecipeManager():
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         recipe = sorted_recipes[-1]
         recipe.get_fitness(do_print=True)
-        with open("generator/fitterst_recipes:rank_" + str(1), "w") as f:
+        with open("fittest_recipes/rank_" + str(1), "w") as f:
             f.writelines(str(recipe))
 
 
