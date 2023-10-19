@@ -15,7 +15,7 @@ class Spotify:
         Sad_songs = ["My heart will go on", "Candle in the wind", "Marvin's room", "Redemption", "Driver's lisence", "Heartbreak Anniversery", "Coaster", "Cold Blooded", "Ivy","Find you", "Blue", "Bahamas Promises", "Alone"] #13
         Angry_songs = ["Nonstop", "Rolling in the Deep", "Break Stuff", "I'm Upset", "Worst behavior", "99 problems", "I heard it through the grapevine", "Ex-factor", "Irreplacable", "The Final Countdown", "IDGAF", "Commitment Issues", "Shot for me"] #13
         Excited_songs = ["Can't stop the feeling", "Dynamite", "Walking on Sunshine", "All Star", "I gotta Feeling", "Twist and shout", "Superstar Sh*t", "Watermelon Sugar", "Intentions", "One Thing", "Sugar", "Cool Kids", "Can't Feel my Face" ]#13
-        Tired_songs = ["Socks", "babydoll", "Tired of Running", "Jaded", "Furthest Thing", "Tried Our Best", "Apocolypse", "never find u", "Are You Bored Yet?", "I love you", "Streetcar", "I'm tired", "Apocalypse"] #13
+        Tired_songs = ["Socks", "babydoll", "Tired of Running", "Jaded", "Furthest Thing", "Tried Our Best", "Apocolypse", "never find u", "Are You Bored Yet?", "Blessed", "Streetcar", "I'm tired", "Apocalypse"] #13
         Stressed_songs = ["Changes", "Don't give up on me", "Stay", "This City", "Do not Distrub", "One Man can change the world", "Emotion", "Chanel", "Japanesse Denim", "Goodbyes", "Lie", "White Ferrari", "Come Back to Earth"] #13
         Emotional_songs = {"Happy": Happy_songs, "Sad":Sad_songs, "Angry": Angry_songs, "Excited" : Excited_songs, "Tired" : Tired_songs, "Stressed": Stressed_songs }
             
