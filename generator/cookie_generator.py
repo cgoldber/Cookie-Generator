@@ -8,9 +8,9 @@ class RecipeManager():
     """Run generation and evaluation"""
     def __init__(self):
         self.recipes = []
-        self.num_new_recipes = 0
+        self.emotion = ""
     
-    def parse_files(self, emotion):
+    def parse_files(self):
         """ Read file of recipes and populates recipe list with recipe object,
         passing in a list representation of recipe.
         """
@@ -19,10 +19,9 @@ class RecipeManager():
         for file in os.listdir(dir):
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
-                self.recipes.append(Recipe(recipe_str, emotion))
-            self.num_new_recipes += 1
+                self.recipes.append(Recipe(recipe_str, self.emotion))
     
-    def crossover(self, recipe1, recipe2, emotion):
+    def crossover(self, recipe1, recipe2):
         """Chooses the base ingredients from one recipe with equal probability.
         Chooses a random pivot index to concatenate the flavor ingredients. 
         Creates a new recipe object. Then calls the mutate function on the new 
@@ -42,15 +41,14 @@ class RecipeManager():
         new_flavors = recipe1_flavor_strs[:pivot] + recipe2_flavor_strs[pivot:]
 
         # choose instructions of one recipe with equal probability 
-        new_instructions = np.random.choice([recipe1, recipe2]).get_instructions()
+        new_instrs = np.random.choice([recipe1, recipe2]).get_instructions()
 
         if "b" in new_base:
             print(new_base)
         elif "b" in new_flavors:
             print(new_flavors)
-        new_recipe = Recipe(new_base + new_flavors, emotion=emotion, 
-                            instructions=new_instructions)
-        self.num_new_recipes += 1
+        new_recipe = Recipe(new_base + new_flavors, emotion=self.emotion, 
+                            instructions=new_instrs)
 
         # call recipe to be potentially mutated
         new_recipe.mutate()
@@ -65,8 +63,9 @@ class RecipeManager():
         return sorted_recipes[int(len(recipes)/2):]
     
     def emotion_prompt(self):
-        emotion_key = input("How are you feeling? \n (1) : Happy \n (2) : Sad \n (3) : Angry \n" + \
-            " (4) : Excited \n (5) : Tired \n (6) : Stressed \n Input Number 1-6: ")
+        emotion_key = input("How are you feeling? \n (1) : Happy \n " +
+        "(2) : Sad \n (3) : Angry \n (4) : Excited \n (5) : Tired \n " +
+        "(6) : Stressed \n Input Number 1-6: ")
         return emotion_key
     
     def get_emotion(self):
@@ -78,37 +77,43 @@ class RecipeManager():
             emotion_key = self.emotion_prompt()
         emotion = emotion_dic[emotion_key]
         print(f"\nYou are feeling {emotion.lower()}!\n")
-        return emotion
+        self.emotion = emotion_key
+        return emotion_key
 
-    def genetic_algo(self, emotion):
-        """ Iterate len(self.recipes) times. Choose recipe1 and recipe2 based on fitness probabilites
-        and cross them over (making new recipe object). Then it's going to call the mutate function on
-        it and stores all of the new recipes in new_recipes. At the end, it is going to taking the top
-        50% of the new and old recipes and store it in self.recipes. 
+    def genetic_algo(self):
+        """ Iterate len(self.recipes) times. Choose recipe1 and recipe2 based 
+            on fitness probabilites and cross them over (making new recipe 
+            object). Then it's going to call the mutate function on it and 
+            stores all of the new recipes in new_recipes. At the end, it is 
+            going to taking the top 50% of the new and old recipes and store 
+            it in self.recipes. 
         """
         new_recipes = []
         for _ in range(len(self.recipes)):
-            #chooses two recipes based on probability corresponding to their fitness
+            #choose two recipes based on probs corresponding to their fitnesses
             fitnesses = [recipe.get_fitness() for recipe in self.recipes]
             sum_fit = sum(fitnesses)
             p = [fit / sum_fit for fit in fitnesses]
-            recipe1, recipe2 = np.random.choice(self.recipes, p = p, size = 2, replace = False)
+            recipe1, recipe2 = np.random.choice(self.recipes, p = p, size = 2, 
+                                                replace = False)
 
             #cross the recipes together
-            new_recipe = self.crossover(recipe1, recipe2, emotion)
+            new_recipe = self.crossover(recipe1, recipe2, self.emotion)
             new_recipes.append(new_recipe)
 
-        #keep top 50% of old recipes and newly generated recipes for next generation
-        self.recipes = self.fittest_half(self.recipes) + self.fittest_half(new_recipes)   
+        #keep top 50% of old and newly generated recipes for next generation
+        self.recipes = self.fittest_half(self.recipes) + 
+                       self.fittest_half(new_recipes)   
 
-    def run_genetic_algo(self, generations, emotion):
-        """ Run genetic algorithm for the # of generations that the user inputs.
+    def run_genetic_algo(self, generations):
+        """ Run genetic algorithm for the # of generations that the user 
+            inputs.
             Args:
                 generations (int) : number of times the genetic algo will run
         """
         for i in range(generations):
             print(f"Running genetic algorithm for generation {i + 1}")
-            self.genetic_algo(emotion)  
+            self.genetic_algo(self.emotion)  
     
     def write_fittest_recipes(self):
         """ Writes the top 3 fittest recipes to files in the fittest recipes folder.
@@ -122,7 +127,8 @@ class RecipeManager():
                 f.writelines(str(recipe))
     
     def write_fittest_recipe(self):
-        """ Writes the top fittest recipe to files in the fittest recipes folder.
+        """ Writes the top fittest recipe to files in the fittest recipes 
+            folder.
         """
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         recipe = sorted_recipes[-1]
