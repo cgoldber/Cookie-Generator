@@ -1,7 +1,6 @@
 import numpy as np
 import os
 import pandas as pd
-import flavor_pairing
 from random import randint
 from ingredient import Ingredient
 from recipe_instructions import RecipeInstructions
@@ -19,22 +18,38 @@ class Recipe:
         self.instructions = instructions
         self.name = self.name_generator(emotion)
 
-    def name_generator(self, emotion: str):
-        Happy_syn = ["Happy", "Delighted", "Content", "Pleased", "Ecstatic", "Joyful", "Glad", "Jubliant", "Elated", "Merry", "Blissful", "Euphoric"]
-        Sad_syn = ["Unhappy", "Melancholy", "Depressed", "Sorrowful", "Mournful", "Downcast", "Blue", "Woeful", "Gloomy", "Despondent", "Dejected", "Dismal"]
-        Angry_syn = ["Furious", "Irritated", "Wrathful", "Enraged", "Indigant", "Irate", "Incensed", "Infuriated", "Agitated", "Outraged", "Fuming", "Vexed"]
-        Excited_syn = ["Enthusiastic", "Eager", "Thrilled", "Animated", "Jubliant", "Ecstatic", "Elated", "Overjoyed", "Exhilarated", "Pumped", "Fired-up", "Anticipatory", "Exultant"]
-        Tired_syn = ["Exhausted", "Fatigued", "Weary", "Drained", "Worn-out", "Weary", "Burnt-out", "Depleted", "Lethargic", "Run-down", "Beat", "Jet-lagged"]
-        Stressed_syn = ["Anxious", "Worried", "Tense", "Overwhelmed", "Strained", "Upset", "On-edge", "Frazzeled", "Frantic", "Perturbed", "Exasperated", "Unsettled"]
-        Emotional_repetoire = {"Happy": Happy_syn, "Sad":Sad_syn, "Angry": Angry_syn, "Excited" : Excited_syn, "Tired" : Tired_syn, "Stressed": Stressed_syn }
+    def name_generator(self, emotion):
+        """ Generates a name based on the emotion of the recipe
+            Args:
+                emotion (str) : recipe's associated emotion
+        """
+        emotional_repetoire = {
+            "Happy" : ["Happy", "Delighted", "Content", "Pleased", "Ecstatic", 
+                "Joyful", "Glad", "Jubliant", "Elated", "Merry", "Blissful", 
+                "Euphoric"],
+            "Sad" : ["Unhappy", "Melancholy", "Depressed", "Sorrowful", 
+                "Mournful", "Downcast", "Blue", "Woeful", "Gloomy", 
+                "Despondent", "Dejected", "Dismal"],
+            "Angry" : ["Furious", "Irritated", "Wrathful", "Enraged", 
+                "Indigant", "Irate", "Incensed", "Infuriated", "Agitated", 
+                "Outraged", "Fuming", "Vexed"],
+            "Excited" : ["Enthusiastic", "Eager", "Thrilled", "Animated", 
+                "Jubliant", "Ecstatic", "Elated", "Overjoyed", "Exhilarated", 
+                "Pumped", "Fired-up", "Anticipatory", "Exultant"],
+            "Tired" : ["Exhausted", "Fatigued", "Weary", "Drained", "Worn-out",
+                "Weary", "Burnt-out", "Depleted", "Lethargic", "Run-down", 
+                "Beat", "Jet-lagged"],
+            "Stressed" : ["Anxious", "Worried", "Tense", "Overwhelmed", 
+                "Strained", "Upset", "On-edge", "Frazzeled", "Frantic", 
+                "Perturbed", "Exasperated", "Unsettled"]
+        }
         
-        for key in Emotional_repetoire:
+        for key in emotional_repetoire:
             if emotion == key:
-                words = Emotional_repetoire[emotion]
+                words = emotional_repetoire[emotion]
                 words_syn = words[randint(0,11)]
                 
         return words_syn + " " + str(emotion).capitalize() + " Cookies"        
-        #return str(emotion).capitalize() + " Cookies"
     
     def make_ingredient_list(self, recipe_strs):
         ing_list = []
@@ -58,6 +73,14 @@ class Recipe:
                 break
         return ing_list
 
+    def similarity(self, ingr1, ingr2):
+        """Returns the similarity between two ingredients based on given data.
+        """
+        WORD_EMBED_VALS = np.load('flavors/ingred_word_emb.npy', allow_pickle=True).item()
+        ingr1_vec = WORD_EMBED_VALS[ingr1]
+        ingr2_vec = WORD_EMBED_VALS[ingr2]
+        return np.dot(ingr1_vec, ingr2_vec)
+
     def flavor_pairing_score(self):
         """ Returns the average similarity score between flavors in the recipe.
         """
@@ -72,7 +95,7 @@ class Recipe:
             for ingredient2 in all_ingredient_names:
                 ingredient1, ingredient2 = ingredient1.strip(), ingredient2.strip()
                 if ingredient1 in total_ingredients and ingredient2 in total_ingredients:
-                    flavor_score = flavor_pairing.similarity(ingredient1, ingredient2)
+                    flavor_score = self.similarity(ingredient1, ingredient2)
                     flavor_scores.append(flavor_score)
         avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
         return avg_flavor_score

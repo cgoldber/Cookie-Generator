@@ -63,22 +63,23 @@ class RecipeManager():
         return sorted_recipes[int(len(recipes)/2):]
     
     def emotion_prompt(self):
-        emotion_key = input("How are you feeling? \n (1) : Happy \n " +
-        "(2) : Sad \n (3) : Angry \n (4) : Excited \n (5) : Tired \n " +
+        emotion_key = input("How are you feeling? \n (1) : Happy \n " + \
+        "(2) : Sad \n (3) : Angry \n (4) : Excited \n (5) : Tired \n " + \
         "(6) : Stressed \n Input Number 1-6: ")
         return emotion_key
     
-    def get_emotion(self):
+    def set_emotion(self):
         emotion_dic ={"1" : "Happy", "2" : "Sad", "3": "Angry",
                      "4" : "Excited", "5" : "Tired", "6" : "Stressed"}
         emotion_key = self.emotion_prompt()
         while emotion_key not in emotion_dic.keys():
             print("\nUnknown Emotion Key: Try Again!\n")
             emotion_key = self.emotion_prompt()
-        emotion = emotion_dic[emotion_key]
-        print(f"\nYou are feeling {emotion.lower()}!\n")
-        self.emotion = emotion_key
-        return emotion_key
+        self.emotion = emotion_dic[emotion_key]
+        print(f"\nYou are feeling {self.emotion.lower()}!\n")
+    
+    def get_emotion(self):
+        return self.emotion
 
     def genetic_algo(self):
         """ Iterate len(self.recipes) times. Choose recipe1 and recipe2 based 
@@ -98,11 +99,11 @@ class RecipeManager():
                                                 replace = False)
 
             #cross the recipes together
-            new_recipe = self.crossover(recipe1, recipe2, self.emotion)
+            new_recipe = self.crossover(recipe1, recipe2)
             new_recipes.append(new_recipe)
 
         #keep top 50% of old and newly generated recipes for next generation
-        self.recipes = self.fittest_half(self.recipes) + 
+        self.recipes = self.fittest_half(self.recipes) + \
                        self.fittest_half(new_recipes)   
 
     def run_genetic_algo(self, generations):
@@ -113,10 +114,11 @@ class RecipeManager():
         """
         for i in range(generations):
             print(f"Running genetic algorithm for generation {i + 1}")
-            self.genetic_algo(self.emotion)  
+            self.genetic_algo()  
     
     def write_fittest_recipes(self):
-        """ Writes the top 3 fittest recipes to files in the fittest recipes folder.
+        """ Writes the top 3 fittest recipes to files in the fittest recipes 
+            folder.
         """
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         top_3 = sorted_recipes[-3:]
@@ -141,15 +143,17 @@ def main():
     spot = Spotify() 
     
     manager = RecipeManager()
+    manager.set_emotion()
     emotion = manager.get_emotion()
     
     name_Person = input("Enter your name:  ")
     song = spot.get_song(emotion)
     
-    generations = int(input("How many generations would you like to run this algorithm for? "))
-    manager.parse_files(emotion)
-    manager.run_genetic_algo(generations, emotion)
-    manager.write_fittest_recipe() #writes top 5 fittest recipes (after algo) to a file
+    generations = int(input(
+        "How many generations would you like to run this algorithm for? "))
+    manager.parse_files()
+    manager.run_genetic_algo(generations)
+    manager.write_fittest_recipe() 
     
     playlist = spot.make_playlist(song, emotion, name_Person)
     print("All done :)")
