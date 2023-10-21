@@ -181,10 +181,10 @@ class Recipe:
         return self.name
     
     def format_instructions(self):
-    #     """ Returns formatted, step-by-step instructions for the recipe with
-    #     elements from the base ingredient, flavor ingredient, and instruction 
-    #     attributes of the Recipe object. 
-    #     """
+        """ Returns formatted, step-by-step instructions for the recipe with
+        elements from the base ingredient, flavor ingredient, and instruction 
+        attributes of the Recipe object. 
+        """
         instructions = f"Step 1: Preheat the oven to " + \
         f"{str(self.instructions.get_temp())} degrees F.\nStep 2: Mix " + \
         "together dry ingredients, combining flour, " + \
