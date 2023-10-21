@@ -29,7 +29,43 @@ INGREDIENT_TYPES = {
 
 
 class FlavorIngredients: 
-    """ Need to write 
+    """ A class to represent flavor ingredients in a recipe.
+
+    ...
+
+    Attributes
+    ----------
+    spices : dict
+        spices in the recipe's ingredients
+    mix_ins : str
+        mix-ins in the recipe's ingredients
+    oils : int
+        oils in the recipe's ingredients
+
+    Methods
+    -------
+    sort_ingredients():
+        Sorts ingredients into flavor ingredient categories.
+    add_ingredient():
+        Add ingredient into a random flavor ingredient category. 
+    delete_ingredient():
+        Delete ingredient from a random flavor ingredient category. 
+    swap_ingredient():
+        Swap ingredient from a random flavor ingredient category. 
+    normalize_mix_in_amt():
+        todo
+    mutate():
+        todo
+    get_flavor_ing_names():
+        todo
+    get_amount_by_name():
+        todo
+    get_mix_in():
+        todo
+    get_oil():
+        todo
+    get_spice():
+        todo
     """
     def __init__(self, ing_list): 
         self.spices = {}
@@ -150,7 +186,7 @@ class FlavorIngredients:
             ing_list.append(ing.get_name())
         return ing_list
 
-    def get_amount_byname(self, ingr_name):
+    def get_amount_by_name(self, ingr_name):
         """ Search for the amount of flavor ingredient with the flavor 
         ingredient string, returning the amount if the ingredient exists. 
         Otherwise return -1. 

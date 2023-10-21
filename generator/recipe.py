@@ -120,7 +120,7 @@ class Recipe:
         curr_vector = []
         for ingr in ingredients:
             if ingr in self.flavor_ingredients.get_flavor_ing_names():
-                curr_vector.append(self.flavor_ingredients.get_amount_byname(ingr))
+                curr_vector.append(self.flavor_ingredients.get_amount_by_name(ingr))
             else:
                 curr_vector.append(0)
 
