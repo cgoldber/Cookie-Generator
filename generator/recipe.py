@@ -55,22 +55,15 @@ class Recipe:
         ing_list = []
         for line in recipe_strs: 
             if not line.startswith("-") and line != "":
-                if " g " in line: 
-                    information = line.split(" g ")
-                    unit = "g"
-                elif " tsp " in line:
-                    information = line.split(" tsp ")
-                    unit = "tsp"
-                elif " tbsp " in line:
-                    information = line.split(" tbsp ")  
-                    unit = "tbsp"
-                amt = float(information[0])
-                name = information[1].strip()
-                if "butter" in name and unit == "tbsp":
+                split_line = line.split(" ")
+                amt = float(split_line[0])
+                unit = split_line[1]
+                ingr_name = " ".join(split_line[2:])
+                
+                if "butter" in ingr_name and unit == "tbsp":
                     amt *= 14.2
-                ing_list.append(Ingredient(name, amt, unit))
-            if "---" in line:
-                break
+                    
+                ing_list.append(Ingredient(ingr_name, amt, unit))
         return ing_list
 
     def similarity(self, ingr1, ingr2):
