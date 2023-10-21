@@ -216,7 +216,7 @@ class Recipe:
         instructions += str(self.instructions.get_size()) + " grams of dough, rolled "
         instructions += "into a sphere. Bake for " + str(self.instructions.get_bake_time())
         instructions += " minutes, turning the sheet around halfway through the "
-        instructions += "baking time. \nStep 6: Let the cookies cool."
+        instructions += "baking time. \nStep 5: Let the cookies cool."
         return instructions
 
     def mutate(self):
