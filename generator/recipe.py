@@ -181,35 +181,37 @@ class Recipe:
         return self.name
     
     def format_instructions(self):
-        """ Returns formatted, step-by-step instructions for the recipe with
-        elements from the base ingredient, flavor ingredient, and instruction 
-        attributes of the Recipe object. 
-        """
-        instructions = "Step 1: Preheat the oven to " + str(self.instructions.get_temp()) + " degrees F.\n"
-        instructions += "Step 2: Mix together dry ingredients, combining flour, "
-        instructions += self.base_ingredients.get_dry() + ", "
-        instructions += self.flavor_ingredients.get_spice()
-        instructions += " in a large bowl. In another bowl, cream together "
-        instructions += self.base_ingredients.get_sugar() + " and  " 
-        instructions += self.base_ingredients.get_fat() + ", then add "
-        instructions += self.flavor_ingredients.get_oil()
+    #     """ Returns formatted, step-by-step instructions for the recipe with
+    #     elements from the base ingredient, flavor ingredient, and instruction 
+    #     attributes of the Recipe object. 
+    #     """
+        instructions = f"Step 1: Preheat the oven to " + \
+        f"{str(self.instructions.get_temp())} degrees F.\nStep 2: Mix " + \
+        "together dry ingredients, combining flour, " + \
+        f"{self.base_ingredients.get_dry()}," + \
+        f"{self.flavor_ingredients.get_spice()} in a large bowl. In " + \
+        f"another bowl, cream together {self.base_ingredients.get_sugar()}" + \
+        f" and {self.base_ingredients.get_fat()}, then add " + \
+        f"{self.flavor_ingredients.get_oil()}"
+
         if self.base_ingredients.get_wet() != "": 
-            instructions += " and " + self.base_ingredients.get_wet()
-        instructions += ".\nStep 3: Gradually add the dry ingredients to the wet "
-        instructions += "ingredients, mixing well"
+            instructions += f" and {self.base_ingredients.get_wet()}.\n"
+
+        instructions += "\nStep 3: Gradually add the dry ingredients to " + \
+        "the wet ingredients, mixing well"
         if self.flavor_ingredients.get_mix_in() != "": 
-            instructions += ". Once mixed, add the "
-            instructions += self.flavor_ingredients.get_mix_in()
+            instructions += ". Once mixed, add the " + \
+            f"{self.flavor_ingredients.get_mix_in()}"
         instructions += ".\nStep 4: "
         if (self.instructions.get_rest_time() > 0):
-            instructions += "Let the mixture rest for "
-            instructions += str(self.instructions.get_rest_time()) + " hours in "
-            instructions += "the refrigerator. "
-        instructions += "On a baking sheet lined with parchment paper, add "
-        instructions += str(self.instructions.get_size()) + " grams of dough, rolled "
-        instructions += "into a sphere. Bake for " + str(self.instructions.get_bake_time())
-        instructions += " minutes, turning the sheet around halfway through the "
-        instructions += "baking time. \nStep 5: Let the cookies cool."
+            instructions += "Let the mixture rest for " + \
+            f"{str(self.instructions.get_rest_time())} hours in the " + \
+            "refrigerator."
+        instructions += " On a baking sheet lined with parchment paper, " + \
+        f"add {str(self.instructions.get_size())} grams of dough, rolled " + \
+        f"into a sphere. Bake for {str(self.instructions.get_bake_time())}" + \
+        " minutes, turning the sheet around halfway through the baking" + \
+        " time.\nStep 5: Let the cookies cool."
         return instructions
 
     def mutate(self):
