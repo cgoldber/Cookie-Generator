@@ -49,17 +49,22 @@ class RecipeInstructions:
         """
         instructions = f"Step 1: Preheat the oven to " + \
         f"{str(recipe.instructions.get_temp())} degrees F.\nStep 2: Mix " + \
-        "together dry ingredients, combining flour, " + \
-        f"{recipe.base_ingredients.get_dry()}," + \
-        f"{recipe.flavor_ingredients.get_spice()} in a large bowl. In " + \
-        f"another bowl, cream together {recipe.base_ingredients.get_sugar()}" + \
-        f" and {recipe.base_ingredients.get_fat()}, then add " + \
-        f"{recipe.flavor_ingredients.get_oil()}."
-
+        "together dry ingredients, combining the following in a large bowl" + \
+        ": flour"
+        if recipe.base_ingredients.get_dry() != "":
+            instructions += f", {recipe.base_ingredients.get_dry()}"
+        if recipe.flavor_ingredients.get_spice() != "":
+            instructions += f", {recipe.flavor_ingredients.get_spice()}"
+        instructions += ". In another bowl, cream together the following: " + \
+        f"{recipe.base_ingredients.get_sugar()}"
+        if recipe.base_ingredients.get_fat() != "":
+            instructions += f", {recipe.base_ingredients.get_fat()}"
+        if recipe.flavor_ingredients.get_spice() != "":
+            instructions += f", {recipe.flavor_ingredients.get_oil()}"
         if recipe.base_ingredients.get_wet() != "": 
-            instructions += f" and {recipe.base_ingredients.get_wet()}.\n"
+            instructions += f", {recipe.base_ingredients.get_wet()}"
 
-        instructions += "\nStep 3: Gradually add the dry ingredients to " + \
+        instructions += ".\nStep 3: Gradually add the dry ingredients to " + \
         "the wet ingredients, mixing well"
         if recipe.flavor_ingredients.get_mix_in() != "": 
             instructions += ". Once mixed, add the " + \

@@ -7,7 +7,7 @@ from fitness import Fitness
 
 
 class Recipe:
-    def __init__(self, recipe_strs, emot, instructions=RecipeInstructions()):
+    def __init__(self, recipe_strs, emot="Default", instructions=RecipeInstructions()):
         self.emotion = emot
         ing_list = self.make_ingredient_list(recipe_strs)
         self.base_ingredients = BaseIngredients(ing_list)
@@ -109,7 +109,7 @@ class Recipe:
     
  
     def get_fitness(self, do_print=False):
-        self.fitness.set_fitness_val(do_print)
+        self.fitness.set_fitness_val(do_print=do_print)
         return self.fitness.get_fitness_val()
 
     def __str__(self):

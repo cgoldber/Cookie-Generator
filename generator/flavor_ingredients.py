@@ -198,7 +198,7 @@ class FlavorIngredients:
         for flav_type in all_types:
             if ingr_name in flav_type.keys():
                 return flav_type[ingr_name].get_amount()
-        return -1
+        return 0
     
     def get_mix_in(self):
         """ String representation of mix-ins, separated by commas, to be 

@@ -1,4 +1,3 @@
-from flavor_ingredients import INGREDIENT_TYPES
 import pandas as pd
 import os
 import numpy as np
@@ -28,20 +27,15 @@ class Fitness():
         elif len(self.flavor_names) == 1:
             return 0.2
 
-        flav_pair_ingrs = list(np.load('flavors/ingred_categories.npy', 
-        allow_pickle=True).item())
-        print(flav_pair_ingrs)
         flavor_scores = []
         for i in range(len(self.flavor_names) - 1):
             for j in range(i + 1, len(self.flavor_names)):
                 ingr1 = self.flavor_names[i].strip()
                 ingr2 = self.flavor_names[j].strip()
-                print(ingr1, ingr2)
-                if ingr1 in flav_pair_ingrs and ingr2 in flav_pair_ingrs:
-                    flavor_score = self.similarity(ingr1, ingr2)
-                    flavor_scores.append(flavor_score)
-        avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
-        return avg_flavor_score
+                flavor_score = self.similarity(ingr1, ingr2)
+                flavor_scores.append(flavor_score)
+
+        return np.mean(flavor_scores)
     
     def get_inpsiring_dic(self, file):
         with open(file, "r") as f:
@@ -53,37 +47,33 @@ class Fitness():
                 parts = [line.split(' ')[0], ' '.join(line.split(' ')[2:])]
                 ingredient_dic[parts[1]] = parts[0]
         return ingredient_dic
+
+    def calc_euc_dist(self, insp_dic):
+        all_ingrs = set(self.flavor_names + list(insp_dic.keys()))
+        curr_vector, insp_vector = [], []
+        for ingr in all_ingrs:
+            curr_vector.append(self.flavor_ingredients.get_amount_by_name(ingr))
+            if ingr in insp_dic.keys():
+                insp_vector.append(insp_dic[ingr])
+            else:
+                insp_vector.append(0)
+
+        euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) \
+            - np.array(insp_vector, dtype=float))
+        return euc_dist
     
     def dissimilarity_score(self):
-        emotion_alignment_df = pd.read_excel("../Ingredient_Matrix.xlsx")
-        emotion_alignment_df.set_index('Ingredient', inplace=True)
-        ingredients = emotion_alignment_df.index.to_list()
-
-        #get curr recipe vector
-        curr_vector = []
-        for ingr in ingredients:
-            if ingr in self.flavor_names:
-                amt = self.flavor_ingredients.get_amount_by_name(ingr)
-                curr_vector.append(amt)
-            else:
-                curr_vector.append(0)
-
-        #get vector for each in inspiring set and save scores
-        dissimilarities = []
+        """ Calculates how dissimilar the flavors in the current recipe is to
+            the flavors in the inspiring set using the Euclidean distance.
+        """
         dir = "../inspiring_set"
+        dissimilarities = []
         for inspiringRecipe in os.listdir(dir):
-            insp_vector = []
-            ingr_dic = self.get_inpsiring_dic(dir + "/" + inspiringRecipe)
-            for ingr in ingredients:
-                if ingr in ingr_dic.keys():
-                    insp_vector.append(ingr_dic[ingr])
-                else:
-                    insp_vector.append(0)
-
-            euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) \
-            - np.array(insp_vector, dtype=float))
+            with open(dir + "/" + inspiringRecipe, "r") as f:
+                insp_dic = self.get_inpsiring_dic(dir + "/" + inspiringRecipe)
+            euc_dist = self.calc_euc_dist(insp_dic)
             dissimilarities.append(euc_dist)
-        dissimilarities = dissimilarities / max(dissimilarities)
+        dissimilarities = dissimilarities / sum(dissimilarities)
         return np.mean(dissimilarities)
     
     def emotion_score(self):
@@ -99,10 +89,10 @@ class Fitness():
         alignment_sum = sum(emotion_df.loc[ingr, self.emotion.lower()] \
         for ingr in self.flavor_names)
 
-        return alignment_sum / (len(self.flavor_names))
+        return alignment_sum / len(self.flavor_names)
     
-    def set_fitness_val(self, flavor_pairing_coef=6, dissimilarity_coef=5, 
-                    emotion_coef=100, do_print=False):
+    def set_fitness_val(self, flavor_pairing_coef=4, dissimilarity_coef=10, 
+                    emotion_coef=200, len_coef = 0.75, do_print=False):
         """Sets fitness score considering how well the flavors are paired, 
            how dissimilar the recipe is from recipes in the inspiring set, and 
            how much the recipe coincides with the chosen emotion.
@@ -110,8 +100,7 @@ class Fitness():
         flavor_comp = self.flavor_pairing_score() * flavor_pairing_coef
         dissimilarity_comp = self.dissimilarity_score() * dissimilarity_coef 
         emotion_comp = self.emotion_score() * emotion_coef
-        len_comp = len(self.flavor_names) / 1.5
-
+        len_comp = len(self.flavor_names) * len_coef
         if do_print:
             print(f"flavor: {round(flavor_comp, 2)}, dissimilarity: " + \
             f"{round(dissimilarity_comp, 2)}, emotion: " + \

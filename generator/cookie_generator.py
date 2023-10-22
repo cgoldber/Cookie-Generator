@@ -3,7 +3,6 @@ import os
 from recipe import Recipe
 from Spotify import Spotify
 
-
 class RecipeManager():
     """Run generation and evaluation"""
     def __init__(self):
@@ -118,18 +117,6 @@ class RecipeManager():
             print(f"Running genetic algorithm for generation {i + 1}")
             self.genetic_algo()  
     
-    def write_fittest_recipes(self):
-        """ Writes the top 3 fittest recipes to files in the fittest recipes 
-            folder.
-        """
-        sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
-        top_3 = sorted_recipes[-3:]
-        for i in range(3):
-            recipe = top_3[i]
-            recipe.get_fitness(do_print=True)
-            with open("fittest_recipes/rank_" + str(3 - i), "w") as f:
-                f.writelines(str(recipe))
-    
     def write_fittest_recipe(self):
         """ Writes the top fittest recipe to files in the fittest recipes 
             folder.
@@ -157,7 +144,7 @@ def main():
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
     
-    playlist = spot.make_playlist(song, emotion, name_Person)
+    #playlist = spot.make_playlist(song, emotion, name_Person)
     print("All done :)")
 
 
