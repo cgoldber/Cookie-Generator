@@ -38,6 +38,12 @@ class Fitness():
         return np.mean(flavor_scores)
     
     def get_inpsiring_dic(self, file):
+        """ Reads the inspiring recipes and stores them as a dictionary where
+            the keys represent the ingredient and the values represented the
+            associated amount.
+            Args:
+                file (string) : name of the inspiring recipe file
+        """
         with open(file, "r") as f:
                 lines = f.readlines()
         ingredient_dic = {}
@@ -49,6 +55,16 @@ class Fitness():
         return ingredient_dic
 
     def calc_euc_dist(self, insp_dic):
+        """ Calculates how different the recipe associated with the given
+            inspring recipe dictionary is from the current recipe that this
+            fitness object belongs to. To compute this value, the current and
+            inpsiring recipe are converted into vectors, where each index 
+            corresponds to an ingredient that at least one of the two recipes
+            have, and the values are the amount of that ingredient. Then,
+            the euclidean distance is computed
+            Args:
+                insp_dic (dic) : dict corresponding to an inspiring recipe
+        """
         all_ingrs = set(self.flavor_names + list(insp_dic.keys()))
         curr_vector, insp_vector = [], []
         for ingr in all_ingrs:
@@ -78,7 +94,7 @@ class Fitness():
     
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with 
-        the chosen emotion.
+            the chosen emotion.
         """
         if len(self.flavor_names) == 0:
             return 0
@@ -96,6 +112,12 @@ class Fitness():
         """Sets fitness score considering how well the flavors are paired, 
            how dissimilar the recipe is from recipes in the inspiring set, and 
            how much the recipe coincides with the chosen emotion.
+           Args:
+                flavor_pairing_coef (float) : multiplier of flavor score
+                dissimilarity_coef (float) : multiplier of uniqueness score
+                emotion_coef (float) : multiplier of emotion score
+                len_coef (float) : multiplier of recipe length score
+                do_print (boolean) : Where there fitness components will print
         """
         flavor_comp = self.flavor_pairing_score() * flavor_pairing_coef
         dissimilarity_comp = self.dissimilarity_score() * dissimilarity_coef 
@@ -110,5 +132,7 @@ class Fitness():
         + len_comp
 
     def get_fitness_val(self):
+        """ Returns the current fitness value
+        """
         return self.fitness_val
-    
+

@@ -144,7 +144,7 @@ def main():
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
     
-    #playlist = spot.make_playlist(song, emotion, name_Person)
+    playlist = spot.make_playlist(song, emotion, name_Person)
     print("All done :)")
 
 
