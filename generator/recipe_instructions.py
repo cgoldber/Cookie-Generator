@@ -54,7 +54,7 @@ class RecipeInstructions:
         f"{recipe.flavor_ingredients.get_spice()} in a large bowl. In " + \
         f"another bowl, cream together {recipe.base_ingredients.get_sugar()}" + \
         f" and {recipe.base_ingredients.get_fat()}, then add " + \
-        f"{recipe.flavor_ingredients.get_oil()}"
+        f"{recipe.flavor_ingredients.get_oil()}."
 
         if recipe.base_ingredients.get_wet() != "": 
             instructions += f" and {recipe.base_ingredients.get_wet()}.\n"
