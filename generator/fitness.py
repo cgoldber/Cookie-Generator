@@ -23,19 +23,21 @@ class Fitness():
     def flavor_pairing_score(self):
         """ Returns the average similarity score between flavors in the recipe.
         """
-        total_ingredients = INGREDIENT_TYPES["spices"] + \
-        INGREDIENT_TYPES["mix-ins"] + INGREDIENT_TYPES["oils"]
-
         if len(self.flavor_names) == 0: 
             return 0
         elif len(self.flavor_names) == 1:
             return 0.2
 
+        flav_pair_ingrs = list(np.load('flavors/ingred_categories.npy', 
+        allow_pickle=True).item())
+        print(flav_pair_ingrs)
         flavor_scores = []
-        for ingr1 in self.flavor_names:
-            for ingr2 in self.flavor_names:
-                ingr1, ingr2 = ingr1.strip(), ingr2.strip()
-                if ingr1 in total_ingredients and ingr2 in total_ingredients:
+        for i in range(len(self.flavor_names) - 1):
+            for j in range(i + 1, len(self.flavor_names)):
+                ingr1 = self.flavor_names[i].strip()
+                ingr2 = self.flavor_names[j].strip()
+                print(ingr1, ingr2)
+                if ingr1 in flav_pair_ingrs and ingr2 in flav_pair_ingrs:
                     flavor_score = self.similarity(ingr1, ingr2)
                     flavor_scores.append(flavor_score)
         avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
