@@ -1,23 +1,21 @@
 import numpy as np
-import os
-import pandas as pd
-from random import randint
 from ingredient import Ingredient
 from recipe_instructions import RecipeInstructions
 from base_ingredients import BaseIngredients
 from flavor_ingredients import FlavorIngredients
-from flavor_ingredients import INGREDIENT_TYPES
+from fitness import Fitness
 
 
 class Recipe:
-    def __init__(self, recipe_strs, emotion="default", 
-                 instructions=RecipeInstructions()):
-        self.emotion = emotion
+    def __init__(self, recipe_strs, emot, instructions=RecipeInstructions()):
+        self.emotion = emot
         ing_list = self.make_ingredient_list(recipe_strs)
         self.base_ingredients = BaseIngredients(ing_list)
         self.flavor_ingredients = FlavorIngredients(ing_list)
         self.instructions = instructions
-        self.name = self.name_generator(emotion)
+
+        self.name_generator(emot)
+        self.fitness = Fitness(self.flavor_ingredients, emot)
 
     def name_generator(self, emotion):
         """ Generates a name based on the emotion of the recipe
@@ -45,12 +43,9 @@ class Recipe:
                 "Perturbed", "Exasperated", "Unsettled"]
         }
         
-        for key in emotional_repetoire:
-            if emotion == key:
-                words = emotional_repetoire[emotion]
-                words_syn = words[randint(0,11)]
-                
-        return words_syn + " " + str(emotion).capitalize() + " Cookies"        
+        syn_opts = emotional_repetoire[emotion]
+        syn_choice = np.random.choice(syn_opts)       
+        self.name = syn_choice + " " + emotion + " Cookies"        
     
     def make_ingredient_list(self, recipe_strs):
         ing_list = []
@@ -66,109 +61,7 @@ class Recipe:
                     
                 ing_list.append(Ingredient(ingr_name, amt, unit))
         return ing_list
-
-    def similarity(self, ingr1, ingr2):
-        """Returns the similarity between two ingredients based on given data.
-        """
-        WORD_EMBED_VALS = np.load('flavors/ingred_word_emb.npy', 
-        allow_pickle=True).item()
-        ingr1_vec = WORD_EMBED_VALS[ingr1]
-        ingr2_vec = WORD_EMBED_VALS[ingr2]
-        return np.dot(ingr1_vec, ingr2_vec)
-
-    def flavor_pairing_score(self):
-        """ Returns the average similarity score between flavors in the recipe.
-        """
-        total_ingredients = INGREDIENT_TYPES["spices"] + \
-        INGREDIENT_TYPES["mix-ins"] + INGREDIENT_TYPES["oils"]
-        all_ingredient_names = self.flavor_ingredients.get_flavor_ing_names()
-        if len(all_ingredient_names) == 0: 
-            return 0
-        elif len(all_ingredient_names) == 1:
-            return 0.5
-        flavor_scores = []
-        for ingr1 in all_ingredient_names:
-            for ingrt2 in all_ingredient_names:
-                ingr1, ingr2 = ingr1.strip(), ingr2.strip()
-                if ingr1 in total_ingredients and ingr2 in total_ingredients:
-                    flavor_score = self.similarity(ingr1, ingr2)
-                    flavor_scores.append(flavor_score)
-        avg_flavor_score = sum(flavor_scores) / len(flavor_scores)
-        return avg_flavor_score
-    
-    def get_inpsiring_dic(self, file):
-        with open(file, "r") as f:
-                lines = f.readlines()
-        ingredient_dic = {}
-       
-        for line in lines:
-            if "Ingredients" not in line:
-                parts = [line.split(' ')[0], ' '.join(line.split(' ')[2:])]
-                ingredient_dic[parts[1]] = parts[0]
-        return ingredient_dic
-
-    def dissimilarity_score(self):
-        emotion_alignment_df = pd.read_excel("../Ingredient_Matrix.xlsx")
-        emotion_alignment_df.set_index('Ingredient', inplace=True)
-        ingredients = emotion_alignment_df.index.to_list()
-
-        #get curr recipe vector
-        curr_vector = []
-        for ingr in ingredients:
-            if ingr in self.flavor_ingredients.get_flavor_ing_names():
-                amt = self.flavor_ingredients.get_amount_by_name(ingr)
-                curr_vector.append(amt)
-            else:
-                curr_vector.append(0)
-
-        #get vector for each in inspiring set and save scores
-        dissimilarities = []
-        dir = "../inspiring_set"
-        for inspiringRecipe in os.listdir(dir):
-            insp_vector = []
-            ingr_dic = self.get_inpsiring_dic(dir + "/" + inspiringRecipe)
-            for ingr in ingredients:
-                if ingr in ingr_dic.keys():
-                    insp_vector.append(ingr_dic[ingr])
-                else:
-                    insp_vector.append(0)
-            euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) \
-            - np.array(insp_vector, dtype=float))
-            dissimilarities.append(euc_dist)
-        dissimilarities = dissimilarities / max(dissimilarities)
-        return np.mean(dissimilarities)
-    
-    def emotion_score(self):
-        """ Returns a value indicating how much the recipe coincides with 
-        the chosen emotion.
-        """
-        emotion_df = pd.read_excel("../Ingredient_Matrix.xlsx")
-        emotion_df.set_index('Ingredient', inplace=True)
-        ing_list = self.flavor_ingredients.get_flavor_ing_names()
-        alignment_sum = sum(emotion_df.loc[ingr, self.emotion.lower()] \
-        for ingr in ing_list)
-
-        if len(ing_list) == 0:
-            return 0
-        else:
-            return alignment_sum / (len(ing_list))
-        
-    def get_fitness(self, flavor_pairing_coef=6, dissimilarity_coef=5, 
-                    emotion_coef=100, do_print=False):
-        """Returns fitness score considering how well the flavors are paired, 
-           how dissimilar the recipe is from recipes in the inspiring set, and 
-           how much the recipe coincides with the chosen emotion.
-        """
-        flavor_comp = self.flavor_pairing_score() * flavor_pairing_coef
-        dissimilarity_comp = self.dissimilarity_score() * dissimilarity_coef 
-        emotion_comp = self.emotion_score() * emotion_coef
-        len_comp = len(self.get_flavor_ing_strings()) / 1.5
-        if do_print:
-            print(f"flavor: {round(flavor_comp, 2)}, dissimilarity: " + \
-            f"{round(dissimilarity_comp, 2)}, emotion: " + \
-            f"{round(emotion_comp, 2)}, length: {round(len_comp, 2)}")
-        return flavor_comp + dissimilarity_comp + emotion_comp + len_comp
-        
+     
     def get_base_ing_strings(self): 
         return str(self.base_ingredients).split("\n")
     
@@ -240,6 +133,11 @@ class Recipe:
         mutate = np.random.choice([True, False], p=[0.3,0.7])
         if mutate: 
             self.instructions.mutate()
+    
+ 
+    def get_fitness(self, do_print=False):
+        self.fitness.set_fitness_val(do_print)
+        return self.fitness.get_fitness_val()
 
     def __str__(self):
         recipe_str = "-" + self.name  + ":\n-Base Ingredients\n" 
