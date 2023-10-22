@@ -41,6 +41,40 @@ class RecipeInstructions:
             self.adjust_rest_time()
         elif mutation == 3:
             self.adjust_size()
+    
+    def fill_in_quantities(self, recipe):
+        """ Returns formatted, step-by-step instructions for the recipe with
+        elements from the base ingredient, flavor ingredient, and instruction 
+        attributes of the Recipe object. 
+        """
+        instructions = f"Step 1: Preheat the oven to " + \
+        f"{str(recipe.instructions.get_temp())} degrees F.\nStep 2: Mix " + \
+        "together dry ingredients, combining flour, " + \
+        f"{recipe.base_ingredients.get_dry()}," + \
+        f"{recipe.flavor_ingredients.get_spice()} in a large bowl. In " + \
+        f"another bowl, cream together {recipe.base_ingredients.get_sugar()}" + \
+        f" and {recipe.base_ingredients.get_fat()}, then add " + \
+        f"{recipe.flavor_ingredients.get_oil()}"
+
+        if recipe.base_ingredients.get_wet() != "": 
+            instructions += f" and {recipe.base_ingredients.get_wet()}.\n"
+
+        instructions += "\nStep 3: Gradually add the dry ingredients to " + \
+        "the wet ingredients, mixing well"
+        if recipe.flavor_ingredients.get_mix_in() != "": 
+            instructions += ". Once mixed, add the " + \
+            f"{recipe.flavor_ingredients.get_mix_in()}"
+        instructions += ".\nStep 4: "
+        if (recipe.instructions.get_rest_time() > 0):
+            instructions += "Let the mixture rest for " + \
+            f"{str(recipe.instructions.get_rest_time())} hours in the " + \
+            "refrigerator."
+        instructions += " On a baking sheet lined with parchment paper, " + \
+        f"add {str(recipe.instructions.get_size())} grams of dough, rolled " + \
+        f"into a sphere. Bake for {str(recipe.instructions.get_bake_time())}" + \
+        " minutes, turning the sheet around halfway through the baking" + \
+        " time.\nStep 5: Let the cookies cool."
+        return instructions
 
     def get_temp(self):
         return self.temp
