@@ -29,7 +29,7 @@ class Fitness():
         if len(self.flavor_names) == 0: 
             return 0
         elif len(self.flavor_names) == 1:
-            return 0.5
+            return 0.2
 
         flavor_scores = []
         for ingr1 in self.flavor_names:
@@ -77,6 +77,7 @@ class Fitness():
                     insp_vector.append(ingr_dic[ingr])
                 else:
                     insp_vector.append(0)
+
             euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) \
             - np.array(insp_vector, dtype=float))
             dissimilarities.append(euc_dist)
@@ -87,16 +88,16 @@ class Fitness():
         """ Returns a value indicating how much the recipe coincides with 
         the chosen emotion.
         """
+        if len(self.flavor_names) == 0:
+            return 0
+
         emotion_df = pd.read_excel("../Ingredient_Matrix.xlsx")
         emotion_df.set_index('Ingredient', inplace=True)
   
         alignment_sum = sum(emotion_df.loc[ingr, self.emotion.lower()] \
         for ingr in self.flavor_names)
 
-        if len(self.flavor_names) == 0:
-            return 0
-        else:
-            return alignment_sum / (len(self.flavor_names))
+        return alignment_sum / (len(self.flavor_names))
     
     def set_fitness_val(self, flavor_pairing_coef=6, dissimilarity_coef=5, 
                     emotion_coef=100, do_print=False):
@@ -114,7 +115,8 @@ class Fitness():
             f"{round(dissimilarity_comp, 2)}, emotion: " + \
             f"{round(emotion_comp, 2)}, length: {round(len_comp, 2)}")
     
-        self.fitness_val =  flavor_comp + dissimilarity_comp + emotion_comp + len_comp
+        self.fitness_val =  flavor_comp + dissimilarity_comp + emotion_comp \
+        + len_comp
 
     def get_fitness_val(self):
         return self.fitness_val
