@@ -81,12 +81,14 @@ class BaseIngredients:
         # apply new ratio to change volumes
         for key in self.base_ratio.keys(): 
             if key == base_type: 
-                change_in_volume = (multiplier - 1) * self.base_volumes[base_type]
+                change_in_vol = (multiplier - 1) * self.base_volumes[base_type]
             else: 
-                change_in_volume = -((multiplier - 1) * self.base_volumes[base_type]) / 2
-            self.change_base_type_volume(key, change_in_volume)
+                change_in_vol = \
+                -((multiplier - 1) * self.base_volumes[base_type]) / 2
+            self.change_base_type_volume(key, change_in_vol)
         for key in self.base_ratio.keys(): 
-            self.base_ratio[key] = 2 * self.base_volumes[key] / self.base_volumes["sugar"]
+            self.base_ratio[key] = \
+            2 * self.base_volumes[key] / self.base_volumes["sugar"]
  
     def adjust_sugar_ratios(self):
         """ Adjust types and ratios of two sugars in the sugar dictionary
