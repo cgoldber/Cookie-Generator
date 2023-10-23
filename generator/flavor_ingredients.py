@@ -37,9 +37,9 @@ class FlavorIngredients:
     ----------
     spices : dict
         spices in the recipe's ingredients
-    mix_ins : str
+    mix_ins : dict
         mix-ins in the recipe's ingredients
-    oils : int
+    oils : dict
         oils in the recipe's ingredients
 
     Methods
