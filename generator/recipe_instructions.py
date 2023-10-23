@@ -75,10 +75,11 @@ class RecipeInstructions:
             f"{str(recipe.instructions.get_rest_time())} hours in the " + \
             "refrigerator."
         instructions += " On a baking sheet lined with parchment paper, " + \
-        f"add {str(recipe.instructions.get_size())} grams of dough, rolled " + \
-        f"into a sphere. Bake for {str(recipe.instructions.get_bake_time())}" + \
-        " minutes, turning the sheet around halfway through the baking" + \
-        " time.\nStep 5: Let the cookies cool."
+        f"add {str(recipe.instructions.get_size())} grams of dough, rolled" + \
+        f" into a sphere. Bake for " + \
+        f" {str(recipe.instructions.get_bake_time())} minutes, turning the" + \
+        " sheet around halfway through the baking time.\nStep 5: Let the " + \
+        "cookies cool."
         return instructions
 
     def get_temp(self):

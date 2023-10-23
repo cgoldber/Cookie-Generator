@@ -4,48 +4,23 @@ from recipe_instructions import RecipeInstructions
 from base_ingredients import BaseIngredients
 from flavor_ingredients import FlavorIngredients
 from fitness import Fitness
+from name_generator import Name
 
 
 class Recipe:
-    def __init__(self, recipe_strs, emot="Default", instructions=RecipeInstructions()):
+    def __init__(self, recipe_strs, emot, instructions=RecipeInstructions()):
         self.emotion = emot
         ing_list = self.make_ingredient_list(recipe_strs)
         self.base_ingredients = BaseIngredients(ing_list)
         self.flavor_ingredients = FlavorIngredients(ing_list)
         self.instructions = instructions
 
-        self.name_generator(emot)
-        self.fitness = Fitness(self.flavor_ingredients, emot)
-
-    def name_generator(self, emotion):
-        """ Generates a name based on the emotion of the recipe
-            Args:
-                emotion (str) : recipe's associated emotion
-        """
-        emotional_repetoire = {
-            "Happy" : ["Happy", "Delighted", "Content", "Pleased", "Ecstatic", 
-                "Joyful", "Glad", "Jubliant", "Elated", "Merry", "Blissful", 
-                "Euphoric"],
-            "Sad" : ["Unhappy", "Melancholy", "Depressed", "Sorrowful", 
-                "Mournful", "Downcast", "Blue", "Woeful", "Gloomy", 
-                "Despondent", "Dejected", "Dismal"],
-            "Angry" : ["Furious", "Irritated", "Wrathful", "Enraged", 
-                "Indigant", "Irate", "Incensed", "Infuriated", "Agitated", 
-                "Outraged", "Fuming", "Vexed"],
-            "Excited" : ["Enthusiastic", "Eager", "Thrilled", "Animated", 
-                "Jubliant", "Ecstatic", "Elated", "Overjoyed", "Exhilarated", 
-                "Pumped", "Fired-up", "Anticipatory", "Exultant"],
-            "Tired" : ["Exhausted", "Fatigued", "Weary", "Drained", "Worn-out",
-                "Weary", "Burnt-out", "Depleted", "Lethargic", "Run-down", 
-                "Beat", "Jet-lagged"],
-            "Stressed" : ["Anxious", "Worried", "Tense", "Overwhelmed", 
-                "Strained", "Upset", "On-edge", "Frazzeled", "Frantic", 
-                "Perturbed", "Exasperated", "Unsettled"]
-        }
-        
-        syn_opts = emotional_repetoire[emotion]
-        syn_choice = np.random.choice(syn_opts)       
-        self.name = syn_choice + " " + emotion + " Cookies"        
+        self.fitness = Fitness(self.flavor_ingredients, emot) 
+        self.assign_name()
+    
+    def assign_name(self):
+        name_obj = Name(self.emotion)
+        self.name = name_obj.get_name()
     
     def make_ingredient_list(self, recipe_strs):
         ing_list = []
@@ -61,27 +36,6 @@ class Recipe:
                     
                 ing_list.append(Ingredient(ingr_name, amt, unit))
         return ing_list
-     
-    def get_base_ing_strings(self): 
-        return str(self.base_ingredients).split("\n")
-    
-    def get_flavor_ing_strings(self): 
-        return str(self.flavor_ingredients).split("\n")
-
-    def get_flavor_ingredients(self):
-        """Returns the flavor ingredient list
-        """
-        return self.flavor_ingredients.values()
-    
-    def get_instructions(self):
-        """Returns RecipeInstruction object. 
-        """
-        return self.instructions
-
-    def get_name(self):
-        """Returns the name of the recipe.
-        """
-        return self.name
     
     def format_instructions(self):
         """ Returns formatted, step-by-step instructions for the recipe with
@@ -107,6 +61,26 @@ class Recipe:
         if mutate: 
             self.instructions.mutate()
     
+    def get_base_ing_strings(self): 
+        return str(self.base_ingredients).split("\n")
+    
+    def get_flavor_ing_strings(self): 
+        return str(self.flavor_ingredients).split("\n")
+
+    def get_flavor_ingredients(self):
+        """Returns the flavor ingredient list
+        """
+        return self.flavor_ingredients.values()
+    
+    def get_instructions(self):
+        """Returns RecipeInstruction object. 
+        """
+        return self.instructions
+
+    def get_name(self):
+        """Returns the name of the recipe.
+        """
+        return self.name
  
     def get_fitness(self, do_print=False):
         self.fitness.set_fitness_val(do_print=do_print)

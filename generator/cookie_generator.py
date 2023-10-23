@@ -129,22 +129,20 @@ class RecipeManager():
 
 
 def main():
-    spot = Spotify() 
-    
     manager = RecipeManager()
     manager.set_emotion()
     emotion = manager.get_emotion()
-    
-    name_Person = input("Enter your name:  ")
-    song = spot.get_song(emotion)
-    
+
+    user_name = input("Enter your name:  ")
     generations = int(input(
-        "How many generations would you like to run this algorithm for? "))
+        "\nHow many generations would you like to run this algorithm for? "))
+
     manager.parse_files()
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
-    
-    playlist = spot.make_playlist(song, emotion, name_Person)
+
+    spot = Spotify(emotion) 
+    playlist = spot.make_playlist(user_name)
     print("All done :)")
 
 

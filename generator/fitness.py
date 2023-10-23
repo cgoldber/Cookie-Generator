@@ -68,14 +68,15 @@ class Fitness():
         all_ingrs = set(self.flavor_names + list(insp_dic.keys()))
         curr_vector, insp_vector = [], []
         for ingr in all_ingrs:
-            curr_vector.append(self.flavor_ingredients.get_amount_by_name(ingr))
+            curr_vector.append(
+                            self.flavor_ingredients.get_amount_by_name(ingr))
             if ingr in insp_dic.keys():
                 insp_vector.append(insp_dic[ingr])
             else:
                 insp_vector.append(0)
 
         euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) \
-            - np.array(insp_vector, dtype=float))
+                                        - np.array(insp_vector, dtype=float))
         return euc_dist
     
     def dissimilarity_score(self):
