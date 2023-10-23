@@ -19,7 +19,7 @@ class BaseIngredients:
 
     Attributes
     ----------
-    wer : dict
+    wet : dict
         wet bases in the recipe's ingredients
     flour : dict
         types of flour in the recipe's ingredients
@@ -35,20 +35,27 @@ class BaseIngredients:
     -------
     sort_ingredients():
         Sorts ingredients into base ingredient categories.
-    adjust_base_ratios();
+    adjust_base_ratios():
         adjust the ratios of sugar to flour to fat
-    adjust_sugar_ratios();
+    adjust_sugar_ratios():
         changes ratios of types of sugars
-    adjust_fat_ratios();
+    adjust_fat_ratios():
         changes ratios between the types of fats
-    adjust_eggs();
+    adjust_eggs():
         changes amount of eggs in the recipe
-    mutate();
+    mutate():
         chooses any of the mutations above with equal probability
-    change_base_type_volume(base _type, change);
+    change_base_type_volume(base _type, change):
         takes in a base type and how much it's being changed by and adjusts the
         rest of recipe to keep it's same ratios
-   
+    get_dry():
+        gets string representation of dry ingredients for recipe instructions
+    get_sugar():
+        gets string representation of sugars for recipe instructions
+    get_fat():
+        gets string representation of fats ingredients for recipe instructions
+    get_wet():
+        gets string representation of wet ingredients for recipe instructions
     """
     def __init__(self, ing_list): 
         self.wet = {}
