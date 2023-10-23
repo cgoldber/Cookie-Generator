@@ -1,7 +1,7 @@
 import numpy as np
 import os
 from recipe import Recipe
-from Spotify import Spotify
+from spotify import Spotify
 
 class RecipeManager():
     """Run generation and evaluation"""
