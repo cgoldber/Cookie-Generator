@@ -3,7 +3,6 @@ import os
 from recipe import Recipe
 from Spotify import Spotify
 
-
 class RecipeManager():
     """Run generation and evaluation"""
     def __init__(self):
@@ -42,13 +41,7 @@ class RecipeManager():
 
         # choose instructions of one recipe with equal probability 
         new_instrs = np.random.choice([recipe1, recipe2]).get_instructions()
-
-        if "b" in new_base:
-            print(new_base)
-        elif "b" in new_flavors:
-            print(new_flavors)
-        new_recipe = Recipe(new_base + new_flavors, emotion=self.emotion, 
-                            instructions=new_instrs)
+        new_recipe = Recipe(new_base + new_flavors, self.emotion, new_instrs)
 
         # call recipe to be potentially mutated
         new_recipe.mutate()
@@ -63,12 +56,18 @@ class RecipeManager():
         return sorted_recipes[int(len(recipes)/2):]
     
     def emotion_prompt(self):
+        """ Asks the user what emotion they are feeling and returns the
+            associated key.
+        """
         emotion_key = input("How are you feeling? \n (1) : Happy \n " + \
         "(2) : Sad \n (3) : Angry \n (4) : Excited \n (5) : Tired \n " + \
         "(6) : Stressed \n Input Number 1-6: ")
         return emotion_key
     
     def set_emotion(self):
+        """ Sets the emotion instance variable for the current system's state
+            based on the user input
+        """
         emotion_dic ={"1" : "Happy", "2" : "Sad", "3": "Angry",
                      "4" : "Excited", "5" : "Tired", "6" : "Stressed"}
         emotion_key = self.emotion_prompt()
@@ -79,6 +78,8 @@ class RecipeManager():
         print(f"\nYou are feeling {self.emotion.lower()}!\n")
     
     def get_emotion(self):
+        """ Returns the system's current emotion.
+        """
         return self.emotion
 
     def genetic_algo(self):
@@ -116,18 +117,6 @@ class RecipeManager():
             print(f"Running genetic algorithm for generation {i + 1}")
             self.genetic_algo()  
     
-    def write_fittest_recipes(self):
-        """ Writes the top 3 fittest recipes to files in the fittest recipes 
-            folder.
-        """
-        sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
-        top_3 = sorted_recipes[-3:]
-        for i in range(3):
-            recipe = top_3[i]
-            recipe.get_fitness(do_print=True)
-            with open("fittest_recipes/rank_" + str(3 - i), "w") as f:
-                f.writelines(str(recipe))
-    
     def write_fittest_recipe(self):
         """ Writes the top fittest recipe to files in the fittest recipes 
             folder.
@@ -140,22 +129,20 @@ class RecipeManager():
 
 
 def main():
-    spot = Spotify() 
-    
     manager = RecipeManager()
     manager.set_emotion()
     emotion = manager.get_emotion()
-    
-    name_Person = input("Enter your name:  ")
-    song = spot.get_song(emotion)
-    
+
+    user_name = input("Enter your name:  ")
     generations = int(input(
-        "How many generations would you like to run this algorithm for? "))
+        "\nHow many generations would you like to run this algorithm for? "))
+
     manager.parse_files()
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
-    
-    playlist = spot.make_playlist(song, emotion, name_Person)
+
+    spot = Spotify(emotion) 
+    playlist = spot.make_playlist(user_name)
     print("All done :)")
 
 

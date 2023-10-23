@@ -19,47 +19,36 @@ class BaseIngredients:
 
     Attributes
     ----------
-    wet : dict
-        wet ingredients in the recipe's ingredients
+    wer : dict
+        wet bases in the recipe's ingredients
     flour : dict
-        flours in the recipe's ingredients
+        types of flour in the recipe's ingredients
     dry : dict
         dry ingredients in the recipe's ingredients
     sugars : dict
-        sugars in the recipe's ingredients
+        types of surgars in the recipe's ingredients
     fats : dict
-        fats in the recipe's ingredients
-    base_ratio : dict 
-        tbd 
-    base_volumes : dict 
-        tbd 
-    volume : float 
-        tbd 
+        types of fats in the recipe's ingredients
+    
 
     Methods
     -------
     sort_ingredients():
         Sorts ingredients into base ingredient categories.
-    adjust_base_ratios():
-        Adjust ratios of flour to sugar to butter.
-    adjust_sugar_ratios():
-        Adjust ratios of one sugar to another.
-    adjust_fat_ratios():
-        Adjust ratios of one fat to another.
-    adjust_eggs():
-        Adjust ratios of one sugar to another.
-    change_base_type_volume():
-        todo
-    mutate():
-        todo
-    get_dry():
-        todo
-    get_sugar():
-        todo
-    get_fat():
-        todo
-    get_wet():
-        todo
+    adjust_base_ratios();
+        adjust the ratios of sugar to flour to fat
+    adjust_sugar_ratios();
+        changes ratios of types of sugars
+    adjust_fat_ratios();
+        changes ratios between the types of fats
+    adjust_eggs();
+        changes amount of eggs in the recipe
+    mutate();
+        chooses any of the mutations above with equal probability
+    change_base_type_volume(base _type, change);
+        takes in a base type and how much it's being changed by and adjusts the
+        rest of recipe to keep it's same ratios
+   
     """
     def __init__(self, ing_list): 
         self.wet = {}
@@ -127,12 +116,14 @@ class BaseIngredients:
         # apply new ratio to change volumes
         for key in self.base_ratio.keys(): 
             if key == base_type: 
-                change_in_volume = (multiplier - 1) * self.base_volumes[base_type]
+                change_in_vol = (multiplier - 1) * self.base_volumes[base_type]
             else: 
-                change_in_volume = -((multiplier - 1) * self.base_volumes[base_type]) / 2
-            self.change_base_type_volume(key, change_in_volume)
+                change_in_vol = \
+                -((multiplier - 1) * self.base_volumes[base_type]) / 2
+            self.change_base_type_volume(key, change_in_vol)
         for key in self.base_ratio.keys(): 
-            self.base_ratio[key] = 2 * self.base_volumes[key] / self.base_volumes["sugar"]
+            self.base_ratio[key] = \
+            2 * self.base_volumes[key] / self.base_volumes["sugar"]
  
     def adjust_sugar_ratios(self):
         """ Adjust types and ratios of two sugars in the sugar dictionary

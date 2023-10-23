@@ -10,8 +10,9 @@ INGREDIENT_TYPES = {
                "spearmint", "lemon", "lemon balm", "lemon zest", "grapefruit", 
                "lime", "lime zest", "grapefruit zest", "mandarin orange", 
                "citrus zest", "mandarin orange zest", "thyme", "black tea",
-               "green tea","sage","parsley", "poppy seed", "garlic", "flaxseed",
-               "dill", "cocoa", "coffee", "cumin", "oregano", "wasabi"],
+               "green tea","sage","parsley", "poppy seed", "garlic", 
+               "flaxseed", "dill", "cocoa", "coffee", "cumin", "oregano", 
+               "wasabi"],
     "mix-ins": ["apple", "apricot", "banana",  "beetroot", "black raspberry", 
                 "blackberry", "blueberry", "brazil nut", "camembert cheese", 
                 "cashew nut", "cherry", "chestnut", "chocolate", "citrus", 
@@ -52,21 +53,23 @@ class FlavorIngredients:
         Delete ingredient from a random flavor ingredient category. 
     swap_ingredient():
         Swap ingredient from a random flavor ingredient category. 
-    normalize_mix_in_amt():
-        todo
     mutate():
-        todo
+        chooses and executes one of the mutations above with equal probability
+    normalize_mix_in_amt():
+        Makes sure the total volume of mix-ins doesn't exceed 250 g
+        
     get_flavor_ing_names():
-        todo
-    get_amount_by_name():
-        todo
+        string representation of all of the flavor ingredient names
+    get_amount_by_name(ingr_name):
+        returns the amount of a given ingredient 
     get_mix_in():
-        todo
+        string repreasentation of all of the mix-ins and their amounts
     get_oil():
-        todo
+        string repreasentation of all of the oils and their amounts
     get_spice():
-        todo
+        string repreasentation of all of the spices and their amounts
     """
+    
     def __init__(self, ing_list): 
         self.spices = {}
         self.mix_ins = {}
@@ -197,7 +200,7 @@ class FlavorIngredients:
         for flav_type in all_types:
             if ingr_name in flav_type.keys():
                 return flav_type[ingr_name].get_amount()
-        return -1
+        return 0
     
     def get_mix_in(self):
         """ String representation of mix-ins, separated by commas, to be 

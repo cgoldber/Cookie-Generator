@@ -8,7 +8,8 @@ class RecipeInstructions:
         self.size = size
 
     def adjust_temp(self):
-        """ Randomly sets temperature to a multiple of 25 degrees F between 325 and 425 inclusive
+        """ Randomly sets temperature to a multiple of 25 degrees F between 325
+            and 425 inclusive
         """
         self.temp = np.random.randint(13, 18) * 25
 
@@ -23,7 +24,8 @@ class RecipeInstructions:
         self.rest_time = np.random.randint(0,13) 
 
     def adjust_size(self):
-        """ Randomly sets size to a multiple of 5 between 40 and 60 grams per cookie
+        """ Randomly sets size to a multiple of 5 between 40 and 60 grams per 
+            cookie.
         """
         self.size = np.random.randint(8, 13) * 5
 
@@ -39,6 +41,46 @@ class RecipeInstructions:
             self.adjust_rest_time()
         elif mutation == 3:
             self.adjust_size()
+    
+    def fill_in_quantities(self, recipe):
+        """ Returns formatted, step-by-step instructions for the recipe with
+        elements from the base ingredient, flavor ingredient, and instruction 
+        attributes of the Recipe object. 
+        """
+        instructions = f"Step 1: Preheat the oven to " + \
+        f"{str(recipe.instructions.get_temp())} degrees F.\nStep 2: Mix " + \
+        "together dry ingredients, combining the following in a large bowl" + \
+        ": flour"
+        if recipe.base_ingredients.get_dry() != "":
+            instructions += f", {recipe.base_ingredients.get_dry()}"
+        if recipe.flavor_ingredients.get_spice() != "":
+            instructions += f", {recipe.flavor_ingredients.get_spice()}"
+        instructions += ". In another bowl, cream together the following: " + \
+        f"{recipe.base_ingredients.get_sugar()}"
+        if recipe.base_ingredients.get_fat() != "":
+            instructions += f", {recipe.base_ingredients.get_fat()}"
+        if recipe.flavor_ingredients.get_spice() != "":
+            instructions += f", {recipe.flavor_ingredients.get_oil()}"
+        if recipe.base_ingredients.get_wet() != "": 
+            instructions += f", {recipe.base_ingredients.get_wet()}"
+
+        instructions += ".\nStep 3: Gradually add the dry ingredients to " + \
+        "the wet ingredients, mixing well"
+        if recipe.flavor_ingredients.get_mix_in() != "": 
+            instructions += ". Once mixed, add the " + \
+            f"{recipe.flavor_ingredients.get_mix_in()}"
+        instructions += ".\nStep 4: "
+        if (recipe.instructions.get_rest_time() > 0):
+            instructions += "Let the mixture rest for " + \
+            f"{str(recipe.instructions.get_rest_time())} hours in the " + \
+            "refrigerator."
+        instructions += " On a baking sheet lined with parchment paper, " + \
+        f"add {str(recipe.instructions.get_size())} grams of dough, rolled" + \
+        f" into a sphere. Bake for " + \
+        f" {str(recipe.instructions.get_bake_time())} minutes, turning the" + \
+        " sheet around halfway through the baking time.\nStep 5: Let the " + \
+        "cookies cool."
+        return instructions
 
     def get_temp(self):
         return self.temp
