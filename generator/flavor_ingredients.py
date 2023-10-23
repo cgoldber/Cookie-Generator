@@ -38,9 +38,9 @@ class FlavorIngredients:
     ----------
     spices : dict
         spices in the recipe's ingredients
-    mix_ins : str
+    mix_ins : dict
         mix-ins in the recipe's ingredients
-    oils : int
+    oils : dict
         oils in the recipe's ingredients
 
     Methods
@@ -53,21 +53,23 @@ class FlavorIngredients:
         Delete ingredient from a random flavor ingredient category. 
     swap_ingredient():
         Swap ingredient from a random flavor ingredient category. 
-    normalize_mix_in_amt():
-        todo
     mutate():
-        todo
+        chooses and executes one of the mutations above with equal probability
+    normalize_mix_in_amt():
+        Makes sure the total volume of mix-ins doesn't exceed 250 g
+        
     get_flavor_ing_names():
-        todo
-    get_amount_by_name():
-        todo
+        string representation of all of the flavor ingredient names
+    get_amount_by_name(ingr_name):
+        returns the amount of a given ingredient 
     get_mix_in():
-        todo
+        string repreasentation of all of the mix-ins and their amounts
     get_oil():
-        todo
+        string repreasentation of all of the oils and their amounts
     get_spice():
-        todo
+        string repreasentation of all of the spices and their amounts
     """
+    
     def __init__(self, ing_list): 
         self.spices = {}
         self.mix_ins = {}

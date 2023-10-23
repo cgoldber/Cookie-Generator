@@ -13,7 +13,42 @@ INGREDIENT_TYPES = {
 
 
 class BaseIngredients: 
-    """ Need to write
+    """ A class to represent flavor ingredients in a recipe.
+
+    ...
+
+    Attributes
+    ----------
+    wer : dict
+        wet bases in the recipe's ingredients
+    flour : dict
+        types of flour in the recipe's ingredients
+    dry : dict
+        dry ingredients in the recipe's ingredients
+    sugars : dict
+        types of surgars in the recipe's ingredients
+    fats : dict
+        types of fats in the recipe's ingredients
+    
+
+    Methods
+    -------
+    sort_ingredients():
+        Sorts ingredients into base ingredient categories.
+    adjust_base_ratios();
+        adjust the ratios of sugar to flour to fat
+    adjust_sugar_ratios();
+        changes ratios of types of sugars
+    adjust_fat_ratios();
+        changes ratios between the types of fats
+    adjust_eggs();
+        changes amount of eggs in the recipe
+    mutate();
+        chooses any of the mutations above with equal probability
+    change_base_type_volume(base _type, change);
+        takes in a base type and how much it's being changed by and adjusts the
+        rest of recipe to keep it's same ratios
+   
     """
     def __init__(self, ing_list): 
         self.wet = {}
