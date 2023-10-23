@@ -6,7 +6,8 @@ from ingredient import Ingredient
 INGREDIENT_TYPES = {
     "wet": ["egg", "eggs", "milk", "buttermilk"],
     "flour": ["all-purpose", "whole wheat"],
-    "dry": ["salt", "baking powder", "baking soda", "cornstarch"],
+    "dry": ["kosher salt", "salt", "baking powder", "baking soda", 
+            "cornstarch"],
     "sugars": ["white sugar", "brown sugar", "honey", "molasses"],
     "fats": ["butter", "vegetable oil", "olive oil", "coconut oil"]
 }
@@ -36,26 +37,26 @@ class BaseIngredients:
     sort_ingredients():
         Sorts ingredients into base ingredient categories.
     adjust_base_ratios():
-        adjust the ratios of sugar to flour to fat
+        Adjusts the ratios of sugar to flour to fat.
     adjust_sugar_ratios():
-        changes ratios of types of sugars
+        Changes ratios of types of sugars.
     adjust_fat_ratios():
-        changes ratios between the types of fats
+        Changes ratios between the types of fats.
     adjust_eggs():
-        changes amount of eggs in the recipe
+        Changes amount of eggs in the recipe.
     mutate():
-        chooses any of the mutations above with equal probability
+        Chooses any of the mutations above with equal probability.
     change_base_type_volume(base _type, change):
-        takes in a base type and how much it's being changed by and adjusts the
-        rest of recipe to keep it's same ratios
+        Takes in a base type and how much it's being changed by and adjusts the
+        rest of recipe to keep it's same ratios.
     get_dry():
-        gets string representation of dry ingredients for recipe instructions
+        Gets string representation of dry ingredients for recipe instructions.
     get_sugar():
-        gets string representation of sugars for recipe instructions
+        Gets string representation of sugars for recipe instructions.
     get_fat():
-        gets string representation of fats ingredients for recipe instructions
+        Gets string representation of fats ingredients for recipe instructions.
     get_wet():
-        gets string representation of wet ingredients for recipe instructions
+        Gets string representation of wet ingredients for recipe instructions.
     """
     def __init__(self, ing_list): 
         self.wet = {}
@@ -179,9 +180,9 @@ class BaseIngredients:
         """
         num_eggs = np.random.randint(1,3)
         if "egg" in self.wet.keys(): 
-            self.wet["egg"] = 50 * num_eggs
+            self.wet["egg"] = Ingredient("egg", 50 * num_eggs)
         elif "eggs" in self.wet.keys():
-            self.wet["eggs"] = 50 * num_eggs
+            self.wet["eggs"] = Ingredient("eggs", 50 * num_eggs)
 
     def change_base_type_volume(self, base_type, change):
         """ Normalizes volume of a base type (sugar, flour, fat) by evenly 

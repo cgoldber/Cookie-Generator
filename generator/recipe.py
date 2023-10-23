@@ -23,13 +23,15 @@ class Recipe:
         self.name = name_obj.get_name()
     
     def make_ingredient_list(self, recipe_strs):
+        """
+        """
         ing_list = []
         for line in recipe_strs: 
             if not line.startswith("-") and line != "":
                 split_line = line.split(" ")
                 amt = float(split_line[0])
                 unit = split_line[1]
-                ingr_name = " ".join(split_line[2:])
+                ingr_name = " ".join(split_line[2:]).strip()
                 
                 if "butter" in ingr_name and unit == "tbsp":
                     amt *= 14.2
@@ -50,10 +52,9 @@ class Recipe:
         flavor ingredients, or recipe instruction with set probability (20%,
         60%, and 20% respectively).
         """
-        # mutate = np.random.choice([True, False], p=[0.8,0.2])
-        # if mutate: 
-        #     self.flavor_ingredients.mutate()       
-        self.flavor_ingredients.mutate()         
+        mutate = np.random.choice([True, False], p=[0.8,0.2])
+        if mutate: 
+            self.flavor_ingredients.mutate()       
         mutate = np.random.choice([True, False], p=[0.3,0.7])
         if mutate: 
             self.base_ingredients.mutate()
