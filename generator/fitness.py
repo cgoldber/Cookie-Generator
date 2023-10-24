@@ -27,7 +27,7 @@ class Fitness():
         Returns the flavor pairing score between two ingredients.
     flavor_pairing_score():
         Returns the average similarity score between flavors in the recipe.
-    get_inpsiring_dic():
+    get_inspiring_dic():
         Reads inspiring recipes and stores them as dictionaries.
     calc_euc_dist():
         Computed Euclidean Distance between current and inspiring set recipes.
@@ -101,10 +101,10 @@ class Fitness():
 
         return np.mean(flavor_scores)
     
-    def get_inpsiring_dic(self, file):
+    def get_inspiring_dic(self, file):
         """ Reads the inspiring recipes and stores them as a dictionary where
-            the keys represent the flavor ingredients and the values represented the
-            associated amount.
+            the keys represent the flavor ingredients and the values represent
+            the associated amount.
             Args:
                 file (str) : name of the inspiring recipe file
         """
@@ -125,7 +125,7 @@ class Fitness():
         """ Calculates how different the recipe associated with the given
             inspring recipe dictionary is from the current recipe that this
             fitness object belongs to. To compute this value, the current and
-            inpsiring recipe are converted into vectors, where each index 
+            inspiring recipe are converted into vectors, where each index 
             corresponds to an ingredient that at least one of the two recipes
             have, and the values are the amount of that ingredient. Then,
             the euclidean distance is computed and returned.
@@ -155,7 +155,7 @@ class Fitness():
         dissimilarities = []
         for inspiringRecipe in os.listdir(dir):
             with open(dir + "/" + inspiringRecipe, "r") as f:
-                insp_dic = self.get_inpsiring_dic(dir + "/" + inspiringRecipe)
+                insp_dic = self.get_inspiring_dic(dir + "/" + inspiringRecipe)
             euc_dist = self.calc_euc_dist(insp_dic)
             dissimilarities.append(euc_dist)
         
