@@ -58,7 +58,6 @@ Copy Spotify link given in terminal and simply paste in browser to retrieve your
 
 
 
-## 
 The output of the fittest recipes are separated by these headers: Base ingredients, flavor ingredients, Instructions. 
 
 
