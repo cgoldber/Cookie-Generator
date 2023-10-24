@@ -195,7 +195,7 @@ def main():
     spot = Spotify(emotion) 
     playlist = spot.make_playlist(user_name)
 
-    #manager.print_metrics()
+    #manager.print_metrics() 
     print("All done :)")
 
 
