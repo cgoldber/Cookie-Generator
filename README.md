@@ -43,17 +43,14 @@ experimentation process, where we used our previous knowledge of cookie-making
 to inform our final decisions.
 
 
-After evaluating all of the new recipe’s fitness, the fittest half of both the new 
-recipes and the previous generation’s recipes (the first generation uses the 
-inspiring set as the previous generation) crosses over and mutates again, 
+After evaluating all of the new recipe’s fitness, the fittest half of both the
+new recipes and the previous generation’s recipes (the first generation uses 
+the inspiring set as the previous generation) crosses over and mutates again, 
 creating a new generation of recipes. After all the generations have executed,
 the fittest recipe is written into the fittest recipe folder along with its
-corresponding baking instructions. 
-
-
-Then a spotify playlist for the user based on the emotion to cook with. The 
-playlist is made by randomly choosing a song that aligns with the emotion and 
-then creating a 30 song playlist around that song. 
+corresponding baking instructions. Included in the instructions is the 
+direction to listen to a random song that aligns with the user's chosen 
+emotion.
 
 
 ## More on Evaluation Metrics

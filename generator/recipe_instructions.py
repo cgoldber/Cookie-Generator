@@ -1,4 +1,34 @@
 import numpy as np
+import random
+
+EMOTIONAL_SONGS = {
+    "Happy" : ["Walking on Sunshine", "Dancing Queen", 
+        "Here Comes the Sun", "What a wonderful world", 
+        "Beautiful Day", "Happy", "Rhythm and Blues", "Happy", "8TEEN", 
+        "Good Life", "Mona Lisa", "Castle on the Hill", "Confident"],
+    "Sad" : ["My heart will go on", "Candle in the wind", 
+        "Marvin's room", "Redemption", "Driver's lisence", 
+        "Heartbreak Anniversery", "Coaster", "Cold Blooded", "Ivy",
+        "Find you", "Blue", "Bahamas Promises", "Alone"],
+    "Angry" : ["Nonstop", "Rolling in the Deep", "Break Stuff", 
+        "I'm Upset", "Worst behavior", "99 problems", 
+        "I heard it through the grapevine", "Ex-factor", 
+        "Irreplacable", "The Final Countdown", "IDGAF", 
+        "Commitment Issues", "Shot for me"], 
+    "Excited" : ["Can't stop the feeling", "Dynamite", 
+        "Walking on Sunshine", "All Star", "I gotta Feeling", 
+        "Twist and shout", "Superstar Sh*t", "Watermelon Sugar", 
+        "Intentions", "One Thing", "Sugar", "Cool Kids", 
+        "Can't Feel my Face" ],
+    "Tired" : ["Socks", "babydoll", "Tired of Running", "Jaded", 
+        "Furthest Thing", "Tried Our Best", "Apocolypse", 
+        "never find u", "Are You Bored Yet?", "Blessed", "Streetcar", 
+        "I'm tired", "Apocalypse"],
+    "Stressed" : ["Changes", "Don't give up on me", "Stay", 
+        "This City", "Do not Distrub", "One Man can change the world", 
+        "Emotion", "Chanel", "Japanesse Denim", "Goodbyes", "Lie", 
+        "White Ferrari", "Come Back to Earth"]
+}  
 
 
 class RecipeInstructions: 
@@ -16,6 +46,8 @@ class RecipeInstructions:
         resting time, in hours.
     size : int 
         size of each cookie, in grams.
+    emotion : strng
+        user's current emotion.
 
     Methods
     -------
@@ -27,24 +59,28 @@ class RecipeInstructions:
         Randomly adjusts rest time between 0-12 hours.
     adjust_size():
         Randomly adjust size between 40-60 grams.
+    select_song():
+        Chooses random song associated with user's emotion.
     mutate():
         Chooses and executes one of the mutations above with equal probability.
     fill_in_quantities(recipe):
         Returns formatted, step-by-step instructions for the recipe.
     """
 
-    def __init__(self, temp=350, bake_time=10, rest_time=2, size=50):
+    def __init__(self, emotion, temp=350, bake_time=10, rest_time=2, size=50):
         """ Initializes cooking instruction parameters to default settings.
             Args:
                 temp (int) : temperature to preheat oven in F
                 bake_time (int) : how long to bake cookies in mins
                 rest_time (int) : how long to leave cookies out after baking
                 size (int) : size of cookie dough on sheet
+                emotion (string) : the user's current emotion
         """
         self.temp = temp
         self.bake_time = bake_time
         self.rest_time = rest_time
         self.size = size
+        self.emotion = emotion
 
     def adjust_temp(self):
         """ Randomly sets temperature to a multiple of 25 degrees F between 325
@@ -67,6 +103,12 @@ class RecipeInstructions:
             cookie.
         """
         self.size = np.random.randint(8, 13) * 5
+    
+    def select_song(self):
+        """ Selects a song associated with the user's emotion.
+        """
+        song_opts = EMOTIONAL_SONGS[self.emotion]  
+        return random.choice(song_opts)
 
     def mutate(self):
         """ Calls an above mutation.
@@ -88,10 +130,11 @@ class RecipeInstructions:
             Args:
                 recipe (Recipe) : The recipe whose instructions are written for
         """
-        instructions = (f"Step 1: Preheat the oven to " + 
-        f"{str(self.temp)} degrees F.\nStep 2: Mix " + 
-        "together dry ingredients, combining the following in a large bowl" + 
-        ": flour")
+        instructions = (f"Put on the {self.emotion.lower()} song, " +
+        f"{self.select_song()}, so that you can get in the mood while baking" +
+        f"!\nStep 1: Preheat the oven to {str(self.temp)} degrees F.\nStep 2" + 
+        ": Mix together dry ingredients, combining the following in a large " + 
+        "bowl: flour")
         if recipe.base_ingredients.get_dry() != "":
             instructions += f", {recipe.base_ingredients.get_dry()}"
         if recipe.flavor_ingredients.get_spice() != "":

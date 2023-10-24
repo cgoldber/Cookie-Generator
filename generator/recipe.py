@@ -51,7 +51,7 @@ class Recipe:
         Returns recipe's fitness score.
     """
 
-    def __init__(self, recipe_strs, emot, instructions=RecipeInstructions()):
+    def __init__(self, recipe_strs, emot, instructions=""):
         """ Creates recipe based on user's emotion, the instructions for baking
             the recipe, and populates the recipe's ingredient storage objects.
             Args:
@@ -62,7 +62,6 @@ class Recipe:
                                                     this recipe
         """
         self.emotion = emot
-        self.instructions = instructions
 
         ing_list = self.make_ingredient_list(recipe_strs)
         self.base_ingredients = BaseIngredients(ing_list)
@@ -71,6 +70,12 @@ class Recipe:
         self.fitness = Fitness(self.flavor_ingredients, emot)
         name_obj = Name(emot)
         self.name = name_obj.get_name()
+
+        if instructions == "":
+            self.instructions = RecipeInstructions(emot)
+        else:
+            self.instructions = instructions
+
     
     def make_ingredient_list(self, recipe_strs):
         """ Reads the string representation of a recipe and converts each

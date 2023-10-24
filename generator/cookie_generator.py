@@ -1,7 +1,6 @@
 import numpy as np
 import os
 from recipe import Recipe
-from spotify import Spotify
 
 
 class RecipeManager():
@@ -159,6 +158,8 @@ class RecipeManager():
         """
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         recipe = sorted_recipes[-1]
+        print(f"\nWriting {recipe.get_name()} recipe!!!")
+        print("Metrics: ")
         recipe.get_fitness(do_print=True)
         with open("fittest_recipes/rank_" + str(1) + ".txt", "w") as f:
             f.writelines(str(recipe))
@@ -184,19 +185,15 @@ def main():
     manager.set_emotion()
     emotion = manager.get_emotion()
 
-    user_name = input("Enter your name:  ")
     generations = int(input(
-    "\nHow many generations would you like to run this algorithm for? "))
+    "How many generations would you like to run this algorithm for? "))
 
     manager.parse_files()
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
 
-    spot = Spotify(emotion) 
-    playlist = spot.make_playlist(user_name)
-
     #manager.print_metrics() #Uncomment to print top/bottom ranking metrics
-    print("All done :)")
+    print("\nAll done :)")
 
 
 if __name__ == "__main__":
