@@ -1,9 +1,7 @@
 # Cookie-Generator
-- need to install pandas, spotipy
-Title
-Emotimaker
-By Bereket Abebe, Casey Goldberg, Cairo Dasilva and Sophie Lipset
-Project Description
+## Title: Emotimaker
+## By Bereket Abebe, Casey Goldberg, Cairo Dasilva and Sophie Lipset
+## Project Description
 The Emotimaker is a recipe generator that uses a genetic algorithm to create cookie recipes based on user inputted emotions. The chosen emotions are between Happy, Sad, Tired, Angry, Stressed and Excited. Recipes are made up of both base ingredients and flavor ingredients with base ingredients including ingredients such as flour and butter and flavor ingredients being mix-ins such as chocolate, different fruits and added spices. 
 
 
@@ -20,9 +18,9 @@ After all the generations have executed, the top recipe is placed into the fitte
 Then a spotify playlist for the user based on the emotion to cook with. The playlist is made by randomly choosing a song that aligns with the emotion and then creating a 30 song playlist around that song. 
 
 
-How to Install and Run
+## How to Install and Run
+### Step 1:
 To Run the program you should install:
-Step 1:
 pip3 install numpy 
 pip3 install pandas
 pip3 install random
@@ -30,37 +28,37 @@ pip3 install os
 pip3 install spotipy 
 
 
-Step 2: 
+### Step 2: 
 Change cd(change directory) to cookie_generator (this should be what you named the file)/generator/ in the user terminal
 “cd generator/”
 
 
-Step 3 
+### Step 3 
 Go to file “cookie_generator” and run file
 
 
-Step 4
+### Step 4
 Input number for emotions (1-6): -> hit Enter in terminal
 
 
-Step 5 
+### Step 5 
 Input name -> hit Enter in terminal 
 
 
-Step 6
+### Step 6
 Input the amount of generations you would like to run the program for: -> hit Enter in terminal 
 
 
-Step 7 
+### Step 7 
 Go to fittest_recipes to view the generations based on emotions. 
 
 
-Step 8 
+### Step 8 
 Copy Spotify link given in terminal and simply paste in browser to retrieve your tailored playlist 
 
 
 
-
+## 
 The output of the fittest recipes are separated by these headers: Base ingredients, flavor ingredients, Instructions. 
 
 
