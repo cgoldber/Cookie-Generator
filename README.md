@@ -3,56 +3,44 @@
 ## By Bereket Abebe, Casey Goldberg, Cairo Dasilva and Sophie Lipset
 ## Project Description
 The Emotimaker is a recipe generator that uses a genetic algorithm to create 
-cookie recipes based on user inputted emotions. The chosen emotions are between
-Happy, Sad, Tired, Angry, Stressed and Excited. Recipes are made up of both
-base ingredients and flavor ingredients with base ingredients including
-ingredients such as flour and butter and flavor ingredients being mix-ins
-such as chocolate, different fruits and added spices. 
+cookie recipes tailored to the user's current emotion. The possible emotions 
+are Happy, Sad, Tired, Angry, Stressed and Excited. Recipes are made up of both
+base ingredients (flour, butter, etc) and flavor ingredients (chocolate, 
+fruits, spices, etc). All possible flavors that may be included in the recipes
+appear is the BASE/FlAVOR_INGREDIENT_TYPES lists in base/flavor_ingredients.py.
 
 
-The generator starts by choosing sets of 2 recipes from the inspiring set with
-probabilities proportional to their fitness and then crosses them over with 
-each other choosing one of the bases and combining the flavor ingredients at
-random. New recipes can then be mutated. Mutations include changes to base
-and/or flavor ingredients. Changes in the ratios of different base 
-ingredients such as the ratios of types of sugars changes in the ratios of 
-types of flours or also changes in the overall ratios between flour, fats 
-and sugars. Changes in flavor ingredients can either add, swap or delete a
-flavor ingredient. 
+The generator starts by reading a set of inspiring recipes, which are a diverse
+set of recipes which were extracted from expert bakers on the internet. Then, 
+it runs a genetic algorithm on the recipe set. First, the genetic algorithm 
+chooses 2 recipes from the inspiring set with probabilities proportional to 
+their fitness. Then, it crosses them over by choosing one of the bases and 
+combining the flavor ingredients based on a random pivot index. After that, 
+newly crossed recipes can then be mutated. Mutations may be applied to base 
+ingredients, recipe ingredients, or the recipe baking instructions. Base 
+ingredient mutations involve chaning ingredient ratios, flavor ingredient 
+mutations involve adding, deleting, or swapping ingredients, and instruction 
+mutations involve altering parameters such as bake time or preheat temperature.
 
 
-New recipes are then evaluated on their fitness where there are four key 
-factors that make a recipe more fit than another. The first is the number of
-ingredients where recipes with more ingredients are encouraged. The second is 
-the flavor pairings; using researched flavor pairings and computed scores 
-between two different ingredients, the algorithm then ranks recipes based on 
-the average score between all of the combinations of flavor ingredients in the 
-recipe where recipes with more flavors that align with each other are fitter. 
-The third score is how closely the recipe matches with the chosen emotion. 
-Using scores for how each flavor ingredient aligns with each of the six 
-emotions, recipes with a higher total score for the chosen emotion are more 
-fit. The final evaluation of fitness is dissimilarity as recipes with flavor 
-ingredients that deviate further from the inspiring set of recipes in both 
-their amounts and ingredients are more fit. All four of these evaluations are 
-weighted differently in an order that creates the most unique and quality 
-recipes. These four evaluations all play a role in evaluating which recipes are 
-more novel, taste better and align with the function of the algorithm in 
-matching a cookie to an emotion. 
-
-The Metrics folder has three example recipes which show the recipe and the 
-ranking of which all four of the methods of evaluation are weighted. The total 
-fitness is the sum of the four. We can see that for these three recipes the two 
-highest scores are the alignment with the emotion and the flavor pairing.  
-Selecting for recipes with high emotion scores also benefits the creativity 
-because it allows for more unique flavor and ingredient combinations and allows 
-it to fit the users needs, whereas if the flavor pairing score was selected for 
-we wouldn’t see much difference between emotions. Selecting for higher quality 
-flavor pairings also makes sure the cookie tastes good especially if you're 
-taking flavors that align with an emotion but don't take flavor into account. 
-This contributes to the creativity because having a cookie with better flavor 
-pairings makes the cookie more desirable to eat, therefore making the algorithm 
-more useful to people and having more value.
-
+New and previous-generation recipes are then evaluated on their fitness, which
+incorporates four different components. The first component of the fitness 
+function is the number of ingredients in the recipe, which helps to encourage 
+more complex flavor pairings. The second component is a flavor pairing score
+that indicates how similar the recipe flavors are. These values are extracted
+from previous flavor pairing research provided by Prof Harmon. The third 
+component is an emotion alignment score that indicates how well the recipe
+flavors correspond to the user-given emotion. We manually generated an
+emotion/flavor ingredient alignment matrix based on associations we have gained
+through our past life experiences. The final component of the fitness function
+indicates how dissimilar the recipe flavors are from the flavors in the
+inspiring set. The recipes that contain flavor ingredients that deviate more 
+from the inspiring sets based on both their ingredients and ingredient 
+quantities are more fit. All four of these fitness components are weighted 
+differently based on how much we felt we wanted our system to consider value
+versus novelty. We selected these coefficients with a human-in-the-loop manual 
+experimentation process, where we used our previous knowledge of cookie-making
+to inform our final decisions.
 
 After evaluating all of the new recipe’s fitness, the top half of both the new 
 recipes and the previous generation’s recipes (the first generation uses the 
@@ -68,6 +56,61 @@ Then a spotify playlist for the user based on the emotion to cook with. The
 playlist is made by randomly choosing a song that aligns with the emotion and 
 then creating a 30 song playlist around that song. 
 
+
+## More on Evaluation Metrics
+
+The primary goal of our system was to generate yummy, well-structured, and 
+novel cookie recipes that aligned well with the user's emotion. Therefore, we 
+generated our previously explained metrics with these ideas in mind. 
+
+To ensure that the cookies would taste good, we employed the flavor pairing 
+component of the fitness function. However, we found that we did not need to 
+weigh it heavily, as the original inspiring recipes and the emotion alignment 
+aspect already resulted in tasty ingredient coombinations.
+
+To ensure that the cookies would actually resemble traditional cookies, our
+algorithm ensured that key base ingredients would never be deleted and it also
+maintained conventional ratios between dry ingredients, wet ingredients, etc 
+(verified these conventions on Google). In addition, we also ensured that the
+baking instructions followed a conventional format and the parameter such as
+oven temperature stayed between reasonable amounts.
+
+Both the dissimilarity and length component of the fitness function contributed
+to the novelty of the system. The length component encourages more complex
+pairings that include a larger amount of ingredients. The dissimilarity score
+ensures that the recipe does not resemble any of the inspiring ingredients.
+
+The extent to which the recipe aligned with the user's emotion was evaluated
+with the emotion alignment component described above. This component was
+weighted heavily, as we very much prioritized the creation of cookies that met
+the user's emotional needs.
+
+Throughout the genetic algorithm process, these evaluation metrics were
+employed entirely within the fitness function (except for the well-structured
+metric which was incorporated throughout the process) to decide which recipes
+would continue on in the genetic algorithm. Once the algorithm terminates,
+these evaluation metrics are used to determine which recipe is the most fit and
+should be written for the user to then bake.
+
+The Metrics folder contains three examples of system deployment for Happy, 
+Stressed, and Excited input emotions for 7 generations each. The examples contain
+the top three and bottom three fitness scores for the output generation. In
+addition to the total fitness score, it also includes the four components that
+make up the fitness function (already multiplied by their respective 
+coefficients). Finally, the examples also contain the written recipe for the 
+top ranked recipe.
+
+For instance, in example 1, it is of course no surprise that the highest ranked
+recipe has the highest total fitness score. Since this recipe has the highest
+emotion score in comparison to the other printed metrics, that means that the 
+flavors in the recipe best correspond to the user's emotion and is therefore 
+valuable to them. However, it is important to note that the highest ranked
+recipe does not have the highest dissimilarity and flavor pairing scores. Since
+the goal of this system is finding a creative recipe and not necessarily the
+"optimal" cookie, there will be trade-offs with certain evaluation metrics. 
+For instance, the highest ranked recipe has a relatively low flavor pairing 
+score, but it makes up for this by being novel in comparison to the inspiring
+set and well tuned to the user's emotions. 
 
 ## How to Install and Run
 ### Step 1:
@@ -103,7 +146,8 @@ Enter in terminal
 
 
 ### Step 7 
-Go to fittest_recipes to view the generations based on emotions. 
+Go to fittest_recipes folder to view the generations based on emotion :
+the file will be named "rank1.txt". 
 
 
 ### Step 8 

@@ -23,7 +23,9 @@ class Recipe:
     flavor_ingredients : FlavorIngredients
         Stores and performs operations on the recipe's flavor ingredients.
     fitness : float
-        Stores and computes the recipe's fitness score
+        Stores and computes the recipe's fitness score.
+    name : String
+        The recipe's name.
 
     Methods
     -------
@@ -67,6 +69,8 @@ class Recipe:
         self.flavor_ingredients = FlavorIngredients(ing_list)
 
         self.fitness = Fitness(self.flavor_ingredients, emot)
+        name_obj = Name(emot)
+        self.name = name_obj.get_name()
     
     def make_ingredient_list(self, recipe_strs):
         """ Reads the string representation of a recipe and converts each

@@ -159,8 +159,8 @@ class RecipeManager():
         """
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         recipe = sorted_recipes[-1]
-        recipe.get_fitness()
-        with open("fittest_recipes/rank_" + str(1), "w") as f:
+        recipe.get_fitness(do_print=True)
+        with open("fittest_recipes/rank_" + str(1) + ".txt", "w") as f:
             f.writelines(str(recipe))
 
     def print_metrics(self):
@@ -195,7 +195,7 @@ def main():
     spot = Spotify(emotion) 
     playlist = spot.make_playlist(user_name)
 
-    #manager.print_metrics() 
+    #manager.print_metrics() #Uncomment to print top/bottom ranking metrics
     print("All done :)")
 
 
