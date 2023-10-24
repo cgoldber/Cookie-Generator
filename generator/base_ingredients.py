@@ -2,6 +2,7 @@ import numpy as np
 import random
 from ingredient import Ingredient
 
+
 BASE_INGREDIENT_TYPES = {
     "wet": ["egg", "eggs", "milk", "buttermilk"],
     "flour": ["all-purpose", "whole wheat"],
@@ -20,13 +21,13 @@ class BaseIngredients:
     Attributes
     ----------
     wet : dict
-        Wet bases in the recipe's ingredients
+        Wet ingredients in the recipe's ingredients
     flour : dict
         Types of flour in the recipe's ingredients
     dry : dict
         Dry ingredients in the recipe's ingredients
     sugars : dict
-        Types of surgars in the recipe's ingredients
+        Types of sugars in the recipe's ingredients
     fats : dict
         Types of fats in the recipe's ingredients
     
@@ -45,8 +46,8 @@ class BaseIngredients:
     mutate():
         Chooses any of the mutations above with equal probability.
     change_base_type_volume(base _type, change):
-        Takes in a base type and how much it's being changed by and adjusts the
-        rest of recipe to keep it's same ratios.
+        Takes in a base type and how much it volume is changed by and adjusts 
+        the rest of recipe to keep the same ratios.
     get_dry():
         Gets string representation of dry ingredients for recipe instructions.
     get_sugar():
@@ -60,9 +61,9 @@ class BaseIngredients:
     def __init__(self, ing_list): 
         """ Initializes the base ingredients quantities to 0 and then uses
             given ingredient list to create and store various Ingredient
-            objects that are of type base.
+            objects that are base ingredients in attribute dicts.
             Args:
-                ing_list (list) : list of ingredient objects
+                ing_list (list) : list of Ingredient objects
         """
         self.wet = {}
         self.flour = {}
