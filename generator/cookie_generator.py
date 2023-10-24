@@ -5,8 +5,43 @@ from spotify import Spotify
 
 
 class RecipeManager():
-    """Runs genetic algorithms to generate cookie recipes while considering 
+    """ Runs genetic algorithms to generate cookie recipes while considering 
         evaluation metrics.
+
+    ...
+
+    Attributes
+    ----------
+    recipes : list
+        current recipes in genetic algorithm.
+    emotion : string
+        emotion that recipes will be based on.
+    
+    Methods
+    -------
+    parse_files():
+        Reads inspiring recipe files and populates recipe list with Recipes.
+    emotion_prompt():
+        Asks user for their current emotion.
+    set_emotion():
+        Ensures emotion is valid and then sets emotion instance variable.
+    get_emotion():
+        Returns the current user's emotion.
+    fittest_half():
+        Returns the fittest 50% of the recipe set.
+    crossover():
+        Combines two recipes by selecting one of their flavor ingredients and
+        combining parts of their flavor ingredients based on a random pivot
+        index.
+    genetic_algo():
+        Runs the genetic algorithm which involves repeating this process for 
+        the number of recipes times : randomly selects two recipes proportional
+        to their fitness and crosses them, potentially mutates them, and stores
+        the fittest 50% of the previous and crossed over recipes.
+    run_genetic_algo():
+        Runs the genetic algorithm however many times the user chose.
+    write_fittest_recipe():
+        Writes the fittest recipe to a file.
     """
 
     def __init__(self):
@@ -27,48 +62,13 @@ class RecipeManager():
                 recipe_str = f.readlines()
                 self.recipes.append(Recipe(recipe_str, self.emotion))
     
-    def crossover(self, recipe1, recipe2):
-        """ Chooses the base ingredients from one recipe with equal 
-            probability. Chooses a random pivot index to concatenate the flavor
-            ingredients. Creates a new recipe object. Then calls the mutate 
-            function on the new recipe and stores what is returned.
-            Args:
-                recipe1 (Recipe) : first recipe to be crossed
-                recipe2 (Recipe) : second recipe to be crossed
-        """
-        # choose base ingredients of one recipe with equal probability 
-        new_base = np.random.choice([recipe1, recipe2]).get_base_ing_strings()
-
-        # randomly select pivot to split flavor ingredients
-        recipe1_flavor_strs = recipe1.get_flavor_ing_strings()
-        recipe2_flavor_strs = recipe2.get_flavor_ing_strings()
-        pivot = np.random.randint(0, min(len(recipe1_flavor_strs), 
-                                         len(recipe1_flavor_strs)))
-        new_flavors = recipe1_flavor_strs[:pivot] + recipe2_flavor_strs[pivot:]
-
-        # choose instructions of one recipe with equal probability 
-        new_instrs = np.random.choice([recipe1, recipe2]).get_instructions()
-        new_recipe = Recipe(new_base + new_flavors, self.emotion, new_instrs)
-
-        # call recipe to be potentially mutated
-        new_recipe.mutate()
-        return new_recipe
-    
-    def fittest_half(self, recipes):
-        """ Returns the fittest 50% of a given population.
-            Args:
-                recipes (list) : list of recipes
-        """
-        sorted_recipes = sorted(recipes, key = lambda x : x.get_fitness())
-        return sorted_recipes[int(len(recipes)/2):]
-    
     def emotion_prompt(self):
         """ Asks the user what emotion they are feeling and returns the
             associated key.
         """
-        emotion_key = input("How are you feeling? \n (1) : Happy \n " + \
-        "(2) : Sad \n (3) : Angry \n (4) : Excited \n (5) : Tired \n " + \
-        "(6) : Stressed \n Input Number 1-6: ")
+        emotion_key = input("How are you feeling? \n (1) : Happy \n " + 
+            "(2) : Sad \n (3) : Angry \n (4) : Excited \n (5) : Tired \n " + 
+            "(6) : Stressed \n Input Number 1-6: ")
         return emotion_key
     
     def set_emotion(self):
@@ -88,6 +88,37 @@ class RecipeManager():
         """ Returns the system's current emotion.
         """
         return self.emotion
+    
+    def fittest_half(self, recipes):
+        """ Returns the fittest 50% of a given population.
+            Args:
+                recipes (list) : list of recipes
+        """
+        sorted_recipes = sorted(recipes, key = lambda x : x.get_fitness())
+        return sorted_recipes[int(len(recipes)/2):]
+    
+    def crossover(self, recipe1, recipe2):
+        """ Chooses the base ingredients from one recipe with equal 
+            probability. Chooses a random pivot index to concatenate the flavor
+            ingredients. Creates a new recipe object with these ingredients. 
+            Args:
+                recipe1 (Recipe) : first recipe to be crossed
+                recipe2 (Recipe) : second recipe to be crossed
+        """
+        # choose base ingredients of one recipe with equal probability 
+        new_base = np.random.choice([recipe1, recipe2]).get_base_ing_strings()
+
+        # randomly select pivot to split flavor ingredients
+        recipe1_flavor_strs = recipe1.get_flavor_ing_strings()
+        recipe2_flavor_strs = recipe2.get_flavor_ing_strings()
+        pivot = np.random.randint(0, min(len(recipe1_flavor_strs), 
+                                         len(recipe1_flavor_strs)))
+        new_flavors = recipe1_flavor_strs[:pivot] + recipe2_flavor_strs[pivot:]
+
+        # choose instructions of one recipe with equal probability 
+        new_instrs = np.random.choice([recipe1, recipe2]).get_instructions()
+        new_recipe = Recipe(new_base + new_flavors, self.emotion, new_instrs)
+        return new_recipe
 
     def genetic_algo(self):
         """ Iterate len(self.recipes) times. Choose recipe1 and recipe2 based 
@@ -108,11 +139,13 @@ class RecipeManager():
 
             #cross the recipes together
             new_recipe = self.crossover(recipe1, recipe2)
+            # call recipe to be potentially mutated
+            new_recipe.mutate()
             new_recipes.append(new_recipe)
 
         #keep top 50% of old and newly generated recipes for next generation
-        self.recipes = self.fittest_half(self.recipes) + \
-                       self.fittest_half(new_recipes)   
+        self.recipes = (self.fittest_half(self.recipes) + 
+                        self.fittest_half(new_recipes))   
 
     def run_genetic_algo(self, generations):
         """ Run genetic algorithm for the # of generations that the user 
