@@ -73,7 +73,7 @@ class Spotify:
         scope = "playlist-modify-public"
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope,
             client_id="81e6c74b51b54640a88ca4b4e40369d5",
-            client_secret="149713aa148f48fd9e48c262e94516fd",
+            client_secret="2f9fe134debb4d1394c40978ecabab4c",
             redirect_uri="http://localhost:3000",))
         results = sp.search(q=song, type='track', limit=1)
         song_uri = results['tracks']['items'][0]['uri']

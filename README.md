@@ -105,8 +105,9 @@ emotion score in comparison to the other printed metrics, that means that the
 flavors in the recipe best correspond to the user's emotion and is therefore 
 valuable to them. However, it is important to note that the highest ranked
 recipe does not have the highest dissimilarity and flavor pairing scores. Since
-the goal of this system is finding a creative recipe and not necessarily the
-"optimal" cookie, there will be trade-offs with certain evaluation metrics. 
+the goal of this system is finding a creative recipe (which is implemented 
+through processes based on probabilities) and not necessarily the "optimal" 
+cookie, there will be trade-offs with certain evaluation metrics. 
 For instance, the highest ranked recipe has a relatively low flavor pairing 
 score, but it makes up for this by being novel in comparison to the inspiring
 set and well tuned to the user's emotions. 
