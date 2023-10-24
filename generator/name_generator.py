@@ -21,6 +21,7 @@ EMOTIONAL_REPETOIRE = {
         "Perturbed", "Exasperated", "Unsettled"]
 }
 
+
 class Name():
     def __init__(self, emotion):
         self.emotion = emotion

@@ -2,8 +2,8 @@ import pandas as pd
 import os
 import numpy as np
 
-class Fitness():
 
+class Fitness():
     def __init__(self, flavor_ingredients, emotion):
         self.fitness_val = 0
         self.emotion = emotion
@@ -136,4 +136,4 @@ class Fitness():
         """ Returns the current fitness value
         """
         return self.fitness_val
-
+        

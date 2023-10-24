@@ -2,7 +2,6 @@ import numpy as np
 import random
 from ingredient import Ingredient
 
-
 INGREDIENT_TYPES = {
     "wet": ["egg", "eggs", "milk", "buttermilk"],
     "flour": ["all-purpose", "whole wheat"],
@@ -14,7 +13,7 @@ INGREDIENT_TYPES = {
 
 
 class BaseIngredients: 
-    """ A class to represent flavor ingredients in a recipe.
+    """ A class to represent base ingredients in a recipe.
 
     ...
 
@@ -59,6 +58,10 @@ class BaseIngredients:
         Gets string representation of wet ingredients for recipe instructions.
     """
     def __init__(self, ing_list): 
+        """ Initializes the base ingredients quantities to 0 and then uses
+            given ingredient list to create and store various Ingredient
+            objects that are of type base.
+        """
         self.wet = {}
         self.flour = {}
         self.dry = {}
@@ -70,9 +73,12 @@ class BaseIngredients:
         self.sort_ingredients(ing_list)
     
     def sort_ingredients(self, ing_list):
-        """ Sort a list of ingredients into a dictionary by category 
+        """ Iterates through given ingredient objects and stores the ingredient
+            name and its associated amount into the dictionary corresponding to
+            what type of ingredient it is (wet, flour, etc). Also keeps
+            track of volumes of different types of base ingredients.
                 Args: 
-                ing_list (list) : list of ingredients as Ingredient objects
+                ing_list (list) : stores ingredients as Ingredient objects
         """
         sugar_volume = 0
         flour_volume = 0
@@ -97,6 +103,8 @@ class BaseIngredients:
                 self.base_volumes["fat"] += ing.get_amount()
                 fats_volume += ing.get_amount()
             self.volume += ing.get_amount()
+        
+        #ensures the ratio between flavor types is consistent
         if sugar_volume != 0:
             self.base_ratio["sugar"] = (sugar_volume / sugar_volume) * 2 
             self.base_ratio["flour"] = (flour_volume / sugar_volume) * 2
@@ -104,9 +112,9 @@ class BaseIngredients:
 
     def adjust_base_ratios(self):
         """ Change ratio of sugar to flour to fat, maintaining 1-2 parts sugar, 
-        1-2 parts fat, 1-3 parts flour. Updates ratios at the end for future
-        mutations and applies new ratio as a volume change to each base type 
-        (sugar, flour, or fats). 
+            1-2 parts fat, 1-3 parts flour. Updates ratios at the end for 
+            future mutations and applies new ratio as a volume change to each 
+            base type (sugar, flour, or fats). 
         """
         # choose base type to adjust
         mutation = np.random.randint(0,3)
@@ -135,7 +143,7 @@ class BaseIngredients:
  
     def adjust_sugar_ratios(self):
         """ Adjust types and ratios of two sugars in the sugar dictionary
-        by a random percentage.
+            by a random percentage.
         """
         if len(self.sugars) <= 1: 
             return 
@@ -156,7 +164,7 @@ class BaseIngredients:
 
     def adjust_fat_ratios(self):
         """ Adjust types and ratios of two fats in the fats dictionary by a
-        random percentage.
+            random percentage.
         """
         if len(self.fats) <= 1: 
             return 
@@ -176,7 +184,8 @@ class BaseIngredients:
             fat_2.set_amount(fat_2_amt + new_amt)
 
     def adjust_eggs(self): 
-        """ Adjust ratio of eggs between 1 and 2 eggs, where each egg is 50g.
+        """ Adjust ratio of eggs between 1 and 2 eggs (based on random
+            probability), where each egg is 50g.
         """
         num_eggs = np.random.randint(1,3)
         if "egg" in self.wet.keys(): 
@@ -186,11 +195,11 @@ class BaseIngredients:
 
     def change_base_type_volume(self, base_type, change):
         """ Normalizes volume of a base type (sugar, flour, fat) by evenly 
-        distributing the change across all elements of the dictionary, updating 
-        total volume for that base type at the same time
+            distributing the change across all elements of the dictionary, 
+            updating total volume for that base type at the same time.
             Args:
-            base_type (string) : either "sugar", "flour", or "fat"
-            change (int) : number that total base type volume will change by
+                base_type (string) : either "sugar", "flour", or "fat"
+                change (int) : num that total base type volume will change by
         """
         new_volume = 0
         if base_type == "sugar": 
@@ -212,34 +221,10 @@ class BaseIngredients:
                 ing.set_amount(ing_volume)
                 new_volume += ing_volume
         self.base_volumes[base_type] = new_volume
-        
-    def get_dry(self):
-        """ String representation of dry ingredients, separated by commas, to 
-        be written in the final recipe instructions
-        """
-        return ", ".join(self.dry.keys())
-    
-    def get_sugar(self):
-        """ String representation of sugars, separated by commas, to be written 
-        in the final recipe instructions
-        """
-        return ", ".join(self.sugars.keys())
-    
-    def get_fat(self):
-        """ String representation of fats, separated by commas, to be written 
-        in the final recipe instructions
-        """
-        return ", ".join(self.fats.keys())
-    
-    def get_wet(self):
-        """ String representation of wet ingredients, separated by commas, to 
-        be written in the final recipe instructions
-        """
-        return ", ".join(self.wet.keys())
     
     def mutate(self):
-        """ Calls an above mutation, defaulting to adjusting base ratios if 
-        other mutations cannot be called
+        """ Calls an above mutation based on a rangom probability, defaulting 
+            to adjusting base ratios if other mutations cannot be called.
         """
         mutation = np.random.randint(0,4)
         if mutation == 0: 
@@ -252,11 +237,35 @@ class BaseIngredients:
             self.adjust_eggs()
         else: 
             self.adjust_base_ratios()
+    
+    def get_dry(self):
+        """ String representation of dry ingredients, separated by commas, to 
+            be written in the final recipe instructions.
+        """
+        return ", ".join(self.dry.keys())
+    
+    def get_sugar(self):
+        """ String representation of sugars, separated by commas, to be written 
+            in the final recipe instructions.
+        """
+        return ", ".join(self.sugars.keys())
+    
+    def get_fat(self):
+        """ String representation of fats, separated by commas, to be written 
+            in the final recipe instructions.
+        """
+        return ", ".join(self.fats.keys())
+    
+    def get_wet(self):
+        """ String representation of wet ingredients, separated by commas, to 
+            be written in the final recipe instructions.
+        """
+        return ", ".join(self.wet.keys())
 
     def __str__(self):
         """ String representation of base ingredients as a list of string 
-        representation of Ingredient objects, separated by line breaks. To be 
-        used by in the string representation of a Recipe object. 
+            representation of Ingredient objects, separated by line breaks. To
+            be used by in the string representation of a Recipe object. 
         """
         ing_list = []
         for ing in self.flour.values():
@@ -273,8 +282,8 @@ class BaseIngredients:
     
     def __repr__(self) -> str:
         """ String representation of base ingredients as a list of string 
-        representation of Ingredient objects, divided by characters and 
-        separated by commas. To be used when debugging. 
+            representation of Ingredient objects, divided by characters and 
+            separated by commas. To be used when debugging. 
         """
         flour_list = "Flours: " + ", ".join(\
             [str(ing) for ing in self.flour.values()]) + ", "

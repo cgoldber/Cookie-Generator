@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class RecipeInstructions: 
     def __init__(self, temp=350, bake_time=10, rest_time=2, size=50):
         self.temp = temp

@@ -2,7 +2,6 @@ import numpy as np
 import random
 from ingredient import Ingredient
 
-
 INGREDIENT_TYPES = {
     "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger", "nutmeg", 
                "black pepper", "cocoa", "basil", "mint", "rosemary", "fennel", 
@@ -93,7 +92,6 @@ class FlavorIngredients:
                 self.mix_ins[name] = ing
             elif name in INGREDIENT_TYPES["oils"]: 
                 self.oils[name] = ing
-
 
     def add_ingredient(self):
         """ With equal probability, add a new spice, mix-in, or oil to their 
@@ -246,3 +244,4 @@ class FlavorIngredients:
         oils_list = "Oils: " + ", ".join(\
             [str(ing) for ing in self.oils.values()]) + ", "
         return spices_list + mix_ins_list + oils_list 
+        
