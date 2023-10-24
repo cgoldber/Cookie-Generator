@@ -1,0 +1,50 @@
+## Evaluation metrics for top 3 and bottom 3 fittest recipes.
+
+Rank 1-
+flavor: 0.99581087, dissimilarity: 2.53699399, emotion: 4.56, length: 1.0
+total fitness:  9.092804860668037 
+
+Rank 2-
+flavor: 1.46153605, dissimilarity: 2.53675757, emotion: 4.125, length: 0.8
+total fitness:  8.923293616033472 
+
+Rank 3-
+flavor: 1.20450294, dissimilarity: 2.53726315, emotion: 4.22727273, length: 0.8
+total fitness:  8.769038819313684 
+
+...
+
+Rank 10-
+flavor: 2.03134751, dissimilarity: 2.53675781, emotion: 3.0, length: 0.6
+total fitness:  8.168105323284115 
+
+Rank 11-
+flavor: 0.52377582, dissimilarity: 2.53517431, emotion: 4.02857143, length: 1.0
+total fitness:  8.087521554952712 
+
+Rank 12-
+flavor: 0.10444091, dissimilarity: 2.5338249, emotion: 3.75, length: 0.8
+total fitness:  6.979383991554516
+
+## Recipe for Rank 1
+
+-Glad Happy Cookies:
+-Base Ingredients
+320 g all-purpose flour
+220 g light brown sugar
+50 g granulated sugar
+16 tbsp unsalted butter
+1.0 tsp baking soda
+1.0 tsp salt
+-Flavor Ingredients
+0.5 tsp cinnamon
+0.5 tsp ginger
+340 g chocolate
+1.0 tbsp vanilla
+---
+Instructions
+Step 1: Preheat the oven to 400 degrees F.
+Step 2: Mix together dry ingredients, combining the following in a large bowl: flour, baking soda, salt, cinnamon, ginger. In another bowl, cream together the following: light brown sugar, granulated sugar, unsalted butter, vanilla.
+Step 3: Gradually add the dry ingredients to the wet ingredients, mixing well. Once mixed, add the chocolate.
+Step 4: Let the mixture rest for 7 hours in the refrigerator. On a baking sheet lined with parchment paper, add 60 grams of dough, rolled into a sphere. Bake for  12 minutes, turning the sheet around halfway through the baking time.
+Step 5: Let the cookies cool.

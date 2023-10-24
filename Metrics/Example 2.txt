@@ -1,0 +1,50 @@
+## Evaluation metrics for top 3 and bottom 3 fittest recipes.
+
+Rank 1-
+flavor: 1.50466442, dissimilarity: 2.53726242, emotion: 4.5, length: 0.8
+total fitness:  9.341926842237799 
+
+Rank 2-
+flavor: 2.03134751, dissimilarity: 2.53485829, emotion: 4.0, length: 0.6
+total fitness:  9.166205805759185 
+
+Rank 3-
+flavor: 1.7696681, dissimilarity: 2.53948086, emotion: 4.0, length: 0.6
+total fitness:  8.909148965951845 
+
+...
+
+Rank 10-
+flavor: 1.48395956, dissimilarity: 2.02032021, emotion: 4.5, length: 0.8
+total fitness:  8.804279760760675 
+
+Rank 11-
+flavor: 1.7696681, dissimilarity: 2.01938126, emotion: 4.0, length: 0.6
+total fitness:  8.38904935931053 
+
+Rank 12-
+flavor: 1.7696681, dissimilarity: 2.01938126, emotion: 4.0, length: 0.6
+total fitness:  8.38904935931053
+
+## Recipe for Rank 1
+
+-Exasperated Stressed Cookies:
+-Base Ingredients
+302 g all-purpose flour
+236 g light brown sugar
+66 g granulated sugar
+15 tbsp unsalted butter
+1.0 tsp baking soda
+1.0 tsp salt
+-Flavor Ingredients
+0.5 tsp cinnamon
+0.5 tsp black pepper
+340 g chocolate
+1.0 tsp vanilla
+---
+Instructions
+Step 1: Preheat the oven to 375 degrees F.
+Step 2: Mix together dry ingredients, combining the following in a large bowl: flour, baking soda, salt, cinnamon, black pepper. In another bowl, cream together the following: light brown sugar, granulated sugar, unsalted butter, vanilla.
+Step 3: Gradually add the dry ingredients to the wet ingredients, mixing well. Once mixed, add the chocolate.
+Step 4: Let the mixture rest for 6 hours in the refrigerator. On a baking sheet lined with parchment paper, add 55 grams of dough, rolled into a sphere. Bake for  9 minutes, turning the sheet around halfway through the baking time.
+Step 5: Let the cookies cool.

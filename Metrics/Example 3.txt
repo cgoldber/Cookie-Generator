@@ -1,0 +1,52 @@
+
+## Evaluation metrics for top 3 and bottom 3 fittest recipes.
+
+Rank 1-
+flavor: 1.52467585, dissimilarity: 2.02209286, emotion: 3.75, length: 1.2
+total fitness:  8.49676870179826 
+
+Rank 2-
+flavor: 1.05461621, dissimilarity: 1.97287517, emotion: 3.96923077, length: 1.5
+total fitness:  8.496722147506338 
+
+Rank 3-
+flavor: 1.26659703, dissimilarity: 1.97390541, emotion: 3.6, length: 1.5
+total fitness:  8.340502447083201 
+
+...
+
+Rank 10-
+flavor: 0.44289184, dissimilarity: 2.01805325, emotion: 3.85714286, length: 1.5
+total fitness:  7.8180879431032775 
+
+Rank 11-
+flavor: 1.5695926, dissimilarity: 1.54738357, emotion: 3.12, length: 1.5
+total fitness:  7.73697616653442 
+
+Rank 12-
+flavor: 1.2947346, dissimilarity: 1.12122236, emotion: 3.9, length: 1.2
+total fitness:  7.515956961596468
+
+## Recipe for Rank 1
+-Jubliant Excited Cookies:
+-Base Ingredients
+144 g all-purpose flour
+181 g granulated sugar
+196 g packed brown sugar
+18 tbsp butter
+1.0 tsp baking soda
+1.0 tsp salt
+100 g eggs
+-Flavor Ingredients
+2.0 tsp coffee
+0.5 tsp black tea
+0.5 tsp green tea
+0.5 tsp fennel
+200 g chocolate
+---
+Instructions
+Step 1: Preheat the oven to 350 degrees F.
+Step 2: Mix together dry ingredients, combining the following in a large bowl: flour, baking soda, salt, coffee, black tea, green tea, fennel. In another bowl, cream together the following: granulated sugar, packed brown sugar, butter, , eggs.
+Step 3: Gradually add the dry ingredients to the wet ingredients, mixing well. Once mixed, add the chocolate.
+Step 4: Let the mixture rest for 5 hours in the refrigerator. On a baking sheet lined with parchment paper, add 60 grams of dough, rolled into a sphere. Bake for  8 minutes, turning the sheet around halfway through the baking time.
+Step 5: Let the cookies cool.
