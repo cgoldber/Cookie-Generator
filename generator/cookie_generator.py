@@ -12,9 +12,9 @@ class RecipeManager():
 
     Attributes
     ----------
-    Recipes : list
+    recipes : list
         Current recipes in genetic algorithm.
-    Emotion : string
+    emotion : string
         Emotion that recipes will be based on.
     
     Methods
@@ -178,7 +178,6 @@ class RecipeManager():
             tot = sorted_recipes[i].get_fitness(do_print=True)
             print("total fitness: ", tot, "\n")
         
-
 
 def main():
     manager = RecipeManager()
