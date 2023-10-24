@@ -133,24 +133,14 @@ Go to file “cookie_generator” and run file
 Input number for emotions (1-6): -> hit Enter in terminal
 
 
-### Step 5 
-Input name -> hit Enter in terminal 
-
-
-### Step 6
+### Step 5
 Input the amount of generations you would like to run the program for: -> hit 
 Enter in terminal 
 
 
-### Step 7 
+### Step 6 
 Go to fittest_recipes folder to view the generations based on emotion :
 the file will be named "rank1.txt". 
-
-
-### Step 8 
-Copy Spotify link given in terminal and simply paste in browser to retrieve 
-your tailored playlist 
-
 
 
 The output of the fittest recipes are separated by these headers: Base 
