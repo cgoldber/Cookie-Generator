@@ -79,7 +79,7 @@ class Spotify:
         song_uri = results['tracks']['items'][0]['uri']
 
         # Create a new playlist
-        playlist = sp.user_playlist_create(user="31sfpjpoeu7fn6qj34ervkv6hjum",
+        playlist = sp.user_playlist_create(user="223fwi3khzrl3lsioxzh4p27q",
         name=f"{self.emotion} cookie baking songs for " + name, public=True)
         print(playlist['external_urls']['spotify'])
 
