@@ -30,7 +30,6 @@ class BaseIngredients:
     fats : dict
         types of fats in the recipe's ingredients
     
-
     Methods
     -------
     sort_ingredients():
@@ -62,6 +61,8 @@ class BaseIngredients:
         """ Initializes the base ingredients quantities to 0 and then uses
             given ingredient list to create and store various Ingredient
             objects that are of type base.
+            Args:
+                ing_list (list) : list of ingredient objects
         """
         self.wet = {}
         self.flour = {}
