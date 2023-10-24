@@ -201,7 +201,7 @@ class FlavorIngredients:
     def get_amount_by_name(self, ingr_name):
         """ Search for the amount of flavor ingredient with the flavor 
             ingredient string, returning the amount if the ingredient exists. 
-            Otherwise return -1. 
+            Otherwise return 0. 
             Args:
                 ingr_name (str) : name of ingredient
         """

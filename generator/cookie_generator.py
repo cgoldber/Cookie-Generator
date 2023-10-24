@@ -55,7 +55,8 @@ class RecipeManager():
         for file in os.listdir(dir):
             with open(dir + "/" + file, "r") as f:
                 recipe_str = f.readlines()
-                self.recipes.append(Recipe(recipe_str, self.emotion))
+                new_recipe = Recipe(recipe_str, self.emotion)
+                self.recipes.append(new_recipe)
     
     def emotion_prompt(self):
         """ Asks the user what emotion they are feeling and returns the
@@ -158,9 +159,25 @@ class RecipeManager():
         """
         sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness())
         recipe = sorted_recipes[-1]
-        recipe.get_fitness(do_print=True)
+        recipe.get_fitness()
         with open("fittest_recipes/rank_" + str(1), "w") as f:
             f.writelines(str(recipe))
+
+    def print_metrics(self):
+        """ Prints metric components of the top 3 and lowest 3 fittest recipes.
+        """
+        sorted_recipes = sorted(self.recipes, key = lambda x : x.get_fitness(),
+                                reverse=True)
+        for i in range(3):
+            print(f"Rank {i+1}-")
+            tot = sorted_recipes[i].get_fitness(do_print=True)
+            print("total fitness: ", tot, "\n")
+        print("...\n")
+        for i in range(len(sorted_recipes) - 3, len(sorted_recipes)):
+            print(f"Rank {i+1}-")
+            tot = sorted_recipes[i].get_fitness(do_print=True)
+            print("total fitness: ", tot, "\n")
+        
 
 
 def main():
@@ -176,8 +193,9 @@ def main():
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
 
-    spot = Spotify(emotion) 
-    playlist = spot.make_playlist(user_name)
+    # spot = Spotify(emotion) 
+    # playlist = spot.make_playlist(user_name)
+    manager.print_metrics()
     print("All done :)")
 
 

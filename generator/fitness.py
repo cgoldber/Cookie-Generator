@@ -21,6 +21,8 @@ class Fitness():
     
     Methods
     -------
+    min_max_score():
+        Applies a min-max normalization to a given list of data.
     similarity():
         Returns the flavor pairing score between two ingredients.
     flavor_pairing_score():
@@ -50,6 +52,21 @@ class Fitness():
         self.emotion = emotion
         self.flavor_ingredients = flavor_ingredients
         self.flavor_names = flavor_ingredients.get_flavor_ing_names()
+    
+    def min_max_scale(self, vals):
+        """ Applies a min-max normalization so that are values are between 0
+            and 1.
+            Args:
+                vals (list) : the values to be normalizes
+        """
+        min_val, max_val = min(vals), max(vals)
+        if min_val == max_val:
+            return vals
+
+        scaled_vals = []
+        for element in vals:
+            scaled_vals.append((element - min_val) / (max_val - min_val))
+        return scaled_vals
 
     def similarity(self, ingr1, ingr2):
         """ Returns the similarity between two ingredients based on given data
@@ -86,7 +103,7 @@ class Fitness():
     
     def get_inpsiring_dic(self, file):
         """ Reads the inspiring recipes and stores them as a dictionary where
-            the keys represent the ingredient and the values represented the
+            the keys represent the flavor ingredients and the values represented the
             associated amount.
             Args:
                 file (str) : name of the inspiring recipe file
@@ -95,10 +112,13 @@ class Fitness():
                 lines = f.readlines()
         ingredient_dic = {}
        
+        lines.reverse()
         for line in lines:
-            if "Ingredients" not in line:
+            if "-Flavor Ingredients" in line:
+                break
+            else:
                 parts = [line.split(' ')[0], ' '.join(line.split(' ')[2:])]
-                ingredient_dic[parts[1]] = parts[0]
+                ingredient_dic[parts[1].strip()] = parts[0]
         return ingredient_dic
 
     def calc_euc_dist(self, insp_dic):
@@ -108,7 +128,7 @@ class Fitness():
             inpsiring recipe are converted into vectors, where each index 
             corresponds to an ingredient that at least one of the two recipes
             have, and the values are the amount of that ingredient. Then,
-            the euclidean distance is computed
+            the euclidean distance is computed and returned.
             Args:
                 insp_dic (dic) : dict corresponding to an inspiring recipe
         """
@@ -121,14 +141,15 @@ class Fitness():
                 insp_vector.append(insp_dic[ingr])
             else:
                 insp_vector.append(0)
-
         euc_dist = np.linalg.norm(np.array(curr_vector, dtype=float) \
                                         - np.array(insp_vector, dtype=float))
         return euc_dist
     
     def dissimilarity_score(self):
         """ Calculates how dissimilar the flavors in the current recipe is to
-            the flavors in the inspiring set using the Euclidean distance.
+            the flavors in the inspiring set using the Euclidean distance. 
+            Applies a min-max normalization and then returns the average
+            dissimilarity value.
         """
         dir = "../inspiring_set"
         dissimilarities = []
@@ -137,12 +158,15 @@ class Fitness():
                 insp_dic = self.get_inpsiring_dic(dir + "/" + inspiringRecipe)
             euc_dist = self.calc_euc_dist(insp_dic)
             dissimilarities.append(euc_dist)
-        dissimilarities = dissimilarities / sum(dissimilarities)
-        return np.mean(dissimilarities)
+        
+        #scale and return average value
+        scaled_dissimilarties = self.min_max_scale(dissimilarities)
+        return np.mean(scaled_dissimilarties)
     
     def emotion_score(self):
         """ Returns a value indicating how much the recipe coincides with 
-            the chosen emotion.
+            the chosen emotion. Applies a min-max normalization and then
+            returns the average emotion alignment score.
         """
         if len(self.flavor_names) == 0:
             return 0
@@ -150,13 +174,15 @@ class Fitness():
         emotion_df = pd.read_excel("../Ingredient_Matrix.xlsx")
         emotion_df.set_index('Ingredient', inplace=True)
   
-        alignment_sum = sum(emotion_df.loc[ingr, self.emotion.lower()] \
-        for ingr in self.flavor_names)
+        alignments = [emotion_df.loc[ingr, self.emotion.lower()] for ingr in 
+                     self.flavor_names]
 
-        return alignment_sum / len(self.flavor_names)
+        # scale and return average value
+        scaled_alignments = self.min_max_scale(alignments)
+        return np.mean(scaled_alignments)
     
-    def set_fitness_val(self, flavor_pairing_coef=4, dissimilarity_coef=10, 
-                        emotion_coef=250, len_coef = 0.3, do_print=False):
+    def set_fitness_val(self, flavor_pairing_coef=4, dissimilarity_coef=4, 
+                        emotion_coef=6, len_coef = 0.2, do_print=False):
         """ Sets fitness score considering how well the flavors are paired, 
             how dissimilar the recipe is from recipes in the inspiring set, and 
             how much the recipe coincides with the chosen emotion.
@@ -172,9 +198,9 @@ class Fitness():
         emotion_comp = self.emotion_score() * emotion_coef
         len_comp = len(self.flavor_names) * len_coef
         if do_print:
-            print(f"flavor: {round(flavor_comp, 2)}, dissimilarity: " + \
-            f"{round(dissimilarity_comp, 2)}, emotion: " + \
-            f"{round(emotion_comp, 2)}, length: {round(len_comp, 2)}")
+            print(f"flavor: {round(flavor_comp, 8)}, dissimilarity: " + \
+            f"{round(dissimilarity_comp, 8)}, emotion: " + \
+            f"{round(emotion_comp, 8)}, length: {round(len_comp, 8)}")
     
         self.fitness_val =  flavor_comp + dissimilarity_comp + emotion_comp \
         + len_comp
