@@ -1,6 +1,36 @@
 import numpy as np
 
 class RecipeInstructions: 
+    """ A class to represent instructions in a recipe.
+
+    ...
+
+    Attributes
+    ----------
+    temp : int
+        baking temperature, in Fahrenheit 
+    bake_time : int
+        baking time, in minutes
+    rest_time : int
+        resting time, in hours
+    size : int 
+        size of each cookie, in grams
+
+    Methods
+    -------
+    adjust_temp():
+        Randomly adjusts temperature between 325-425 degrees F.
+    adjust_bake_time():
+        Randomly adjusts bake time between 8-12 minutes.
+    adjust_rest_time():
+        Randomly adjusts rest time between 0-12 hours.
+    adjust_size():
+        Randomly adjust size between 40-60 grams.
+    mutate():
+        Chooses and executes one of the mutations above with equal probability.
+    fill_in_quantities(recipe):
+        Returns formatted, step-by-step instructions for the recipe.
+    """
     def __init__(self, temp=350, bake_time=10, rest_time=2, size=50):
         self.temp = temp
         self.bake_time = bake_time
@@ -48,7 +78,7 @@ class RecipeInstructions:
         attributes of the Recipe object. 
         """
         instructions = f"Step 1: Preheat the oven to " + \
-        f"{str(recipe.instructions.get_temp())} degrees F.\nStep 2: Mix " + \
+        f"{str(self.temp)} degrees F.\nStep 2: Mix " + \
         "together dry ingredients, combining the following in a large bowl" + \
         ": flour"
         if recipe.base_ingredients.get_dry() != "":
@@ -70,29 +100,14 @@ class RecipeInstructions:
             instructions += ". Once mixed, add the " + \
             f"{recipe.flavor_ingredients.get_mix_in()}"
         instructions += ".\nStep 4: "
-        if (recipe.instructions.get_rest_time() > 0):
+        if (self.rest_time > 0):
             instructions += "Let the mixture rest for " + \
-            f"{str(recipe.instructions.get_rest_time())} hours in the " + \
+            f"{str(self.rest_time)} hours in the " + \
             "refrigerator."
         instructions += " On a baking sheet lined with parchment paper, " + \
-        f"add {str(recipe.instructions.get_size())} grams of dough, rolled" + \
+        f"add {str(self.size)} grams of dough, rolled" + \
         f" into a sphere. Bake for " + \
-        f" {str(recipe.instructions.get_bake_time())} minutes, turning the" + \
+        f" {str(self.bake_time)} minutes, turning the" + \
         " sheet around halfway through the baking time.\nStep 5: Let the " + \
         "cookies cool."
         return instructions
-
-    def get_temp(self):
-        return self.temp
-    
-    def get_bake_time(self):
-        return self.bake_time
-    
-    def get_rest_time(self):
-        return self.rest_time
-    
-    def get_size(self):
-        return self.size
-
-    def get_temp_times_size(self):
-        return list(self.temp, self.bake_time, self.rest_time, self.size)
