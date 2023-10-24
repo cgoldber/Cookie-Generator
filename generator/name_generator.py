@@ -28,13 +28,15 @@ class Name():
         self.name = self.name_generator()
 
     def name_generator(self):
-            """ Generates a name based on the emotion of the recipe
-                Args:
-                    emotion (str) : recipe's associated emotion
-            """
-            syn_opts = EMOTIONAL_REPETOIRE[self.emotion]
-            syn_choice = np.random.choice(syn_opts)       
-            return syn_choice + " " + self.emotion + " Cookies" 
+        """ Generates a name based on the emotion of the recipe.
+            Args:
+                emotion (str) : recipe's associated emotion
+        """
+        syn_opts = EMOTIONAL_REPETOIRE[self.emotion]
+        syn_choice = np.random.choice(syn_opts)       
+        return syn_choice + " " + self.emotion + " Cookies" 
     
     def get_name(self):
+        """ Returns the name.
+        """
         return self.name

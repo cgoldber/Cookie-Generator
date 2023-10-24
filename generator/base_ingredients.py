@@ -2,7 +2,7 @@ import numpy as np
 import random
 from ingredient import Ingredient
 
-INGREDIENT_TYPES = {
+BASE_INGREDIENT_TYPES = {
     "wet": ["egg", "eggs", "milk", "buttermilk"],
     "flour": ["all-purpose", "whole wheat"],
     "dry": ["kosher salt", "salt", "baking powder", "baking soda", 
@@ -86,7 +86,7 @@ class BaseIngredients:
         fats_volume = 0
         for ing in ing_list: 
             name = ing.get_name().lower()
-            if "sugar" in name or name in INGREDIENT_TYPES["sugars"]: 
+            if "sugar" in name or name in BASE_INGREDIENT_TYPES["sugars"]: 
                 self.sugars[name] = ing
                 self.base_volumes["sugar"] += ing.get_amount()
                 sugar_volume += ing.get_amount() 
@@ -94,12 +94,12 @@ class BaseIngredients:
                 self.flour[name] = ing
                 flour_volume += ing.get_amount()
                 self.base_volumes["flour"] += ing.get_amount()
-            elif name in INGREDIENT_TYPES["dry"]: 
+            elif name in BASE_INGREDIENT_TYPES["dry"]: 
                 self.dry[name] = ing
-            elif name in INGREDIENT_TYPES["wet"]: 
+            elif name in BASE_INGREDIENT_TYPES["wet"]: 
                 self.wet[name] = ing
             elif ("butter" in name and "peanut" not in name) \
-                or name in INGREDIENT_TYPES["fats"]: 
+                or name in BASE_INGREDIENT_TYPES["fats"]: 
                 self.fats[name] = ing
                 self.base_volumes["fat"] += ing.get_amount()
                 fats_volume += ing.get_amount()

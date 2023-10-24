@@ -11,7 +11,10 @@ class Fitness():
         self.flavor_names = flavor_ingredients.get_flavor_ing_names()
 
     def similarity(self, ingr1, ingr2):
-        """Returns the similarity between two ingredients based on given data.
+        """ Returns the similarity between two ingredients based on given data.
+            Args:
+                ingr1 (str) : first ingredient name
+                ingr2 (str) : second ingredient name
         """
         WORD_EMBED_VALS = np.load('flavors/ingred_word_emb.npy', 
         allow_pickle=True).item()
@@ -42,7 +45,7 @@ class Fitness():
             the keys represent the ingredient and the values represented the
             associated amount.
             Args:
-                file (string) : name of the inspiring recipe file
+                file (str) : name of the inspiring recipe file
         """
         with open(file, "r") as f:
                 lines = f.readlines()
@@ -109,16 +112,16 @@ class Fitness():
         return alignment_sum / len(self.flavor_names)
     
     def set_fitness_val(self, flavor_pairing_coef=4, dissimilarity_coef=10, 
-                    emotion_coef=200, len_coef = 0.75, do_print=False):
-        """Sets fitness score considering how well the flavors are paired, 
-           how dissimilar the recipe is from recipes in the inspiring set, and 
-           how much the recipe coincides with the chosen emotion.
-           Args:
+                        emotion_coef=200, len_coef = 0.75, do_print=False):
+        """ Sets fitness score considering how well the flavors are paired, 
+            how dissimilar the recipe is from recipes in the inspiring set, and 
+            how much the recipe coincides with the chosen emotion.
+            Args:
                 flavor_pairing_coef (float) : multiplier of flavor score
                 dissimilarity_coef (float) : multiplier of uniqueness score
                 emotion_coef (float) : multiplier of emotion score
                 len_coef (float) : multiplier of recipe length score
-                do_print (boolean) : Where there fitness components will print
+                do_print (boolean) : where there fitness components will print
         """
         flavor_comp = self.flavor_pairing_score() * flavor_pairing_coef
         dissimilarity_comp = self.dissimilarity_score() * dissimilarity_coef 
@@ -133,7 +136,6 @@ class Fitness():
         + len_comp
 
     def get_fitness_val(self):
-        """ Returns the current fitness value
+        """ Returns the current fitness value.
         """
         return self.fitness_val
-        

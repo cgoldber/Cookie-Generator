@@ -6,6 +6,8 @@ class Ingredient:
     
     def set_amount(self, amount):
         """ Sets the amount of the ingredient in oz.
+            Args:
+                amount (float) : quanitity of the ingredient
         """
         self.amount = amount
 
@@ -21,6 +23,8 @@ class Ingredient:
 
     def set_name(self, name):
         """ Sets the name of the ingredient.
+            Args:
+                name (str) : the name of the ingredient
         """
         self.name = name
     
@@ -35,4 +39,6 @@ class Ingredient:
         return str(round(self.amount, 2)) + unit + self.name
     
     def __repr__(self):
+        """ Returns a representation of the ingredient for debugging.
+        """
         return str(self)
