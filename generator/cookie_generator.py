@@ -12,10 +12,10 @@ class RecipeManager():
 
     Attributes
     ----------
-    recipes : list
-        current recipes in genetic algorithm.
-    emotion : string
-        emotion that recipes will be based on.
+    Recipes : list
+        Current recipes in genetic algorithm.
+    Emotion : string
+        Emotion that recipes will be based on.
     
     Methods
     -------

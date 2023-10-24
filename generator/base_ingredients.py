@@ -20,15 +20,15 @@ class BaseIngredients:
     Attributes
     ----------
     wet : dict
-        wet bases in the recipe's ingredients
+        Wet bases in the recipe's ingredients
     flour : dict
-        types of flour in the recipe's ingredients
+        Types of flour in the recipe's ingredients
     dry : dict
-        dry ingredients in the recipe's ingredients
+        Dry ingredients in the recipe's ingredients
     sugars : dict
-        types of surgars in the recipe's ingredients
+        Types of surgars in the recipe's ingredients
     fats : dict
-        types of fats in the recipe's ingredients
+        Types of fats in the recipe's ingredients
     
     Methods
     -------

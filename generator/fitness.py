@@ -4,6 +4,49 @@ import numpy as np
 
 
 class Fitness():
+    """ Computes and keeps track of the fitness score
+
+    ...
+
+    Attributes
+    ----------
+    fitness_val : float
+        The overall fitness score.
+    emotion : string
+        The emotion inspiration of the associated recipe.
+    flavor_ingredient : list
+        The flavor ingredients of the associated recipe.
+    flavor_names : list
+        The flavor names of the associated recipe.
+    
+    Methods
+    -------
+    similarity():
+        Returns the flavor pairing score between two ingredients.
+    flavor_pairing_score():
+        Returns the average similarity score between flavors in the recipe.
+    get_inpsiring_dic():
+        Reads inspiring recipes and stores them as dictionaries where keys
+        are ingredient names and values are ingredient amounts.
+    calc_euc_dist():
+        Converts current and an inspiring set recipe as vectors indexed by
+        ingredients they both share. Then, computes and returns the Euclidean
+        distance.
+    dissimilarity_score():
+        Calculates how dissimilar the current recipe is from the recipes in the
+        inspiring set by passing each inspiring set recipe into 
+        calc_euc_dist().
+    emotion_score():
+        Returns how much flavor ingredients align with associated emotion
+        based on manually generated ingredient/emotion correlation matrix.
+    set_fitness_val():
+        Sets the fitness value by adding the flavor pairing, dissimilarity,
+        emotion elignment, and recipe length scores multiplied by their 
+        corresponding coefficients (manually hardcoded following 
+        experimentation).
+    get_fitness_val():
+        Returns fitness value.
+    """
     def __init__(self, flavor_ingredients, emotion):
         self.fitness_val = 0
         self.emotion = emotion
@@ -11,7 +54,9 @@ class Fitness():
         self.flavor_names = flavor_ingredients.get_flavor_ing_names()
 
     def similarity(self, ingr1, ingr2):
-        """ Returns the similarity between two ingredients based on given data.
+        """ Returns the similarity between two ingredients based on given data
+            where the output indicates how good the ingredients taste together
+            (low is 0 and high is 1).
             Args:
                 ingr1 (str) : first ingredient name
                 ingr2 (str) : second ingredient name
@@ -23,7 +68,8 @@ class Fitness():
         return np.dot(ingr1_vec, ingr2_vec)
     
     def flavor_pairing_score(self):
-        """ Returns the average similarity score between flavors in the recipe.
+        """ Returns the average similarity score between flavors in the 
+            associated recipe.
         """
         if len(self.flavor_names) == 0: 
             return 0
