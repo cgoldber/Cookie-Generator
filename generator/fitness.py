@@ -156,7 +156,7 @@ class Fitness():
         return alignment_sum / len(self.flavor_names)
     
     def set_fitness_val(self, flavor_pairing_coef=4, dissimilarity_coef=10, 
-                        emotion_coef=200, len_coef = 0.75, do_print=False):
+                        emotion_coef=250, len_coef = 0.3, do_print=False):
         """ Sets fitness score considering how well the flavors are paired, 
             how dissimilar the recipe is from recipes in the inspiring set, and 
             how much the recipe coincides with the chosen emotion.
