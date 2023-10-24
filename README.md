@@ -42,14 +42,13 @@ versus novelty. We selected these coefficients with a human-in-the-loop manual
 experimentation process, where we used our previous knowledge of cookie-making
 to inform our final decisions.
 
-After evaluating all of the new recipe’s fitness, the top half of both the new 
+
+After evaluating all of the new recipe’s fitness, the fittest half of both the new 
 recipes and the previous generation’s recipes (the first generation uses the 
 inspiring set as the previous generation) crosses over and mutates again, 
-creating a new generation of recipes. The number of generations the algorithm 
-runs over is selected by the user.
-After all the generations have executed, the top recipe is placed into the 
-fittest recipe folder; the algorithm then creates instructions for the recipe 
-by adding in the ingredients in a set string for the recipe.
+creating a new generation of recipes. After all the generations have executed,
+the fittest recipe is written into the fittest recipe folder along with its
+corresponding baking instructions. 
 
 
 Then a spotify playlist for the user based on the emotion to cook with. The 
