@@ -33,15 +33,31 @@ EMOTIONAL_SONGS = {
 
 
 class Spotify:
+    """ Generates a spotify playlist based on the user's emotion.
+    ...
+
+    Attributes
+    ----------
+    emotion : string
+        The user's current emotion.
+
+    Methods
+    -------
+    select_song():
+        Chooses a random song associated with the current emotion.
+    make_playlist():
+        Generates and directs user to spotify playlist based on selected song.
+    """
+    
     def __init__(self, emotion):
         self.emotion = emotion
 
-    def get_song(self):
+    def select_song(self):
         song_opts = EMOTIONAL_SONGS[self.emotion]  
         return random.choice(song_opts)
 
     def make_playlist(self, name):
-        song = self.get_song()
+        song = self.select_song()
 
         scope = "playlist-modify-public"
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope,

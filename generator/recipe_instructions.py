@@ -9,13 +9,13 @@ class RecipeInstructions:
     Attributes
     ----------
     temp : int
-        baking temperature, in Fahrenheit 
+        baking temperature, in Fahrenheit. 
     bake_time : int
-        baking time, in minutes
+        baking time, in minutes.
     rest_time : int
-        resting time, in hours
+        resting time, in hours.
     size : int 
-        size of each cookie, in grams
+        size of each cookie, in grams.
 
     Methods
     -------
@@ -32,6 +32,7 @@ class RecipeInstructions:
     fill_in_quantities(recipe):
         Returns formatted, step-by-step instructions for the recipe.
     """
+    
     def __init__(self, temp=350, bake_time=10, rest_time=2, size=50):
         self.temp = temp
         self.bake_time = bake_time

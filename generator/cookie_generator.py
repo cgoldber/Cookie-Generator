@@ -30,14 +30,9 @@ class RecipeManager():
     fittest_half():
         Returns the fittest 50% of the recipe set.
     crossover():
-        Combines two recipes by selecting one of their flavor ingredients and
-        combining parts of their flavor ingredients based on a random pivot
-        index.
+        Combines two recipes by based on probability selection processes.
     genetic_algo():
-        Runs the genetic algorithm which involves repeating this process for 
-        the number of recipes times : randomly selects two recipes proportional
-        to their fitness and crosses them, potentially mutates them, and stores
-        the fittest 50% of the previous and crossed over recipes.
+        Runs the high-level genetic algorithm.
     run_genetic_algo():
         Runs the genetic algorithm however many times the user chose.
     write_fittest_recipe():

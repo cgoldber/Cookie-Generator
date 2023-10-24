@@ -26,27 +26,19 @@ class Fitness():
     flavor_pairing_score():
         Returns the average similarity score between flavors in the recipe.
     get_inpsiring_dic():
-        Reads inspiring recipes and stores them as dictionaries where keys
-        are ingredient names and values are ingredient amounts.
+        Reads inspiring recipes and stores them as dictionaries.
     calc_euc_dist():
-        Converts current and an inspiring set recipe as vectors indexed by
-        ingredients they both share. Then, computes and returns the Euclidean
-        distance.
+        Computed Euclidean Distance between current and inspiring set recipes.
     dissimilarity_score():
-        Calculates how dissimilar the current recipe is from the recipes in the
-        inspiring set by passing each inspiring set recipe into 
-        calc_euc_dist().
+        Calculates dissimilarity between current/inspiring set recipes.
     emotion_score():
-        Returns how much flavor ingredients align with associated emotion
-        based on manually generated ingredient/emotion correlation matrix.
+        Returns how much flavor ingredients align with associated emotion.
     set_fitness_val():
-        Sets the fitness value by adding the flavor pairing, dissimilarity,
-        emotion elignment, and recipe length scores multiplied by their 
-        corresponding coefficients (manually hardcoded following 
-        experimentation).
+        Computes and sets fitness values attribute.
     get_fitness_val():
         Returns fitness value.
     """
+    
     def __init__(self, flavor_ingredients, emotion):
         self.fitness_val = 0
         self.emotion = emotion

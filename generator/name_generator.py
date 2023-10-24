@@ -23,6 +23,24 @@ EMOTIONAL_REPETOIRE = {
 
 
 class Name():
+    """ Generates the name for a recipe.
+    ...
+
+    Attributes
+    ----------
+    emotion : string
+        Emotion associated with recipe.
+    name : string
+        Name of recipe.
+
+    Methods
+    -------
+    name_generator(): 
+        Generates name using synonyms and random probabilities.
+    get_name():
+        Returns the name.
+    """
+        
     def __init__(self, emotion):
         self.emotion = emotion
         self.name = self.name_generator()

@@ -36,11 +36,11 @@ class FlavorIngredients:
     Attributes
     ----------
     spices : dict
-        spices in the recipe's ingredients
+        Spices in the recipe's ingredients.
     mix_ins : dict
-        mix-ins in the recipe's ingredients
+        Mix-ins in the recipe's ingredients.
     oils : dict
-        oils in the recipe's ingredients
+        Oils in the recipe's ingredients.
 
     Methods
     -------
@@ -53,20 +53,19 @@ class FlavorIngredients:
     swap_ingredient():
         Swap ingredient from a random flavor ingredient category. 
     mutate():
-        chooses and executes one of the mutations above with equal probability
+        Chooses and executes one of the mutations above with equal probability.
     normalize_mix_in_amt():
         Makes sure the total volume of mix-ins doesn't exceed 250 g
-        
     get_flavor_ing_names():
-        string representation of all of the flavor ingredient names
+        String representation of all of the flavor ingredient names.
     get_amount_by_name(ingr_name):
-        returns the amount of a given ingredient 
+        Returns the amount of a given ingredient. 
     get_mix_in():
-        string repreasentation of all of the mix-ins and their amounts
+        String repreasentation of all of the mix-ins and their amounts.
     get_oil():
-        string repreasentation of all of the oils and their amounts
+        String representation of all of the oils and their amounts.
     get_spice():
-        string repreasentation of all of the spices and their amounts
+        String repreasentation of all of the spices and their amounts.
     """
     
     def __init__(self, ing_list): 

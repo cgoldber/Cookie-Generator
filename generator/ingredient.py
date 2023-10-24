@@ -1,4 +1,28 @@
 class Ingredient:
+    """ A class representing an ingredient.
+    ...
+
+    Attributes
+    ----------
+    name : string
+        Ingredient name.
+    amount : float
+        Amount of ingredient.
+    unit : string
+        Unit of measurement for this ingredient.
+
+    Methods
+    -------
+    set_amount(): 
+        Sets the amount of the Ingredient.
+    get_amount(): 
+        Returns the amount of the Ingredient.
+    set_name():
+        Sets the name of the Ingredient.
+    get_name():
+        Gets the name of the Ingredient.
+    """
+    
     def __init__(self, name, amount, unit="g"):
         self.name = name
         self.amount = amount
@@ -15,11 +39,6 @@ class Ingredient:
         """ Returns the amount of the ingredient in oz.
         """
         return self.amount
-    
-    def get_name(self):
-        """ Returns the name of the ingredient.
-        """
-        return self.name
 
     def set_name(self, name):
         """ Sets the name of the ingredient.
@@ -27,6 +46,11 @@ class Ingredient:
                 name (str) : the name of the ingredient
         """
         self.name = name
+    
+    def get_name(self):
+        """ Returns the name of the ingredient.
+        """
+        return self.name
     
     def __str__(self):
         """ Returns a string representation of the ingredient.
