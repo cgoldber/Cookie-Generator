@@ -62,7 +62,7 @@ generated our previously explained metrics with these ideas in mind.
 To ensure that the cookies would taste good, we employed the flavor pairing 
 component of the fitness function. However, we found that we did not need to 
 weigh it heavily, as the original inspiring recipes and the emotion alignment 
-aspect already resulted in tasty ingredient coombinations.
+aspect already resulted in tasty ingredient combinations.
 
 To ensure that the cookies would actually resemble traditional cookies, our
 algorithm ensured that key base ingredients would never be deleted and it also
