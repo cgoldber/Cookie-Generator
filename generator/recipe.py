@@ -17,9 +17,6 @@ class Recipe:
         self.flavor_ingredients = FlavorIngredients(ing_list)
 
         self.fitness = Fitness(self.flavor_ingredients, emot) 
-        self.assign_name()
-    
-    def assign_name(self):
         name_obj = Name(self.emotion)
         self.name = name_obj.get_name()
     
@@ -89,10 +86,10 @@ class Recipe:
         return self.fitness.get_fitness_val()
 
     def __str__(self):
-        recipe_str = "-" + self.name  + ":\n-Base Ingredients\n" 
-        recipe_str += str(self.base_ingredients) + "\n-Flavor Ingredients\n" 
-        recipe_str += str(self.flavor_ingredients) + "\n---\nInstructions\n"
-        recipe_str += self.format_instructions()
+        recipe_str = ("-" + self.name  + ":\n-Base Ingredients\n" + 
+        str(self.base_ingredients) + "\n-Flavor Ingredients\n" +
+        str(self.flavor_ingredients) + "\n---\nInstructions\n" + 
+        self.format_instructions())
         return recipe_str
     
     def __repr__(self):
