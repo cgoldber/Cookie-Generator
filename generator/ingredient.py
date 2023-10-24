@@ -22,8 +22,14 @@ class Ingredient:
     get_name():
         Gets the name of the Ingredient.
     """
-    
+
     def __init__(self, name, amount, unit="g"):
+        """ Initializes ingredient.
+            Args:
+                name (string) : ingredient name
+                amount (float) : ingredient quantity
+                unit (str) : unit associated with ingredient
+        """
         self.name = name
         self.amount = amount
         self.unit = unit

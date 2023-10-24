@@ -69,6 +69,10 @@ class FlavorIngredients:
     """
     
     def __init__(self, ing_list): 
+        """ Initialize empty ingredient sub-category dictionaries.
+            Args:
+                ing_list (list) : list of ingredient objects.
+        """
         self.spices = {}
         self.mix_ins = {}
         self.oils = {}

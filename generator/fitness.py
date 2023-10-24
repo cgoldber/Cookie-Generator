@@ -38,8 +38,14 @@ class Fitness():
     get_fitness_val():
         Returns fitness value.
     """
-    
+
     def __init__(self, flavor_ingredients, emotion):
+        """ Initializes the fitness score to 0
+            Args:
+                flavor_ingredients (list) : FlavorIngredients of associated
+                                            recipe
+                emotion (string) : emotion inspiration for associated recipe
+        """
         self.fitness_val = 0
         self.emotion = emotion
         self.flavor_ingredients = flavor_ingredients

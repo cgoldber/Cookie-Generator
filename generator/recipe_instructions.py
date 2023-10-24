@@ -32,8 +32,15 @@ class RecipeInstructions:
     fill_in_quantities(recipe):
         Returns formatted, step-by-step instructions for the recipe.
     """
-    
+
     def __init__(self, temp=350, bake_time=10, rest_time=2, size=50):
+        """ Initializes cooking instruction parameters to default settings.
+            Args:
+                temp (int) : temperature to preheat oven in F
+                bake_time (int) : how long to bake cookies in mins
+                rest_time (int) : how long to leave cookies out after baking
+                size (int) : size of cookie dough on sheet
+        """
         self.temp = temp
         self.bake_time = bake_time
         self.rest_time = rest_time

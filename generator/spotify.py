@@ -48,15 +48,26 @@ class Spotify:
     make_playlist():
         Generates and directs user to spotify playlist based on selected song.
     """
-    
+
     def __init__(self, emotion):
+        """ Initializes spotify playlist maker.
+            Args:
+                emotion (string) : emotion to base playlist around
+        """
         self.emotion = emotion
 
     def select_song(self):
+        """ Selects a song associated with the user's emotion.
+        """
         song_opts = EMOTIONAL_SONGS[self.emotion]  
         return random.choice(song_opts)
 
     def make_playlist(self, name):
+        """ Generates and directs user to spotify playlist based on selected 
+            song.
+            Args:
+                name (string) : User's name to incoporate into playlist name
+        """
         song = self.select_song()
 
         scope = "playlist-modify-public"
@@ -67,14 +78,14 @@ class Spotify:
         results = sp.search(q=song, type='track', limit=1)
         song_uri = results['tracks']['items'][0]['uri']
 
-        # Step 5: Create a new playlist
+        # Create a new playlist
         playlist = sp.user_playlist_create(user="31sfpjpoeu7fn6qj34ervkv6hjum",
         name=f"{self.emotion} cookie baking songs for " + name, public=True)
         print(playlist['external_urls']['spotify'])
 
         recs = sp.recommendations(seed_tracks=[song_uri], limit=30)  
 
-        # Step 8: Add recommended songs to the playlist
+        #Add recommended songs to the playlist
         recommended_uris = [track['uri'] for track in recs['tracks']]
         recommended_uris.insert(0, song_uri)
         sp.playlist_add_items(playlist['id'], recommended_uris)

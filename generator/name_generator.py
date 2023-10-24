@@ -42,6 +42,10 @@ class Name():
     """
         
     def __init__(self, emotion):
+        """ Calls the name to be generated.
+            Args:
+                emotion (string) : user's current emotion
+        """
         self.emotion = emotion
         self.name = self.name_generator()
 
