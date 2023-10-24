@@ -193,8 +193,8 @@ def main():
     manager.run_genetic_algo(generations)
     manager.write_fittest_recipe() 
 
-    # spot = Spotify(emotion) 
-    # playlist = spot.make_playlist(user_name)
+    spot = Spotify(emotion) 
+    playlist = spot.make_playlist(user_name)
     manager.print_metrics()
     print("All done :)")
 
