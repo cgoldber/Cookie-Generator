@@ -10,10 +10,11 @@ from name_generator import Name
 class Recipe:
     def __init__(self, recipe_strs, emot, instructions=RecipeInstructions()):
         self.emotion = emot
+        self.instructions = instructions
+
         ing_list = self.make_ingredient_list(recipe_strs)
         self.base_ingredients = BaseIngredients(ing_list)
         self.flavor_ingredients = FlavorIngredients(ing_list)
-        self.instructions = instructions
 
         self.fitness = Fitness(self.flavor_ingredients, emot) 
         self.assign_name()
