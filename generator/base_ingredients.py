@@ -57,6 +57,7 @@ class BaseIngredients:
     get_wet():
         Gets string representation of wet ingredients for recipe instructions.
     """
+
     def __init__(self, ing_list): 
         """ Initializes the base ingredients quantities to 0 and then uses
             given ingredient list to create and store various Ingredient
@@ -77,7 +78,7 @@ class BaseIngredients:
             name and its associated amount into the dictionary corresponding to
             what type of ingredient it is (wet, flour, etc). Also keeps
             track of volumes of different types of base ingredients.
-                Args: 
+            Args: 
                 ing_list (list) : stores ingredients as Ingredient objects
         """
         sugar_volume = 0
