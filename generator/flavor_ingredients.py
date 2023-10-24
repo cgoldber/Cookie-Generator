@@ -2,8 +2,7 @@ import numpy as np
 import random
 from ingredient import Ingredient
 
-
-INGREDIENT_TYPES = {
+FLAVOR_INGREDIENT_TYPES = {
     "spices": ["allspice", "cinnamon", "clove", "cardamom", "ginger", "nutmeg", 
                "black pepper", "cocoa", "basil", "mint", "rosemary", "fennel", 
                "thyme", "coriander","turmeric", "anise","chamomile","chive",
@@ -78,82 +77,89 @@ class FlavorIngredients:
     
     def sort_ingredients(self, ing_list):
         """ From a list of flavors in the recipe, sort into either spices 
-        (including cinnamon, pepper, basil, etc.) or mix-ins (including 
-        chocolate chips, nuts, dried fruit, etc.). Note that spices will have 
-        a much
-        smaller volume compared to mix-ins.
+            (including cinnamon, pepper, basil, etc.) or mix-ins (including 
+            chocolate chips, nuts, dried fruit, etc.). Note that spices will
+            have a much smaller volume compared to mix-ins.
             Args: 
-            ing_list (list) : list of ingredients
+                ing_list (list) : list of ingredient objects
         """
         for ing in ing_list: 
             name = ing.get_name().lower()
-            if name in INGREDIENT_TYPES["spices"]: 
+            if name in FLAVOR_INGREDIENT_TYPES["spices"]: 
                 self.spices[name] = ing
-            elif name in INGREDIENT_TYPES["mix-ins"]: 
+            elif name in FLAVOR_INGREDIENT_TYPES["mix-ins"]: 
                 self.mix_ins[name] = ing
-            elif name in INGREDIENT_TYPES["oils"]: 
+            elif name in FLAVOR_INGREDIENT_TYPES["oils"]: 
                 self.oils[name] = ing
-
 
     def add_ingredient(self):
         """ With equal probability, add a new spice, mix-in, or oil to their 
-        respective dictionaries from the constant list INGREDIENT_TYPES. If
-        adding a mix-in, normalize the amount. 
+            respective dictionaries from the constant list 
+            FLAVOR_INGREDIENT_TYPES. If adding a mix-in, normalize the amount. 
         """
         prob = np.random.randint(0,3)
         if prob == 0:
-            new_spice = np.random.choice(tuple(INGREDIENT_TYPES["spices"]))
+            new_spice = np.random.choice(
+                                    tuple(FLAVOR_INGREDIENT_TYPES["spices"]))
             amt = random.randint(1,4) * 0.5
             new_ing = Ingredient(new_spice, amt, "tsp")
             self.spices[new_spice] = new_ing
         elif prob == 1: 
-            new_mix_in = np.random.choice(tuple(INGREDIENT_TYPES["mix-ins"]))
+            new_mix_in = np.random.choice(
+                                    tuple(FLAVOR_INGREDIENT_TYPES["mix-ins"]))
             amt = random.randint(1,4) * 50
             new_ing = Ingredient(new_mix_in, amt)
             self.mix_ins[new_mix_in] = new_ing
             self.normalize_mix_in_amt()
         elif prob == 2:
-            new_oil = np.random.choice(tuple(INGREDIENT_TYPES["oils"]))
+            new_oil = np.random.choice(
+                                    tuple(FLAVOR_INGREDIENT_TYPES["oils"]))
             amt = random.randint(1,4) * 0.5
             new_ing = Ingredient(new_oil, amt, "tsp")
             self.oils[new_oil] = new_ing
 
     def delete_ingredient(self):
         """ With equal probability, delete a spice or mix-in from their 
-        respective dictionaries. 
+            respective dictionaries. 
         """
         prob = np.random.randint(0,1)
         if prob == 0 and len(self.spices.keys()) > 0:
-            spice = np.random.choice(tuple(self.spices.keys()))
+            spice = np.random.choice(
+                                tuple(self.spices.keys()))
             del self.spices[spice]
         elif len(self.mix_ins.keys()) > 0: 
-            mix_in = np.random.choice(tuple(self.mix_ins.keys()))
+            mix_in = np.random.choice(
+                                tuple(self.mix_ins.keys()))
             del self.mix_ins[mix_in]
 
     def swap_ingredient(self):
         """ With equal probability, swap a spice or mix-in from their 
-        respective dictionaries with a new spice or mix-in from the constant
-        list INGREDIENT_TYPES.
+            respective dictionaries with a new spice or mix-in from the 
+            constant list FLAVOR_INGREDIENT_TYPES.
         """
         prob = np.random.randint(0,1)
         if prob == 0 and len(self.spices.keys()) > 0:
-            spice = np.random.choice(tuple(self.spices.keys()))
+            spice = np.random.choice(
+                                tuple(self.spices.keys()))
             del self.spices[spice]
-            new_spice = np.random.choice(tuple(INGREDIENT_TYPES["spices"]))
+            new_spice = np.random.choice(
+                                tuple(FLAVOR_INGREDIENT_TYPES["spices"]))
             # preset volume to 0.5 tsp 
             new_ing = Ingredient(new_spice, .5, "tsp")
             self.spices[new_spice] = new_ing
         elif len(self.mix_ins.keys()) > 0: 
-            mix_in = np.random.choice(tuple(self.mix_ins.keys()))
+            mix_in = np.random.choice(
+                                tuple(self.mix_ins.keys()))
             del self.mix_ins[mix_in]
-            new_mix_in = np.random.choice(tuple(INGREDIENT_TYPES["mix-ins"]))
+            new_mix_in = np.random.choice(
+                                tuple(FLAVOR_INGREDIENT_TYPES["mix-ins"]))
             # preset volume to 50 g
             new_ing = Ingredient(new_mix_in, 50)
             self.mix_ins[new_mix_in] = new_ing
 
     def normalize_mix_in_amt(self):
         """ After adding a new mix-in ingredient, normalize to ensure the total
-        mix-in volume is not greater than 250 grams.
+            mix-in volume is not greater than 250 grams.
         """
         volume = 0
         for mix_in in self.mix_ins.values():
@@ -178,7 +184,7 @@ class FlavorIngredients:
 
     def get_flavor_ing_names(self):
         """ Returns a list of flavors to be evaluated with a flavor
-        pairing score in the Recipe class.
+            pairing score in the Recipe class.
         """
         ing_list = []
         for ing in self.spices.values():
@@ -191,10 +197,10 @@ class FlavorIngredients:
 
     def get_amount_by_name(self, ingr_name):
         """ Search for the amount of flavor ingredient with the flavor 
-        ingredient string, returning the amount if the ingredient exists. 
-        Otherwise return -1. 
+            ingredient string, returning the amount if the ingredient exists. 
+            Otherwise return -1. 
             Args:
-            ingr_name : string name of ingredient
+                ingr_name (str) : name of ingredient
         """
         all_types = [self.spices, self.mix_ins, self.oils]
         for flav_type in all_types:
@@ -204,26 +210,26 @@ class FlavorIngredients:
     
     def get_mix_in(self):
         """ String representation of mix-ins, separated by commas, to be 
-        written in the final recipe instructions
+            written in the final recipe instructions.
         """
         return ", ".join(self.mix_ins.keys())
     
     def get_oil(self):
         """ String representation of oils, separated by commas, to be written 
-        in the final recipe instructions
+            in the final recipe instructions.
         """
         return ", ".join(self.oils.keys())
         
     def get_spice(self):
         """ String representation of spices, separated by commas, to be written 
-        in the final recipe instructions
+            in the final recipe instructions.
         """
         return ", ".join(self.spices.keys())
 
     def __str__(self):
         """ String representation of flavor ingredients as a list of string 
-        representation of Ingredient objects, separated by line breaks. To be 
-        used by in the string representation of a Recipe object. 
+            representation of Ingredient objects, separated by line breaks. To 
+            be used by in the string representation of a Recipe object. 
         """
         ing_list = []
         for ing in self.spices.values():
@@ -236,8 +242,8 @@ class FlavorIngredients:
     
     def __repr__(self):
         """ String representation of flavor ingredients as a list of string 
-        representation of Ingredient objects, divided by characters and 
-        separated by commas. To be used when debugging. 
+            representation of Ingredient objects, divided by characters and 
+            separated by commas. To be used when debugging. 
         """
         spices_list = "Spices: " + ", ".join(\
             [str(ing) for ing in self.spices.values()]) + ", "
@@ -246,3 +252,4 @@ class FlavorIngredients:
         oils_list = "Oils: " + ", ".join(\
             [str(ing) for ing in self.oils.values()]) + ", "
         return spices_list + mix_ins_list + oils_list 
+        

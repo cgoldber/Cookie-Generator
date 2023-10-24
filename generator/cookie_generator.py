@@ -3,15 +3,22 @@ import os
 from recipe import Recipe
 from spotify import Spotify
 
+
 class RecipeManager():
-    """Run generation and evaluation"""
+    """Runs genetic algorithms to generate cookie recipes while considering 
+        evaluation metrics.
+    """
+
     def __init__(self):
+        """ Initializes the object by creating an empty recipe list and emotion
+            string to be populated later.
+        """
         self.recipes = []
         self.emotion = ""
     
     def parse_files(self):
         """ Read file of recipes and populates recipe list with recipe object,
-        passing in a list representation of recipe.
+            passing in a list representation of recipe.
         """
         print("Reading Initial Recipe Files")
         dir = "../inspiring_set"
@@ -21,10 +28,10 @@ class RecipeManager():
                 self.recipes.append(Recipe(recipe_str, self.emotion))
     
     def crossover(self, recipe1, recipe2):
-        """Chooses the base ingredients from one recipe with equal probability.
-        Chooses a random pivot index to concatenate the flavor ingredients. 
-        Creates a new recipe object. Then calls the mutate function on the new 
-        recipe and stores what's returned.
+        """ Chooses the base ingredients from one recipe with equal 
+            probability. Chooses a random pivot index to concatenate the flavor
+            ingredients. Creates a new recipe object. Then calls the mutate 
+            function on the new recipe and stores what is returned.
             Args:
                 recipe1 (Recipe) : first recipe to be crossed
                 recipe2 (Recipe) : second recipe to be crossed
@@ -66,7 +73,7 @@ class RecipeManager():
     
     def set_emotion(self):
         """ Sets the emotion instance variable for the current system's state
-            based on the user input
+            based on the user input.
         """
         emotion_dic ={"1" : "Happy", "2" : "Sad", "3": "Angry",
                      "4" : "Excited", "5" : "Tired", "6" : "Stressed"}
@@ -135,7 +142,7 @@ def main():
 
     user_name = input("Enter your name:  ")
     generations = int(input(
-        "\nHow many generations would you like to run this algorithm for? "))
+    "\nHow many generations would you like to run this algorithm for? "))
 
     manager.parse_files()
     manager.run_genetic_algo(generations)

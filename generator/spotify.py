@@ -31,6 +31,7 @@ EMOTIONAL_SONGS = {
         "White Ferrari", "Come Back to Earth"]
 }  
 
+
 class Spotify:
     def __init__(self, emotion):
         self.emotion = emotion
