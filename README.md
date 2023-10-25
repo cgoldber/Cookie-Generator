@@ -103,20 +103,42 @@ the top three and bottom three fitness scores for the output generation. In
 addition to the total fitness score, it also includes the four components that
 make up the fitness function (already multiplied by their respective 
 coefficients). Finally, the examples also contain the written recipe for the 
-top ranked recipe.
+top ranked recipe. The folder also contains the fitness componenets for the 
+inspiring set recipes, which were printed when the user chose Happy.
 
 For instance, in example 1, it is of course no surprise that the highest ranked
 recipe has the highest total fitness score. Since this recipe has the highest
 emotion score in comparison to the other printed metrics, that means that the 
 flavors in the recipe best correspond to the user's emotion and is therefore 
-valuable to them. However, it is important to note that the highest ranked
-recipe does not have the highest dissimilarity and flavor pairing scores. Since
-the goal of this system is finding a creative recipe (which is implemented 
-through processes based on probabilities) and not necessarily the "optimal" 
-cookie, there will be trade-offs with certain evaluation metrics. 
-For instance, the highest ranked recipe has a relatively low flavor pairing 
-score, but it makes up for this by being novel in comparison to the inspiring
-set and well tuned to the user's emotions. 
+valuable to them. It also has a emotion score of 4.56, which is much more than
+the maximal emotion score in the inspiring set 3.6. This indicates that the
+system was able to tailor the recipes towards the desired Happy emotion (the
+emotion chosen was Happy for example1 and the inspiring_set_metrics).
+
+You can also see that all of the output metrics in the last generation of example
+1 have dissimilaritiy scores around 2.5. In the inspiring set metric outputs, 
+you can see that most of the dissimilarity scores are around 1.3 (with the 
+highest one reacing around 2.5). Therefore, it is evident that our system was 
+successful in crafting recipes that are very different from the inspiring set,
+even more so than the inspiring set recipes were different from each other!
+
+However, it is important to note that the highest ranked recipe does not have 
+the highest dissimilarity and flavor pairing scores. Since the goal of this 
+system is finding a creative recipe (which is implemented through processes 
+based on probabilities) and not necessarily the "optimal" cookie, there will 
+be trade-offs with certain evaluation metrics. For instance, the highest ranked
+recipe has a relatively low flavor pairing score, but it makes up for this by 
+being novel in comparison to the inspiring set and well tuned to the user's 
+emotions. 
+
+Overall, the metrics of our resulting recipes indicate that our system met our 
+evaluation goals: the employment of known cookie structure ratios from experts
+on the internet/flavor pairing from experts indicate that our cookies are yummy 
+and well-structured, the fact that the resulting generation of recipes is more 
+dissimilar from the inspiring set than they are from each other indicates that 
+the recipes are unique/novel, and the fact that the optimal cookies have a higher 
+emotional score than the original inspiring recipes indicate the system is valuable
+because it successfully tailors a cookie recipe based on one's emotion.
 
 ## How to Install and Run
 ### Step 1:
