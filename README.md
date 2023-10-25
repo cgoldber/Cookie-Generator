@@ -7,7 +7,8 @@ cookie recipes tailored to the user's current emotion. The possible emotions
 are Happy, Sad, Tired, Angry, Stressed and Excited. Recipes are made up of both
 base ingredients (flour, butter, etc) and flavor ingredients (chocolate, 
 fruits, spices, etc). All possible flavors that may be included in the recipes
-appear is the BASE/FlAVOR_INGREDIENT_TYPES lists in base/flavor_ingredients.py.
+appear is the BASE/FLAVOR_INGREDIENT_TYPES lists in the base_ingredients.py and
+flavor_ingredients.py files.
 
 
 The generator starts by reading a set of inspiring recipes, which are a diverse
@@ -23,29 +24,29 @@ mutations involve adding, deleting, or swapping ingredients, and instruction
 mutations involve altering parameters such as bake time or preheat temperature.
 
 
-New and previous-generation recipes are then evaluated on their fitness, which
-incorporates four different components. The first component of the fitness 
-function is the number of ingredients in the recipe, which helps to encourage 
-more complex flavor pairings. The second component is a flavor pairing score
-that indicates how similar the recipe flavors are. These values are extracted
-from previous flavor pairing research provided by Prof Harmon. The third 
-component is an emotion alignment score that indicates how well the recipe
-flavors correspond to the user-given emotion. We manually generated an
-emotion/flavor ingredient alignment matrix based on associations we have gained
-through our past life experiences. The final component of the fitness function
-indicates how dissimilar the recipe flavors are from the flavors in the
-inspiring set. The recipes that contain flavor ingredients that deviate more 
-from the inspiring sets based on both their ingredients and ingredient 
-quantities are more fit. All four of these fitness components are weighted 
-differently based on how much we felt we wanted our system to consider value
-versus novelty. We selected these coefficients with a human-in-the-loop manual 
-experimentation process, where we used our previous knowledge of cookie-making
-to inform our final decisions.
+New- and previous-generation recipes are then evaluated to determine their 
+fitness, which incorporates four different components. The first component of 
+the fitness function is the number of ingredients in the recipe, which helps to 
+encourage more complex flavor pairings. The second component is a flavor pairing
+score that indicates how similar the recipe flavors are. These values are 
+extracted from previous flavor pairing research provided by Prof Harmon. The 
+third component is an emotion alignment score that indicates how well the recipe
+flavors correspond to the user-given emotion. We manually generated an emotion
+to flavor ingredient alignment matrix based on associations we as developers
+have gained through our past life experiences. The final component of the 
+fitness function indicates how dissimilar the recipe flavors are from the 
+flavors in the inspiring set. The recipes that contain flavor ingredients that 
+deviate more from the inspiring sets based on both their ingredients and 
+ingredient quantities are more fit. All four of these fitness components are 
+weighted differently based on how much we felt we wanted our system to consider 
+value versus novelty. We selected these coefficients with a human-in-the-loop 
+manual experimentation process, where we used our previous knowledge of 
+cookie-making to inform our final decisions.
 
 
-After evaluating all of the new recipe’s fitness, the fittest half of both the
+After evaluating the fitness for each new recipe, the fittest half of both the
 new recipes and the previous generation’s recipes (the first generation uses 
-the inspiring set as the previous generation) crosses over and mutates again, 
+the inspiring set as the previous generation) are crossed over and mutate again, 
 creating a new generation of recipes. After all the generations have executed,
 the fittest recipe is written into the fittest recipe folder along with its
 corresponding baking instructions. Included in the instructions is the 
@@ -62,24 +63,32 @@ generated our previously explained metrics with these ideas in mind.
 To ensure that the cookies would taste good, we employed the flavor pairing 
 component of the fitness function. However, we found that we did not need to 
 weigh it heavily, as the original inspiring recipes and the emotion alignment 
-aspect already resulted in tasty ingredient combinations.
+aspect already resulted in tasty ingredient combinations. Weighting this 
+component more heavily resulted in less varied flavor ingredients in recipes
+regardless of emotions chosen, specifically selecting for chocolate and vanilla
+when the coefficient is increased.
 
 To ensure that the cookies would actually resemble traditional cookies, our
 algorithm ensured that key base ingredients would never be deleted and it also
-maintained conventional ratios between dry ingredients, wet ingredients, etc 
+maintained conventional ratios between dry ingredients, wet ingredients, etc.
 (verified these conventions on Google). In addition, we also ensured that the
 baking instructions followed a conventional format and the parameter such as
 oven temperature stayed between reasonable amounts.
 
 Both the dissimilarity and length component of the fitness function contributed
 to the novelty of the system. The length component encourages more complex
-pairings that include a larger amount of ingredients. The dissimilarity score
-ensures that the recipe does not resemble any of the inspiring ingredients.
+pairings that include a larger amount of ingredients. When the length component
+is weighted less heavily, the flavor pairing component can force just a few high
+scoring ingredients, such as chocolate, coffee, and vanilla. The dissimilarity 
+score ensures that the recipe does not resemble too closely the flavor 
+ingredients of the inspiring set.
 
 The extent to which the recipe aligned with the user's emotion was evaluated
 with the emotion alignment component described above. This component was
 weighted heavily, as we very much prioritized the creation of cookies that met
-the user's emotional needs.
+the user's emotional needs. For example, a user who is happy is more likely to 
+receive a recipe with fruit or citrus in it while a user who is sad is more 
+likely to receive a recipe with lavender or black tea. 
 
 Throughout the genetic algorithm process, these evaluation metrics were
 employed entirely within the fitness function (except for the well-structured
