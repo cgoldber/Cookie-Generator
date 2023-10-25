@@ -1,0 +1,14 @@
+## Metrics Applied to Inspiring Set
+
+flavor: 1.23783541, dissimilarity: 1.35023796, emotion: 3.11343197, length: 0.6
+flavor: 1.59075928, dissimilarity: 1.34393012, emotion: 3.0, length: 0.4
+flavor: 0.0764073, dissimilarity: 1.56137886, emotion: 3.0, length: 0.4
+flavor: 0.42302561, dissimilarity: 1.33478062, emotion: 3.66840731, length: 0.8
+flavor: 0.97461969, dissimilarity: 1.29313364, emotion: 3.0, length: 0.4
+flavor: 1.7696681, dissimilarity: 2.53948086, emotion: 2.85543519, length: 0.6
+flavor: 1.48395956, dissimilarity: 2.02817975, emotion: 3.18847911, length: 0.8
+flavor: 0.00725852, dissimilarity: 1.38659284, emotion: 3.2738666, length: 1.0
+flavor: 0.70812351, dissimilarity: 1.3422847, emotion: 3.40104439, length: 1.0
+flavor: 1.32433724, dissimilarity: 1.35558418, emotion: 3.0, length: 0.4
+flavor: 0.8, dissimilarity: 1.34968613, emotion: 0.06266319, length: 0.2
+flavor: 0.8, dissimilarity: 1.34387699, emotion: 0.06266319, length: 0.2
